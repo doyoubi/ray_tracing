@@ -3,11 +3,10 @@
 
 namespace _tri
 {
-    #include<math.h>
-    
     // you must call init_table() before using tri funcion
-    void init_table();
+    void init_tri_table();
 
+    const double PI = 3.14159265;
     double sin( double ang );
     double cos( double ang );
     double tan( double ang );

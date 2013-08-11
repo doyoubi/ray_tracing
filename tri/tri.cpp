@@ -6,19 +6,18 @@ namespace _tri
 {
 
     const int PRECISION = 1;
-    const int TABLE_len = 360 / PRECISION;
-    const double PI = ::acos( -1.0 );
+    const int TABLE_LEN = 360 / PRECISION;
     double sin_table[ TABLE_LEN ] ;
     double tan_table[ TABLE_LEN ] ;
 
-    void init_table()
+    void init_tri_table()
     {
         memset(sin_table, 0, ( TABLE_LEN ) * sizeof(double)) ;
-        memset(cos_table, 0, ( TABLE_LEN ) * sizeof(double)) ;
+        memset(tan_table, 0, ( TABLE_LEN ) * sizeof(double)) ;
         for(int i = 0 ; i < TABLE_LEN ; ++i )
         {
             sin_table[i] = ::sin( ang_to_rad( i * PRECISION ) );
-            if( i * PRECISION != 90 )
+            if( i * PRECISION/2 != 90 )
                 tan_table[i] = ::tan( ang_to_rad( i * PRECISION ) / 2 );
         }
     }
@@ -41,9 +40,9 @@ namespace _tri
             ang +=180 ;
         while( ang >= 180 )
             ang -= 180 ;
-        validate( ang != 90, "tri.cpp line 44, angle is 90 when run tan()");
+        validate( ang != 90, "tri.cpp line38, function tan(), angle is 90 when run tan()");
         int i = ang / ( PRECISION/2 );
-        return tan_table[i] + ( ( ang - i * PRECISION ) * ( tan_table[i+1] -tan_table[i] / ( PRECISION/2 ) ) );
+        return tan_table[i] + ( ( ang - i * PRECISION/2 ) * ( (tan_table[i+1] -tan_table[i]) / ( PRECISION/2 ) ) );
     }
     double cot( double ang )
     {
