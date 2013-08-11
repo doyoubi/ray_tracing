@@ -17,7 +17,7 @@ namespace _tri
         for(int i = 0 ; i < TABLE_LEN ; ++i )
         {
             sin_table[i] = ::sin( ang_to_rad( i * PRECISION ) );
-            if( i * PRECISION/2 != 90 )
+            if( i * PRECISION/2.0 != 90 )
                 tan_table[i] = ::tan( ang_to_rad( i * PRECISION ) / 2 );
         }
     }
@@ -40,12 +40,12 @@ namespace _tri
             ang +=180 ;
         while( ang >= 180 )
             ang -= 180 ;
-        validate( ang != 90, "tri.cpp line38, function tan(), angle is 90 when run tan()");
-        int i = ang / ( PRECISION/2 );
-        return tan_table[i] + ( ( ang - i * PRECISION/2 ) * ( (tan_table[i+1] -tan_table[i]) / ( PRECISION/2 ) ) );
+        validate( ang != 90, "tri.cpp line38, function tan(), angle is 90 when running tan()");
+        int i = ang / ( PRECISION/2.0 );
+        return tan_table[i] + ( ( ang - i * PRECISION/2.0 ) * ( (tan_table[i+1] -tan_table[i]) / ( PRECISION/2.0 ) ) );
     }
     double cot( double ang )
     {
-        return 1 / tan( ang );
+        return tan( 90 - ang );
     }
 }
