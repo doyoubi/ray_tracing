@@ -48,4 +48,7 @@ namespace _tri
     {
         return tan( 90 - ang );
     }
+    double asin(double ang)
+    {
+    }
 }

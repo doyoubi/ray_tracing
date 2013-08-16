@@ -9,3 +9,8 @@ tri.o : tri.cpp
 
 clean :
 	rm -rf test.exe *.o
+
+test :
+	make
+	./test.exe
+	make clean

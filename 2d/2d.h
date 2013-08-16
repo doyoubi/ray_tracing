@@ -27,6 +27,7 @@ public:
     Picture(int width, int height);
     void create(int width, int height);
     ARGB & get_ARGB_on(int x, int y);
+    ARGB & get_ARGB_on(Point_2d point);
 
     Picture(const & Picture other_picure );
     Picture & operator = (const & Picture other_picure );
