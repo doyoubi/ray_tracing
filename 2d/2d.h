@@ -13,7 +13,7 @@ namespace _2d{
     class ARGB
     {
     public: 
-        unsigned char A, R, G, B;
+        unsigned char a, r, g, b;
     };
     
     
@@ -40,12 +40,12 @@ namespace _2d{
         T * operator[](int x);
         T & operator[](Point_2d point);
     
-        Image(const & Image other_image);
-        Image & operator = (const & Image other_image);
-        Image(){}
+        Image(const Image & other_image);
+        Image & operator = (const Image & other_image);
+        Image();
         ~Image();
 #ifdef DEBUG
-        ofstream & operator<<(const & ofstream out);
+        friend ofstream & operator<<(const & ofstream out, const Image & image);
 #endif
     private:
         int width, height;
@@ -54,6 +54,9 @@ namespace _2d{
     };
     
     // implementation
+    template<T>
+    Image<T>::Image(){}
+
     template<T>
     Image<T>::Image(int width, int height)
     {
@@ -70,19 +73,19 @@ namespace _2d{
     }
     
     template<T>
-    ARGB * Image<T>::operator[](int x)
+    T * Image<T>::operator[](int x)
     {
         return data + x * height;
     }
     
     template<T>
-    ARGB & Image<T>::operator[](Point_2d point)
+    T & Image<T>::operator[](Point_2d point)
     {
         return *(data + point.x * height + point.y);
     }
     
     template<T>
-    Image<T>::Image(const & Image other_image)
+    Image<T>::Image(const Image & other_image)
     {
         create(other_image.width, other_image.height);
         for(int y = 0; y < height; ++y)
@@ -91,7 +94,7 @@ namespace _2d{
     }
     
     template<T>
-    Image & Image<T>::Image(const & Image other_image)
+    Image & Image<T>::Image(const Image & other_image)
     {
         if(has_data)
             delete[] data;
@@ -108,16 +111,6 @@ namespace _2d{
         if(has_data)
             delete[] data;
     }
-
-#ifdef DEBUG
-    ofstream & operator<<(const & ofstream out)
-    {
-        for(int n = 0; n < width*height; ++n)
-            out<< data[n] <<' ';
-        out<<endl;
-        return out;
-    }
-#endif
 
 }
 

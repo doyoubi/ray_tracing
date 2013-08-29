@@ -1,10 +1,11 @@
+#ifndef TEST
+#define TEST
+
 #include<stdlib.h>
 #include<fstream>
 using std::endl;
 std::ofstream fout("error_message.txt");
 #include<time.h>
-
-#include"exception.h"
 
 void validate(bool to_be_validated, const char * const error_message)
 {
@@ -19,3 +20,4 @@ void validate(bool to_be_validated, const char * const error_message)
     }
 }
 
+#endif
