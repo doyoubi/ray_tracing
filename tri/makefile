@@ -1,5 +1,5 @@
-test.exe : test.o tri.o ../exception/exception.o
-	g++ -o test.exe test.o tri.o ../exception/exception.o
+test.exe : test.o tri.o
+	g++ -o test.exe test.o tri.o
 
 test.o : test.cpp
 	g++ -c -o test.o test.cpp

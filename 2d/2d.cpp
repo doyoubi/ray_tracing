@@ -1,18 +1,16 @@
 #include"2d.h"
+#include<iostream>
+using std::ostream;
+using std::hex;
+
 namespace _2d
 {
 
+#define DEBUG
 #ifdef DEBUG
-    ofstream & operator<<(ofstream & out, const & ARGB argb)
+    ostream & operator<<(ostream & out, const ARGB & argb)
     {
-        cout<< hex << rgb.a << rgb.r << rgb.g << rgb.b <<' ';
-        return out;
-    }
-    ofstream & operator<<(ofstream & out, const Image & image)
-    {
-        for(int n = 0; n < width*height; ++n)
-            out<< image.data[n] <<' ';
-        out<<endl;
+        out<< hex << argb.a << argb.r << argb.g << argb.b <<' ';
         return out;
     }
 #endif

@@ -3,13 +3,15 @@
 #include<fstream>
 std::ofstream cout("error.txt");
 using std::endl;
-#include"../exception/exception.h"
+#include"../test/test.h"
+
 #include<iomanip>
 using std::setprecision;
 
 #include"tri.h"
 #include<math.h>
 using _tri::PI;
+
 double abs(double n)
 {
     return n >= 0 ? n : -n;
