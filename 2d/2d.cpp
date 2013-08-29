@@ -1,6 +1,6 @@
-namespace _2d{
+#include"2d.h"
+namespace _2d
+{
 
-inline ARGB & Picture::get_ARGB_on(int x, int y)
-{}
-
+   
 }
