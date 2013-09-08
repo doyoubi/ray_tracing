@@ -1,5 +1,4 @@
 #include<iostream>
-//using std::cout;
 #include<fstream>
 std::ofstream cout("error.txt");
 using std::endl;

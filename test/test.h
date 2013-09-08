@@ -3,11 +3,14 @@
 
 #include<stdlib.h>
 #include<fstream>
-using std::endl;
-std::ofstream fout("error_message.txt");
+namespace
+{
+    using std::endl;
+    std::ofstream fout("error_message.txt");
+}
 #include<time.h>
 
-void validate(bool to_be_validated, const char * const error_message)
+inline void validate(bool to_be_validated, const char * const error_message)
 {
     if( ! to_be_validated )
     {

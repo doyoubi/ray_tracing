@@ -69,6 +69,8 @@ namespace _2d{
     template<class T>
     void Image<T>::create(int _width, int _height)
     {
+        if(has_data)
+            delete date;
         width = _width;
         height = _height;
         data = new T[width*height];

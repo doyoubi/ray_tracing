@@ -1,7 +1,7 @@
 #include"tri.h"
 #include<math.h>
 #include<string.h>
-#include"../exception/exception.h"
+#include"../test/test.h"
 namespace _tri
 {
 
@@ -45,7 +45,7 @@ namespace _tri
             ang +=180 ;
         while( ang >= 180 )
             ang -= 180 ;
-        validate( ang != 90, "tri.cpp line38, function tan(), angle is 90 when running tan()");
+        validate( ang != 90, "tri.cpp, function tan(), angle is 90 when running tan()");
         int i = ang / ( PRECISION/2.0 );
         return tan_table[i] + ( ( ang - i * PRECISION/2.0 ) * ( (tan_table[i+1] -tan_table[i]) / ( PRECISION/2.0 ) ) );
     }
