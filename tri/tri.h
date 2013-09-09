@@ -6,11 +6,15 @@ namespace _tri
 {
     // you must call init_table() before using tri funcion
     void init_tri_table();
-    const double PI = ::acos( -1.0 );
-    double sin( double ang );
-    double cos( double ang );
-    double tan( double ang );
-    double cot( double ang );
+    const double PI = ::acos(-1.0);
+    double sin(double ang);
+    double cos(double ang);
+    double tan(double ang);
+    double cot(double ang);
+    double asin(double ang);
+    double acos(double ang);
+    double atan(double ang);
+    double acot(double ang);
 
     inline double ang_to_rad( double ang )
     {

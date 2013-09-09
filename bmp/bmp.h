@@ -2,7 +2,7 @@
 #define BMP_H
 
 #include"2d.h"
-using _2d::Picture;
+using _2d::Image;
 
 namespace _bmp{
 
@@ -41,19 +41,19 @@ public:
     int channels;
 };
 
-class BMPpicture : public Picture
+class BMPimage : public Image
 {
 public:
-    BMPpicture(const * char const filename);
+    BMPimage(const * char const filename);
     void open(const * char const filename);
     void save();
-    //from ancestor Picture : ARGB & get_ARGB_on(int x, int y);
+    //from ancestor Image : ARGB & get_ARGB_on(int x, int y);
 
-    ~BMPpicture();
+    ~BMPimage();
 private:
     void load_bmpfile();
-    void save_bmpfile_to_picture();
-    void save_picture_to_bmpfile();
+    void save_bmpfile_to_image();
+    void save_image_to_bmpfile();
     BmpFile bmpfile;
 };
 

@@ -1,0 +1,80 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ARGB	2d.h	/^    class ARGB$/;"	c	namespace:_2d
+DEBUG	2d.cpp	9;"	d	file:
+DEBUG	2d.h	4;"	d
+Image	2d.h	/^        Image();$/;"	p	class:_2d::Image	access:public	signature:()
+Image	2d.h	/^        Image(const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
+Image	2d.h	/^        Image(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
+Image	2d.h	/^    Image<T>::Image(){}$/;"	f	class:_2d::Image	signature:()
+Image	2d.h	/^    Image<T>::Image(const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
+Image	2d.h	/^    Image<T>::Image(int width, int height)$/;"	f	class:_2d::Image	signature:(int width, int height)
+Image	2d.h	/^    class Image$/;"	c	namespace:_2d
+Point_2d	2d.h	/^    class Point_2d$/;"	c	namespace:_2d
+Point_3d	2d.h	/^    class Point_3d : public Point_2d$/;"	c	namespace:_2d	inherits:Point_2d
+_2D_H	2d.h	2;"	d
+_2d	2d.cpp	/^namespace _2d$/;"	n	file:
+_2d	2d.h	/^namespace _2d{$/;"	n
+_2d::ARGB	2d.h	/^    class ARGB$/;"	c	namespace:_2d
+_2d::ARGB::a	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+_2d::ARGB::b	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+_2d::ARGB::g	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+_2d::ARGB::r	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+_2d::Image	2d.h	/^    class Image$/;"	c	namespace:_2d
+_2d::Image::Image	2d.h	/^        Image();$/;"	p	class:_2d::Image	access:public	signature:()
+_2d::Image::Image	2d.h	/^        Image(const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
+_2d::Image::Image	2d.h	/^        Image(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
+_2d::Image::Image	2d.h	/^    Image<T>::Image(){}$/;"	f	class:_2d::Image	signature:()
+_2d::Image::Image	2d.h	/^    Image<T>::Image(const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
+_2d::Image::Image	2d.h	/^    Image<T>::Image(int width, int height)$/;"	f	class:_2d::Image	signature:(int width, int height)
+_2d::Image::create	2d.h	/^        void create(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
+_2d::Image::create	2d.h	/^    void Image<T>::create(int _width, int _height)$/;"	f	class:_2d::Image	signature:(int _width, int _height)
+_2d::Image::data	2d.h	/^        T * data;$/;"	m	class:_2d::Image	access:private
+_2d::Image::has_data	2d.h	/^        bool has_data;$/;"	m	class:_2d::Image	access:private
+_2d::Image::height	2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
+_2d::Image::operator =	2d.h	/^        Image & operator = (const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
+_2d::Image::operator =	2d.h	/^    Image<T> & Image<T>::operator = (const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
+_2d::Image::operator []	2d.h	/^        T & operator[](Point_2d point);$/;"	p	class:_2d::Image	access:public	signature:(Point_2d point)
+_2d::Image::operator []	2d.h	/^        T * operator[](int x);$/;"	p	class:_2d::Image	access:public	signature:(int x)
+_2d::Image::operator []	2d.h	/^    T & Image<T>::operator [] (Point_2d point)$/;"	f	class:_2d::Image	signature:(Point_2d point)
+_2d::Image::operator []	2d.h	/^    T * Image<T>::operator[](int x)$/;"	f	class:_2d::Image	signature:(int x)
+_2d::Image::output	2d.h	/^        void output();$/;"	p	class:_2d::Image	access:public	signature:()
+_2d::Image::output	2d.h	/^    void Image<T>::output()$/;"	f	class:_2d::Image	signature:()
+_2d::Image::width	2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
+_2d::Image::~Image	2d.h	/^        virtual ~Image();$/;"	p	class:_2d::Image	access:public	signature:()
+_2d::Image::~Image	2d.h	/^    Image<T>::~Image()$/;"	f	class:_2d::Image	signature:()
+_2d::Point_2d	2d.h	/^    class Point_2d$/;"	c	namespace:_2d
+_2d::Point_2d::x	2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
+_2d::Point_2d::y	2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
+_2d::Point_3d	2d.h	/^    class Point_3d : public Point_2d$/;"	c	namespace:_2d	inherits:Point_2d
+_2d::Point_3d::z	2d.h	/^        int z;$/;"	m	class:_2d::Point_3d	access:public
+_2d::operator <<	2d.cpp	/^    ostream & operator<<(ostream & out, const ARGB & argb)$/;"	f	namespace:_2d	signature:(ostream & out, const ARGB & argb)
+a	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+b	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+create	2d.h	/^        void create(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
+create	2d.h	/^    void Image<T>::create(int _width, int _height)$/;"	f	class:_2d::Image	signature:(int _width, int _height)
+data	2d.h	/^        T * data;$/;"	m	class:_2d::Image	access:private
+g	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+has_data	2d.h	/^        bool has_data;$/;"	m	class:_2d::Image	access:private
+height	2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
+main	test.cpp	/^int main()$/;"	f	signature:()
+operator <<	2d.cpp	/^    ostream & operator<<(ostream & out, const ARGB & argb)$/;"	f	namespace:_2d	signature:(ostream & out, const ARGB & argb)
+operator =	2d.h	/^        Image & operator = (const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
+operator =	2d.h	/^    Image<T> & Image<T>::operator = (const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
+operator []	2d.h	/^        T & operator[](Point_2d point);$/;"	p	class:_2d::Image	access:public	signature:(Point_2d point)
+operator []	2d.h	/^        T * operator[](int x);$/;"	p	class:_2d::Image	access:public	signature:(int x)
+operator []	2d.h	/^    T & Image<T>::operator [] (Point_2d point)$/;"	f	class:_2d::Image	signature:(Point_2d point)
+operator []	2d.h	/^    T * Image<T>::operator[](int x)$/;"	f	class:_2d::Image	signature:(int x)
+output	2d.h	/^        void output();$/;"	p	class:_2d::Image	access:public	signature:()
+output	2d.h	/^    void Image<T>::output()$/;"	f	class:_2d::Image	signature:()
+r	2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
+width	2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
+x	2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
+y	2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
+z	2d.h	/^        int z;$/;"	m	class:_2d::Point_3d	access:public
+~Image	2d.h	/^        virtual ~Image();$/;"	p	class:_2d::Image	access:public	signature:()
+~Image	2d.h	/^    Image<T>::~Image()$/;"	f	class:_2d::Image	signature:()

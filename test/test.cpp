@@ -1,10 +1,10 @@
 #include<iostream>
 using std::cout;
 using std::endl;
-#include"exception.h"
+#include"test.h"
 int main()
 {
-    validate( 0, "oh yeah , error appear");
+    validate( 1, "oh yeah , error appear");
     cout<< "no error" <<endl;
     return 0;
 }
