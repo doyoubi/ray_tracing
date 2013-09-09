@@ -1,5 +1,5 @@
 test.exe: test.cpp 2d.cpp
-	g++ -o test.exe test.cpp 2d.cpp
+	g++ -g -o test.exe test.cpp 2d.cpp
 
 test :
 	make

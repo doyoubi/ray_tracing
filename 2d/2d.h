@@ -25,14 +25,7 @@ namespace _2d{
     public:
         int x, y;
     };
-    
-    
-    class Point_3d : public Point_2d
-    {
-    public:
-        int z;
-    };
-    
+   
     
     template<class T>
     class Image
@@ -58,11 +51,15 @@ namespace _2d{
     
     // implementation
     template<class T>
-    Image<T>::Image(){}
+    Image<T>::Image()
+    {
+        has_data = false;
+    }
 
     template<class T>
     Image<T>::Image(int width, int height)
     {
+        has_data = false;
         create(width, height);
     }
     
@@ -70,7 +67,7 @@ namespace _2d{
     void Image<T>::create(int _width, int _height)
     {
         if(has_data)
-            delete date;
+            delete data;
         width = _width;
         height = _height;
         data = new T[width*height];
