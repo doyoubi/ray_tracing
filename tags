@@ -6,8 +6,7 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ARGB	2d/2d.h	/^    class ARGB$/;"	c	namespace:_2d
 BMP_H	bmp/bmp.h	2;"	d
-BMPimage	bmp/bmp.h	/^    BMPimage(const * char const filename);$/;"	p	class:_bmp::BMPimage	access:public	signature:(const * char const filename)
-BMPimage	bmp/bmp.h	/^class BMPimage : public Image$/;"	c	namespace:_bmp	inherits:Image
+BmpFile	bmp/bmp.cpp	/^    BmpFile::BmpFile(const char * const filename)$/;"	f	class:_bmp::BmpFile	signature:(const char * const filename)
 BmpFile	bmp/bmp.h	/^    BmpFile(const char * const filename);$/;"	p	class:_bmp::BmpFile	access:public	signature:(const char * const filename)
 BmpFile	bmp/bmp.h	/^class BmpFile$/;"	c	namespace:_bmp
 BmpFileHead	bmp/bmp.h	/^    class BmpFileHead$/;"	c	class:_bmp::BmpFile	access:public
@@ -36,7 +35,7 @@ GetClock	window/gamemain.cpp	/^	DWORD GetClock()$/;"	f	namespace:_gamemain	signa
 Image	2d/2d.h	/^        Image();$/;"	p	class:_2d::Image	access:public	signature:()
 Image	2d/2d.h	/^        Image(const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
 Image	2d/2d.h	/^        Image(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
-Image	2d/2d.h	/^    Image<T>::Image(){}$/;"	f	class:_2d::Image	signature:()
+Image	2d/2d.h	/^    Image<T>::Image()$/;"	f	class:_2d::Image	signature:()
 Image	2d/2d.h	/^    Image<T>::Image(const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
 Image	2d/2d.h	/^    Image<T>::Image(int width, int height)$/;"	f	class:_2d::Image	signature:(int width, int height)
 Image	2d/2d.h	/^    class Image$/;"	c	namespace:_2d
@@ -47,7 +46,6 @@ LockSurface	window/direct3D.h	/^	int LockSurface();$/;"	p	namespace:_direct3D	si
 PI	tri/tri.h	/^    const double PI = ::acos(-1.0);$/;"	m	namespace:_tri
 PRECISION	tri/tri.cpp	/^    const int PRECISION = 1;$/;"	m	namespace:_tri	file:
 Point_2d	2d/2d.h	/^    class Point_2d$/;"	c	namespace:_2d
-Point_3d	2d/2d.h	/^    class Point_3d : public Point_2d$/;"	c	namespace:_2d	inherits:Point_2d
 StartClock	window/gamemain.cpp	/^	void StartClock()$/;"	f	namespace:_gamemain	signature:()
 TABLE_LEN	tri/tri.cpp	/^    const int TABLE_LEN = 360 \/ PRECISION;$/;"	m	namespace:_tri	file:
 TEST	test/test.h	2;"	d
@@ -73,7 +71,7 @@ _2d::Image	2d/2d.h	/^    class Image$/;"	c	namespace:_2d
 _2d::Image::Image	2d/2d.h	/^        Image();$/;"	p	class:_2d::Image	access:public	signature:()
 _2d::Image::Image	2d/2d.h	/^        Image(const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
 _2d::Image::Image	2d/2d.h	/^        Image(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
-_2d::Image::Image	2d/2d.h	/^    Image<T>::Image(){}$/;"	f	class:_2d::Image	signature:()
+_2d::Image::Image	2d/2d.h	/^    Image<T>::Image()$/;"	f	class:_2d::Image	signature:()
 _2d::Image::Image	2d/2d.h	/^    Image<T>::Image(const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
 _2d::Image::Image	2d/2d.h	/^    Image<T>::Image(int width, int height)$/;"	f	class:_2d::Image	signature:(int width, int height)
 _2d::Image::create	2d/2d.h	/^        void create(int width, int height);$/;"	p	class:_2d::Image	access:public	signature:(int width, int height)
@@ -95,21 +93,11 @@ _2d::Image::~Image	2d/2d.h	/^    Image<T>::~Image()$/;"	f	class:_2d::Image	signa
 _2d::Point_2d	2d/2d.h	/^    class Point_2d$/;"	c	namespace:_2d
 _2d::Point_2d::x	2d/2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
 _2d::Point_2d::y	2d/2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
-_2d::Point_3d	2d/2d.h	/^    class Point_3d : public Point_2d$/;"	c	namespace:_2d	inherits:Point_2d
-_2d::Point_3d::z	2d/2d.h	/^        int z;$/;"	m	class:_2d::Point_3d	access:public
 _2d::operator <<	2d/2d.cpp	/^    ostream & operator<<(ostream & out, const ARGB & argb)$/;"	f	namespace:_2d	signature:(ostream & out, const ARGB & argb)
 _bmp	bmp/bmp.cpp	/^namespace _bmp{$/;"	n	file:
 _bmp	bmp/bmp.h	/^namespace _bmp{$/;"	n
-_bmp::BMPimage	bmp/bmp.h	/^class BMPimage : public Image$/;"	c	namespace:_bmp	inherits:Image
-_bmp::BMPimage::BMPimage	bmp/bmp.h	/^    BMPimage(const * char const filename);$/;"	p	class:_bmp::BMPimage	access:public	signature:(const * char const filename)
-_bmp::BMPimage::bmpfile	bmp/bmp.h	/^    BmpFile bmpfile;$/;"	m	class:_bmp::BMPimage	access:private
-_bmp::BMPimage::load_bmpfile	bmp/bmp.h	/^    void load_bmpfile();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
-_bmp::BMPimage::open	bmp/bmp.h	/^    void open(const * char const filename);$/;"	p	class:_bmp::BMPimage	access:public	signature:(const * char const filename)
-_bmp::BMPimage::save	bmp/bmp.h	/^    void save();$/;"	p	class:_bmp::BMPimage	access:public	signature:()
-_bmp::BMPimage::save_bmpfile_to_image	bmp/bmp.h	/^    void save_bmpfile_to_image();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
-_bmp::BMPimage::save_image_to_bmpfile	bmp/bmp.h	/^    void save_image_to_bmpfile();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
-_bmp::BMPimage::~BMPimage	bmp/bmp.h	/^    ~BMPimage();$/;"	p	class:_bmp::BMPimage	access:public	signature:()
 _bmp::BmpFile	bmp/bmp.h	/^class BmpFile$/;"	c	namespace:_bmp
+_bmp::BmpFile::BmpFile	bmp/bmp.cpp	/^    BmpFile::BmpFile(const char * const filename)$/;"	f	class:_bmp::BmpFile	signature:(const char * const filename)
 _bmp::BmpFile::BmpFile	bmp/bmp.h	/^    BmpFile(const char * const filename);$/;"	p	class:_bmp::BmpFile	access:public	signature:(const char * const filename)
 _bmp::BmpFile::BmpFileHead	bmp/bmp.h	/^    class BmpFileHead$/;"	c	class:_bmp::BmpFile	access:public
 _bmp::BmpFile::BmpFileHead::type1	bmp/bmp.h	/^    public: char type1,type2;$/;"	m	class:_bmp::BmpFile::BmpFileHead	access:public
@@ -129,7 +117,11 @@ _bmp::BmpFile::BmpInfoHead::width	bmp/bmp.h	/^        unsigned int    width;$/;"
 _bmp::BmpFile::BmpInfoHead::xPels	bmp/bmp.h	/^        unsigned int    xPels;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 _bmp::BmpFile::BmpInfoHead::yPels	bmp/bmp.h	/^        unsigned int    yPels;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 _bmp::BmpFile::BmpInfoHead::zipFormat	bmp/bmp.h	/^        unsigned int    zipFormat;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
+_bmp::BmpFile::channels	bmp/bmp.h	/^    int channels;$/;"	m	class:_bmp::BmpFile	access:public
+_bmp::BmpFile::filehead	bmp/bmp.h	/^    BmpFileHead filehead;$/;"	m	class:_bmp::BmpFile	access:public
+_bmp::BmpFile::infohead	bmp/bmp.h	/^    BmpInfoHead infohead;$/;"	m	class:_bmp::BmpFile	access:public
 _bmp::BmpFile::pData	bmp/bmp.h	/^    unsigned char * pData;$/;"	m	class:_bmp::BmpFile	access:public
+_bmp::BmpFile::~BmpFile	bmp/bmp.cpp	/^    BmpFile::~BmpFile()$/;"	f	class:_bmp::BmpFile	signature:()
 _bmp::BmpFile::~BmpFile	bmp/bmp.h	/^    ~BmpFile();$/;"	p	class:_bmp::BmpFile	access:public	signature:()
 _direct3D	window/direct3D.cpp	/^namespace _direct3D{$/;"	n	file:
 _direct3D	window/direct3D.h	/^namespace _direct3D$/;"	n
@@ -216,7 +208,7 @@ atan_table	tri/tri.cpp	/^    double atan_table[ TABLE_LEN ];$/;"	m	namespace:_tr
 b	2d/2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
 bitColor	bmp/bmp.h	/^        unsigned short    bitColor;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 blank	bmp/bmp.h	/^        unsigned int blank;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-bmpfile	bmp/bmp.h	/^    BmpFile bmpfile;$/;"	m	class:_bmp::BMPimage	access:private
+channels	bmp/bmp.h	/^    int channels;$/;"	m	class:_bmp::BmpFile	access:public
 colorImportant	bmp/bmp.h	/^        unsigned int    colorImportant;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 colorPlane	bmp/bmp.h	/^        unsigned short    colorPlane;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 colorUse	bmp/bmp.h	/^        unsigned int    colorUse;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
@@ -230,6 +222,7 @@ data	2d/2d.h	/^        T * data;$/;"	m	class:_2d::Image	access:private
 draw_line	window/draw.h	/^void draw_line(Point_2d start, Point_2d end, ARGB argb);$/;"	p	namespace:_draw	signature:(Point_2d start, Point_2d end, ARGB argb)
 draw_picture	window/draw.h	/^void draw_picture(Point_2d startpoint, Picture picure );$/;"	p	namespace:_draw	signature:(Point_2d startpoint, Picture picure )
 draw_point	window/draw.h	/^void draw_point(int x, int y, ARGB argb);$/;"	p	namespace:_draw	signature:(int x, int y, ARGB argb)
+filehead	bmp/bmp.h	/^    BmpFileHead filehead;$/;"	m	class:_bmp::BmpFile	access:public
 flushscreen	window/flush.cpp	/^	int flushscreen(){$/;"	f	namespace:_flush	signature:()
 flushscreen	window/flush.h	/^  int flushscreen();$/;"	p	namespace:_flush	signature:()
 g	2d/2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
@@ -240,17 +233,17 @@ has_data	2d/2d.h	/^        bool has_data;$/;"	m	class:_2d::Image	access:private
 height	2d/2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
 height	bmp/bmp.h	/^        unsigned int    height;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 imageSize	bmp/bmp.h	/^        unsigned int imageSize;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
+infohead	bmp/bmp.h	/^    BmpInfoHead infohead;$/;"	m	class:_bmp::BmpFile	access:public
 init_tri_table	tri/tri.cpp	/^    void init_tri_table()$/;"	f	namespace:_tri	signature:()
 init_tri_table	tri/tri.h	/^    void init_tri_table();$/;"	p	namespace:_tri	signature:()
 length	bmp/bmp.h	/^        unsigned int    length;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-load_bmpfile	bmp/bmp.h	/^    void load_bmpfile();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
 lockedRect	window/direct3D.cpp	/^	D3DLOCKED_RECT lockedRect;$/;"	m	namespace:_direct3D	file:
 main	2d/test.cpp	/^int main()$/;"	f	signature:()
+main	bmp/test.cpp	/^int main()$/;"	f	signature:()
 main	test/test.cpp	/^int main()$/;"	f	signature:()
 main	tri/test.cpp	/^int main()$/;"	f	signature:()
 myWndProc	window/mywindow.cpp	/^LRESULT CALLBACK myWndProc(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam)$/;"	f	signature:(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam)
 myWndProc	window/mywindow.cpp	/^LRESULT CALLBACK myWndProc(HWND,UINT,WPARAM,LPARAM);$/;"	p	file:	signature:(HWND,UINT,WPARAM,LPARAM)
-open	bmp/bmp.h	/^    void open(const * char const filename);$/;"	p	class:_bmp::BMPimage	access:public	signature:(const * char const filename)
 operator <<	2d/2d.cpp	/^    ostream & operator<<(ostream & out, const ARGB & argb)$/;"	f	namespace:_2d	signature:(ostream & out, const ARGB & argb)
 operator =	2d/2d.h	/^        Image & operator = (const Image<T> & other_image);$/;"	p	class:_2d::Image	access:public	signature:(const Image<T> & other_image)
 operator =	2d/2d.h	/^    Image<T> & Image<T>::operator = (const Image<T> & other_image)$/;"	f	class:_2d::Image	signature:(const Image<T> & other_image)
@@ -264,9 +257,6 @@ pData	bmp/bmp.h	/^    unsigned char * pData;$/;"	m	class:_bmp::BmpFile	access:pu
 r	2d/2d.h	/^        unsigned char a, r, g, b;$/;"	m	class:_2d::ARGB	access:public
 rad_to_ang	tri/tri.h	/^    inline double rad_to_ang( double rad )$/;"	f	namespace:_tri	signature:( double rad )
 realSize	bmp/bmp.h	/^        unsigned int    realSize;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-save	bmp/bmp.h	/^    void save();$/;"	p	class:_bmp::BMPimage	access:public	signature:()
-save_bmpfile_to_image	bmp/bmp.h	/^    void save_bmpfile_to_image();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
-save_image_to_bmpfile	bmp/bmp.h	/^    void save_image_to_bmpfile();$/;"	p	class:_bmp::BMPimage	access:private	signature:()
 sin	tri/tri.cpp	/^    double sin( double ang )$/;"	f	namespace:_tri	signature:( double ang )
 sin	tri/tri.h	/^    double sin(double ang);$/;"	p	namespace:_tri	signature:(double ang)
 sin_table	tri/tri.cpp	/^    double sin_table[ TABLE_LEN ];$/;"	m	namespace:_tri	file:
@@ -276,16 +266,15 @@ tan	tri/tri.h	/^    double tan(double ang);$/;"	p	namespace:_tri	signature:(doub
 tan_table	tri/tri.cpp	/^    double tan_table[ TABLE_LEN ];$/;"	m	namespace:_tri	file:
 type1	bmp/bmp.h	/^    public: char type1,type2;$/;"	m	class:_bmp::BmpFile::BmpFileHead	access:public
 type2	bmp/bmp.h	/^    public: char type1,type2;$/;"	m	class:_bmp::BmpFile::BmpFileHead	access:public
-validate	test/test.h	/^void validate(bool to_be_validated, const char * const error_message)$/;"	f	signature:(bool to_be_validated, const char * const error_message)
+validate	test/test.h	/^inline void validate(bool to_be_validated, const char * const error_message)$/;"	f	signature:(bool to_be_validated, const char * const error_message)
 width	2d/2d.h	/^        int width, height;$/;"	m	class:_2d::Image	access:private
 width	bmp/bmp.h	/^        unsigned int    width;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 x	2d/2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
 xPels	bmp/bmp.h	/^        unsigned int    xPels;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 y	2d/2d.h	/^        int x, y;$/;"	m	class:_2d::Point_2d	access:public
 yPels	bmp/bmp.h	/^        unsigned int    yPels;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-z	2d/2d.h	/^        int z;$/;"	m	class:_2d::Point_3d	access:public
 zipFormat	bmp/bmp.h	/^        unsigned int    zipFormat;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-~BMPimage	bmp/bmp.h	/^    ~BMPimage();$/;"	p	class:_bmp::BMPimage	access:public	signature:()
+~BmpFile	bmp/bmp.cpp	/^    BmpFile::~BmpFile()$/;"	f	class:_bmp::BmpFile	signature:()
 ~BmpFile	bmp/bmp.h	/^    ~BmpFile();$/;"	p	class:_bmp::BmpFile	access:public	signature:()
 ~Image	2d/2d.h	/^        virtual ~Image();$/;"	p	class:_2d::Image	access:public	signature:()
 ~Image	2d/2d.h	/^    Image<T>::~Image()$/;"	f	class:_2d::Image	signature:()

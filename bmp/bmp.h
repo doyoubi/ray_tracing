@@ -1,7 +1,7 @@
 #ifndef BMP_H
 #define BMP_H
 
-#include"2d.h"
+#include"../2d/2d.h"
 using _2d::Image;
 
 namespace _bmp{
@@ -12,10 +12,12 @@ class BmpFile
 public:
     BmpFile(const char * const filename);
     ~BmpFile();
+
     class BmpFileHead
     {
     public: char type1,type2;
     };
+
     class BmpInfoHead
     {
     public:
@@ -38,24 +40,26 @@ public:
     BmpFileHead filehead;
     BmpInfoHead infohead;
     unsigned char * pData;
+    unsigned char * operator [] (int x);
     int channels;
+    int step;
 };
 
-class BMPimage : public Image
-{
-public:
-    BMPimage(const * char const filename);
-    void open(const * char const filename);
-    void save();
-    //from ancestor Image : ARGB & get_ARGB_on(int x, int y);
-
-    ~BMPimage();
-private:
-    void load_bmpfile();
-    void save_bmpfile_to_image();
-    void save_image_to_bmpfile();
-    BmpFile bmpfile;
-};
+//class BMPimage : public Image
+//{
+//public:
+//    BMPimage(const * char const filename);
+//    void open(const * char const filename);
+//    void save();
+//    //from ancestor Image : ARGB & get_ARGB_on(int x, int y);
+//
+//    ~BMPimage();
+//private:
+//    void load_bmpfile();
+//    void save_bmpfile_to_image();
+//    void save_image_to_bmpfile();
+//    BmpFile bmpfile;
+//};
 
 
 }
