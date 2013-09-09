@@ -35,7 +35,10 @@ public:
         unsigned int    colorImportant;
     };
 
+    BmpFileHead filehead;
+    BmpInfoHead infohead;
     unsigned char * pData;
+    int channels;
 };
 
 class BMPpicture : public Picture
