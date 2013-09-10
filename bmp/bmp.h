@@ -40,7 +40,6 @@ public:
     BmpFileHead filehead;
     BmpInfoHead infohead;
     unsigned char * pData;
-    unsigned char * operator [] (int x);
     int channels;
     int step;
 };

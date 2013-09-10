@@ -13,12 +13,11 @@ int main()
     for(int j = 0; j < 3; ++j)
     {
         for(int i = 0; i < 9; ++i)
-            cout<< (int)bmpfile.pData[bmpfile.step*j + i] << ' ';
+            cout<< (int)(bmpfile.pData[bmpfile.step*j + i]) << ' ';
         cout<< endl;
     }
 
     cout<<endl;
-
     cout<<endl;
     return 0;
 }

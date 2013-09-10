@@ -31,7 +31,8 @@ namespace _bmp{
 
         bmpfile.seekg(infohead.startPosition);
         pData = new unsigned char[step * infohead.height];
-        bmpfile.read( (char*) pData, step * infohead.height * sizeof(unsigned char) );
+        for(int i = infohead.height-1; i >= 0; i--)
+            bmpfile.read( (char*)(pData + i*step), step * sizeof(unsigned char) );
         
         bmpfile.close();
     }
