@@ -3,6 +3,7 @@
 
 #include"../2d/2d.h"
 using _2d::Image;
+using _2d::ARGB;
 
 namespace _bmp{
 
@@ -44,21 +45,18 @@ public:
     int step;
 };
 
-//class BMPimage : public Image
-//{
-//public:
-//    BMPimage(const * char const filename);
-//    void open(const * char const filename);
-//    void save();
-//    //from ancestor Image : ARGB & get_ARGB_on(int x, int y);
-//
-//    ~BMPimage();
-//private:
-//    void load_bmpfile();
-//    void save_bmpfile_to_image();
-//    void save_image_to_bmpfile();
-//    BmpFile bmpfile;
-//};
+class BmpImage : public Image<ARGB>
+{
+public:
+    BmpImage(const char * const filename);
+    void save();
+
+    ~BmpImage();
+private:
+    BmpFile bmpfile;
+    void save_bmpfile_to_image();
+    void save_image_to_bmpfile();
+};
 
 
 }

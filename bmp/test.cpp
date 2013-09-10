@@ -3,6 +3,9 @@ using std::cout;
 using std::endl;
 #include"bmp.h"
 using _bmp::BmpFile;
+using _bmp::BmpImage;
+#include"../2d/2d.h"
+using _2d::ARGB;
 
 int main()
 {
@@ -16,8 +19,21 @@ int main()
             cout<< (int)(bmpfile.pData[bmpfile.step*j + i]) << ' ';
         cout<< endl;
     }
+    cout<<endl;
 
-    cout<<endl;
-    cout<<endl;
+    BmpImage bmpimage("test.bmp");
+    ARGB color = bmpimage[0][0];
+    for(int j = 0; j < 3; ++j)
+    {
+        for(int i = 0; i < 3; ++i)
+        {
+            color = bmpimage[i][j];
+            cout<< (int)color.b << ' '
+                << (int)color.g << ' '
+                << (int)color.r << ' ';
+        }
+        cout<<endl;
+    }
+
     return 0;
 }

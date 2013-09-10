@@ -42,4 +42,32 @@ namespace _bmp{
         delete[] pData;
     }
 
+// BmpImage
+BmpImage::BmpImage(const char * const filename) : bmpfile(filename)
+{
+    Image::create(bmpfile.infohead.width, bmpfile.infohead.height);
+    save_bmpfile_to_image();
+}
+
+void BmpImage::save()
+{
+    save_image_to_bmpfile();
+}
+
+void BmpImage::save_bmpfile_to_image()
+{
+    for(int y = 0; y < bmpfile.infohead.height-1; ++y)
+        for(int x = 0; x < bmpfile.infohead.width-1; ++x)
+        {
+            (*this)[x][y].a = 255;
+            (*this)[x][y].b = bmpfile.pData[y*bmpfile.step + x*bmpfile.channels];
+            (*this)[x][y].g = bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 1];
+            (*this)[x][y].r = bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 2];
+        }
+}
+
+void BmpImage::save_image_to_bmpfile(){}
+
+BmpImage::~BmpImage(){}
+
 }
