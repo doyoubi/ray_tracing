@@ -45,11 +45,12 @@ namespace _bmp{
 // BmpImage
 BmpImage::BmpImage(const char * const filename) : bmpfile(filename)
 {
+    validate(bmpfile.channels == 3, "channels of bmpfile is not 3");
     Image::create(bmpfile.infohead.width, bmpfile.infohead.height);
     save_bmpfile_to_image();
 }
 
-void BmpImage::save()
+void BmpImage::save(const char * const filename)
 {
     save_image_to_bmpfile();
 }
@@ -64,9 +65,21 @@ void BmpImage::save_bmpfile_to_image()
             (*this)[x][y].g = bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 1];
             (*this)[x][y].r = bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 2];
         }
+
+    bmpfile.infohead.width = get_width();
+    bmpfile.infohead.height = get_height();
 }
 
-void BmpImage::save_image_to_bmpfile(){}
+void BmpImage::save_image_to_bmpfile()
+{
+    for(int y = 0; y < bmpfile.infohead.height; ++y)
+        for(int x = 0; x < bmpfile.infohead.width; ++x)
+        {
+            bmpfile.pData[y*bmpfile.step + x*bmpfile.channels] = (*this)[x][y].b;
+            bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 1] = (*this)[x][y].g;
+            bmpfile.pData[y*bmpfile.step + x*bmpfile.channels + 2] = (*this)[x][y].r;
+        }
+}
 
 BmpImage::~BmpImage(){}
 

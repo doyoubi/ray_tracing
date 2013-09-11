@@ -49,7 +49,7 @@ class BmpImage : public Image<ARGB>
 {
 public:
     BmpImage(const char * const filename);
-    void save();
+    void save(const char * const filename);
 
     ~BmpImage();
 private:

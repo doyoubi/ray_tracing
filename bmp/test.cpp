@@ -35,5 +35,9 @@ int main()
         cout<<endl;
     }
 
+    cout<<endl;
+    cout<< bmpimage.get_width() << ' ' 
+        << bmpimage.get_height() <<endl;
+
     return 0;
 }

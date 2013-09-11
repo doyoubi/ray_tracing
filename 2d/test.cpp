@@ -24,6 +24,10 @@ int main()
 
     image1.output();
     image2.output();
+
+    cout<< image1.get_width() << ' '
+        << image1.get_height() << endl;
+
     cout<<endl;
     return 0;
 }

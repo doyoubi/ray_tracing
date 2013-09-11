@@ -35,6 +35,8 @@ namespace _2d{
         void create(int width, int height);
         T * operator[](int x);
         T & operator[](Point_2d point);
+        int get_width()const;
+        int get_height()const;
     
         Image(const Image<T> & other_image);
         Image & operator = (const Image<T> & other_image);
@@ -74,6 +76,13 @@ namespace _2d{
         has_data = true;
     }
     
+    template<class T>
+    int Image<T>::get_width()const
+    { return width; }
+    template< class T>
+    int Image<T>::get_height()const
+    { return height; }
+
     template<class T>
     T * Image<T>::operator[](int x)
     {

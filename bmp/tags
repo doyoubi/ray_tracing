@@ -9,8 +9,8 @@ BmpFile	bmp.cpp	/^    BmpFile::BmpFile(const char * const filename)$/;"	f	class:
 BmpFile	bmp.h	/^    BmpFile(const char * const filename);$/;"	p	class:_bmp::BmpFile	access:public	signature:(const char * const filename)
 BmpFile	bmp.h	/^class BmpFile$/;"	c	namespace:_bmp
 BmpFileHead	bmp.h	/^    class BmpFileHead$/;"	c	class:_bmp::BmpFile	access:public
-BmpImage	bmp.cpp	/^BmpImage::BmpImage(const * char const filename) : bmpfile(filename)$/;"	f	class:_bmp::BmpImage	signature:(const * char const filename)
-BmpImage	bmp.h	/^    BmpImage(const * char const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const * char const filename)
+BmpImage	bmp.cpp	/^BmpImage::BmpImage(const char * const filename) : bmpfile(filename)$/;"	f	class:_bmp::BmpImage	signature:(const char * const filename)
+BmpImage	bmp.h	/^    BmpImage(const char * const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const char * const filename)
 BmpImage	bmp.h	/^class BmpImage : public Image<ARGB>$/;"	c	namespace:_bmp	inherits:Image
 BmpInfoHead	bmp.h	/^    class BmpInfoHead$/;"	c	class:_bmp::BmpFile	access:public
 _bmp	bmp.cpp	/^namespace _bmp{$/;"	n	file:
@@ -44,20 +44,19 @@ _bmp::BmpFile::step	bmp.h	/^    int step;$/;"	m	class:_bmp::BmpFile	access:publi
 _bmp::BmpFile::~BmpFile	bmp.cpp	/^    BmpFile::~BmpFile()$/;"	f	class:_bmp::BmpFile	signature:()
 _bmp::BmpFile::~BmpFile	bmp.h	/^    ~BmpFile();$/;"	p	class:_bmp::BmpFile	access:public	signature:()
 _bmp::BmpImage	bmp.h	/^class BmpImage : public Image<ARGB>$/;"	c	namespace:_bmp	inherits:Image
-_bmp::BmpImage::BmpImage	bmp.cpp	/^BmpImage::BmpImage(const * char const filename) : bmpfile(filename)$/;"	f	class:_bmp::BmpImage	signature:(const * char const filename)
-_bmp::BmpImage::BmpImage	bmp.h	/^    BmpImage(const * char const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const * char const filename)
+_bmp::BmpImage::BmpImage	bmp.cpp	/^BmpImage::BmpImage(const char * const filename) : bmpfile(filename)$/;"	f	class:_bmp::BmpImage	signature:(const char * const filename)
+_bmp::BmpImage::BmpImage	bmp.h	/^    BmpImage(const char * const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const char * const filename)
 _bmp::BmpImage::bmpfile	bmp.h	/^    BmpFile bmpfile;$/;"	m	class:_bmp::BmpImage	access:private
-_bmp::BmpImage::save	bmp.cpp	/^BmpImage::void save()$/;"	f	class:_bmp::BmpImage	signature:()
-_bmp::BmpImage::save	bmp.h	/^    void save();$/;"	p	class:_bmp::BmpImage	access:public	signature:()
-_bmp::BmpImage::save_bmpfile_to_image	bmp.cpp	/^BmpImage::void save_bmpfile_to_image()$/;"	f	class:_bmp::BmpImage	signature:()
+_bmp::BmpImage::save	bmp.cpp	/^void BmpImage::save(const char * const filename)$/;"	f	class:_bmp::BmpImage	signature:(const char * const filename)
+_bmp::BmpImage::save	bmp.h	/^    void save(const char * const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const char * const filename)
+_bmp::BmpImage::save_bmpfile_to_image	bmp.cpp	/^void BmpImage::save_bmpfile_to_image()$/;"	f	class:_bmp::BmpImage	signature:()
 _bmp::BmpImage::save_bmpfile_to_image	bmp.h	/^    void save_bmpfile_to_image();$/;"	p	class:_bmp::BmpImage	access:private	signature:()
-_bmp::BmpImage::save_image_to_bmpfile	bmp.cpp	/^BmpImage::void save_image_to_bmpfile();$/;"	p	class:_bmp::BmpImage	file:	signature:()
+_bmp::BmpImage::save_image_to_bmpfile	bmp.cpp	/^void BmpImage::save_image_to_bmpfile()$/;"	f	class:_bmp::BmpImage	signature:()
 _bmp::BmpImage::save_image_to_bmpfile	bmp.h	/^    void save_image_to_bmpfile();$/;"	p	class:_bmp::BmpImage	access:private	signature:()
+_bmp::BmpImage::~BmpImage	bmp.cpp	/^BmpImage::~BmpImage(){}$/;"	f	class:_bmp::BmpImage	signature:()
 _bmp::BmpImage::~BmpImage	bmp.h	/^    ~BmpImage();$/;"	p	class:_bmp::BmpImage	access:public	signature:()
-_bmp::bmpfile	bmp.cpp	/^BmpImage::BmpFile bmpfile;$/;"	m	namespace:_bmp	file:
 bitColor	bmp.h	/^        unsigned short    bitColor;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 blank	bmp.h	/^        unsigned int blank;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-bmpfile	bmp.cpp	/^BmpImage::BmpFile bmpfile;$/;"	m	namespace:_bmp	file:
 bmpfile	bmp.h	/^    BmpFile bmpfile;$/;"	m	class:_bmp::BmpImage	access:private
 channels	bmp.h	/^    int channels;$/;"	m	class:_bmp::BmpFile	access:public
 colorImportant	bmp.h	/^        unsigned int    colorImportant;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
@@ -71,11 +70,11 @@ length	bmp.h	/^        unsigned int    length;$/;"	m	class:_bmp::BmpFile::BmpInf
 main	test.cpp	/^int main()$/;"	f	signature:()
 pData	bmp.h	/^    unsigned char * pData;$/;"	m	class:_bmp::BmpFile	access:public
 realSize	bmp.h	/^        unsigned int    realSize;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
-save	bmp.cpp	/^BmpImage::void save()$/;"	f	class:_bmp::BmpImage	signature:()
-save	bmp.h	/^    void save();$/;"	p	class:_bmp::BmpImage	access:public	signature:()
-save_bmpfile_to_image	bmp.cpp	/^BmpImage::void save_bmpfile_to_image()$/;"	f	class:_bmp::BmpImage	signature:()
+save	bmp.cpp	/^void BmpImage::save(const char * const filename)$/;"	f	class:_bmp::BmpImage	signature:(const char * const filename)
+save	bmp.h	/^    void save(const char * const filename);$/;"	p	class:_bmp::BmpImage	access:public	signature:(const char * const filename)
+save_bmpfile_to_image	bmp.cpp	/^void BmpImage::save_bmpfile_to_image()$/;"	f	class:_bmp::BmpImage	signature:()
 save_bmpfile_to_image	bmp.h	/^    void save_bmpfile_to_image();$/;"	p	class:_bmp::BmpImage	access:private	signature:()
-save_image_to_bmpfile	bmp.cpp	/^BmpImage::void save_image_to_bmpfile();$/;"	p	class:_bmp::BmpImage	file:	signature:()
+save_image_to_bmpfile	bmp.cpp	/^void BmpImage::save_image_to_bmpfile()$/;"	f	class:_bmp::BmpImage	signature:()
 save_image_to_bmpfile	bmp.h	/^    void save_image_to_bmpfile();$/;"	p	class:_bmp::BmpImage	access:private	signature:()
 startPosition	bmp.h	/^        unsigned int startPosition;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 step	bmp.h	/^    int step;$/;"	m	class:_bmp::BmpFile	access:public
@@ -87,4 +86,5 @@ yPels	bmp.h	/^        unsigned int    yPels;$/;"	m	class:_bmp::BmpFile::BmpInfoH
 zipFormat	bmp.h	/^        unsigned int    zipFormat;$/;"	m	class:_bmp::BmpFile::BmpInfoHead	access:public
 ~BmpFile	bmp.cpp	/^    BmpFile::~BmpFile()$/;"	f	class:_bmp::BmpFile	signature:()
 ~BmpFile	bmp.h	/^    ~BmpFile();$/;"	p	class:_bmp::BmpFile	access:public	signature:()
+~BmpImage	bmp.cpp	/^BmpImage::~BmpImage(){}$/;"	f	class:_bmp::BmpImage	signature:()
 ~BmpImage	bmp.h	/^    ~BmpImage();$/;"	p	class:_bmp::BmpImage	access:public	signature:()
