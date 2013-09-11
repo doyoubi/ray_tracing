@@ -34,8 +34,13 @@ int main()
         }
         cout<<endl;
     }
-
     cout<<endl;
+    cout<< bmpimage.get_width() << ' ' 
+        << bmpimage.get_height() <<endl;
+
+    bmpimage.save("savetest.bmp");
+    BmpImage test_save("savetest.bmp");
+    cout<< bmpfile.filehead.type1<< bmpfile.filehead.type2 << endl;
     cout<< bmpimage.get_width() << ' ' 
         << bmpimage.get_height() <<endl;
 

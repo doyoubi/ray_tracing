@@ -52,7 +52,18 @@ BmpImage::BmpImage(const char * const filename) : bmpfile(filename)
 
 void BmpImage::save(const char * const filename)
 {
+    validate(filename != 0 && strlen(filename) != 0,
+        "invalid filename pointer or empty filename when opening bmp");
+    fstream newfile(filename, ios::out|ios::binary);
+    validate(newfile.good(), "fail to open bmp");
+
     save_image_to_bmpfile();
+
+    newfile.write( (char*) &bmpfile.filehead, sizeof(bmpfile.filehead) );
+    newfile.write( (char*) &bmpfile.infohead, sizeof(bmpfile.infohead) );
+    for(int i = bmpfile.infohead.height-1; i >= 0; i--)
+        newfile.write( (char*)(bmpfile.pData + i*bmpfile.step), bmpfile.step * sizeof(unsigned char) );
+    newfile.close();
 }
 
 void BmpImage::save_bmpfile_to_image()
