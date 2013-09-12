@@ -1,24 +1,17 @@
 #include "gamemain.h"
 #include "direct3D.h"
 #include "flush.h"
-
-//#define ARGB(a, r, g, b) ((b) + ((g) << 8) + ((r) << 16) + ((a) << 24))
-
-//using namespace _direct3D;
 using namespace _flush;
 
+#include <windows.h>
 
-const int WAIT_TIME = 30;
+extern _direct3D::Direct3D d3d;
 
 namespace _gamemain{
 	
+	const int WAIT_TIME = 30;
 	DWORD g_clock;
-	
-	int Game_Shutdown()
-	{
-		_direct3D::Direct3DCleanup();
-		return 1;
-	}
+
 	DWORD GetClock()
 	{
 		return GetTickCount(); 
@@ -36,12 +29,6 @@ namespace _gamemain{
 			Sleep(5);
 		}
 	}
-	
-	int Game_Init(HWND hwnd,int width,int height)
-	{
-		_direct3D::InitDirect3D(hwnd,width,height);
-		return 1;
-	}
 
 	//游戏循环的主函数
 	int GameMain()
@@ -50,16 +37,16 @@ namespace _gamemain{
 		StartClock();
 		
 		// 表面加锁
-		_direct3D::LockSurface();
+		d3d.LockSurface();
 		
 		// 画图
 		flushscreen();
 		
 		// 表面解锁
-		_direct3D::UnlockSurface();
+		d3d.UnlockSurface();
 		
 		// 输出
-		_direct3D::FlipSurface();
+		d3d.FlipSurface();
 		
 		// 锁帧
 		WaitClock();

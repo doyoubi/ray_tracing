@@ -1,21 +1,12 @@
 #include "direct3D.h"
 
-/* they also exist in the mywindow.cpp file 
-   I put them here in temporary, so that i don't 
-   have to include an addtional header file */
-const int WNDWIDTH = 640 ;
-const int WNDHEIGHT = 480 ;
-
 namespace _direct3D{
 
-	LPDIRECT3DDEVICE9 g_pd3dDevice=NULL; //direct3d设备接口
-	LPDIRECT3DSURFACE9 g_pd3dSurface=NULL;
-	D3DLOCKED_RECT lockedRect;
-
-	HRESULT InitDirect3D(HWND hwnd,int width,int height)
+	HRESULT Direct3D::initDirect3D(HWND hwnd,int width,int height)
 	{
-		extern LPDIRECT3DDEVICE9 g_pd3dDevice;
-		extern LPDIRECT3DSURFACE9 g_pd3dSurface;
+		wnd_width = width;
+		wnd_height = height;
+
 		//创建direct3d接口
 		LPDIRECT3D9 pD3D=NULL;
 		pD3D=Direct3DCreate9(D3D_SDK_VERSION);
@@ -52,10 +43,8 @@ namespace _direct3D{
 		return S_OK;
 	}
 	
-	void Direct3DCleanup()
+	Direct3D::~Direct3D()
 	{
-		extern LPDIRECT3DDEVICE9 g_pd3dDevice;
-		extern LPDIRECT3DSURFACE9 g_pd3dSurface;
 		if(g_pd3dSurface!=NULL)
 			g_pd3dSurface->Release();
 		g_pd3dSurface=NULL;
@@ -64,26 +53,23 @@ namespace _direct3D{
 		g_pd3dDevice=NULL;
 	}
 	
-	int LockSurface()
+	int Direct3D::LockSurface()
 	{
-		extern D3DLOCKED_RECT lockedRect;
 		memset(&lockedRect, 0, sizeof(lockedRect));
 		g_pd3dSurface->LockRect(&lockedRect,NULL,D3DLOCK_DISCARD);
 		//将背景初始化为白色
-		memset(lockedRect.pBits,0xff,WNDWIDTH*WNDHEIGHT*sizeof(int));
+		memset(lockedRect.pBits,0xff,wnd_width*wnd_height*sizeof(int));
 		return 1;
 	}
 	
-	int UnlockSurface()
+	int Direct3D::UnlockSurface()
 	{
 		g_pd3dSurface->UnlockRect();
 		return 1;
 	}
 	
-	void FlipSurface()
+	void Direct3D::FlipSurface()
 	{
-		extern LPDIRECT3DDEVICE9 g_pd3dDevice;
-		extern LPDIRECT3DSURFACE9 g_pd3dSurface;
 		// 获取后台缓存
 		IDirect3DSurface9* backBuffer = 0;
 		g_pd3dDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);

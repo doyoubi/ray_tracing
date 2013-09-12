@@ -1,13 +1,12 @@
 #ifndef GAMEMAIN
 #define GAMEMAIN
 
-#include <windows.h>
+#include"direct3D.h"
+using _direct3D::Direct3D;
 
 namespace _gamemain
 {
 	int GameMain();
-	int Game_Shutdown();
-	int Game_Init(HWND hwnd,int width,int height);
 }
 
 #endif

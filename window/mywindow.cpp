@@ -3,15 +3,18 @@
 #include "gamemain.h"
 using namespace _gamemain;
 
-const int WNDWIDTH = 640 ;
-const int WNDHEIGHT = 480 ;
+#include"direct3D.h"
+_direct3D::Direct3D d3d;
+
+extern const int WNDWIDTH = 640 ;
+extern const int WNDHEIGHT = 480 ;
 
 //消息处理函数
 LRESULT CALLBACK myWndProc(HWND,UINT,WPARAM,LPARAM);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-  //注册窗口类
+    //注册窗口类
 	WNDCLASS mywndclass;
 	mywndclass.cbClsExtra=0;
 	mywndclass.cbWndExtra=0;
@@ -39,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		);
 
 	//D3D:初始化direct3d
-	Game_Init(hwnd,WNDWIDTH,WNDHEIGHT);
+	d3d.initDirect3D(hwnd,WNDWIDTH,WNDHEIGHT);
 	
 	//显示窗口，更新窗口
 	ShowWindow(hwnd,SW_SHOWNORMAL);
@@ -57,8 +60,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		GameMain();
 	}
-	//释放D3D
-	Game_Shutdown();
 
 	UnregisterClass("mymsg",mywndclass.hInstance);
 	return 0;
