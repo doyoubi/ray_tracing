@@ -107,6 +107,7 @@ namespace _2d{
     template<class T>
     Image<T> & Image<T>::operator = (const Image<T> & other_image)
     {
+        if(this == &other_image) return *this;
         if(has_data)
             delete[] data;
         create(other_image.width, other_image.height);
