@@ -28,6 +28,7 @@ int main()
     cout<< image1.get_width() << ' '
         << image1.get_height() << endl;
 
-    cout<<endl;
+    // const Image<int> const_image;
+    // const_image[0][0] = 0;
     return 0;
 }

@@ -14,33 +14,31 @@ namespace _2d{
 
 
     class ARGB
-    {
-    public: 
-        unsigned char a, r, g, b;
-    };
-    
+    { public: unsigned char a, r, g, b; };
     
     class Point_2d
-    {
-    public:
-        int x, y;
-    };
+    { public: int x, y; };
    
     
     template<class T>
     class Image
     {
     public:
+        Image();
         Image(int width, int height);
+        // create() will check whether data has been allocated memory
         void create(int width, int height);
-        T * operator[](int x);
+
+        T * const operator[](int x);
+        const T * const operator[](int x)const;
         T & operator[](Point_2d point);
+        const T & operator[](Point_2d point)const;
+
         int get_width()const;
         int get_height()const;
     
         Image(const Image<T> & other_image);
         Image & operator = (const Image<T> & other_image);
-        Image();
         virtual ~Image();
 #ifdef DEBUG
         void output();
@@ -54,9 +52,7 @@ namespace _2d{
     // implementation
     template<class T>
     Image<T>::Image()
-    {
-        has_data = false;
-    }
+    { has_data = false; }
 
     template<class T>
     Image<T>::Image(int width, int height)
@@ -69,7 +65,7 @@ namespace _2d{
     void Image<T>::create(int _width, int _height)
     {
         if(has_data)
-            delete data;
+            delete[] data;
         width = _width;
         height = _height;
         data = new T[width*height];
@@ -84,16 +80,21 @@ namespace _2d{
     { return height; }
 
     template<class T>
-    T * Image<T>::operator[](int x)
-    {
-        return data + x * height;
-    }
+    T * const Image<T>::operator[](int x)
+    { return data + x * height; }
     
     template<class T>
+    const T * const Image<T>::operator [](int x)const
+    { return data + x * height; }
+
+
+    template<class T>
     T & Image<T>::operator [] (Point_2d point)
-    {
-        return *(data + point.x * height + point.y);
-    }
+    { return *(data + point.x * height + point.y); }
+
+    template<class T>
+    const T & Image<T>::operator [](Point_2d point)const
+    { return *(data + point.x * height + point.y); }
     
     template<class T>
     Image<T>::Image(const Image<T> & other_image)
@@ -108,8 +109,6 @@ namespace _2d{
     Image<T> & Image<T>::operator = (const Image<T> & other_image)
     {
         if(this == &other_image) return *this;
-        if(has_data)
-            delete[] data;
         create(other_image.width, other_image.height);
         for(int y = 0; y < height; ++y)
             for(int x = 0; x < width; ++x)
