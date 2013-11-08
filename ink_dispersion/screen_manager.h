@@ -20,7 +20,7 @@ namespace screen_manager
             GLubyte (* generate_screem_image(void) )[window_width][3];
             void set_draw_square(int left_bottom_x, int left_bottom_y, int width, int height);
             void draw(int x, int y, RGB rgb);
-            GLubyte (*operator[](int width))[window_width][3];
+            const GLubyte (*operator[](int width)const)[window_width][3];
         private:
             GLubyte screen[window_height][window_width][3];
             int left_bottom_x_of_draw_square, left_bottom_y_of_draw_square;
@@ -44,8 +44,9 @@ namespace screen_manager
 
     void ScreenManager::set_draw_square(int left_bottom_x, int left_bottom_y, int width, int height)
     {
-        if(left_bottom_x < 0 || left_bottom_y < 0 || width < 0 || height < 0)
-            return;
+        if(left_bottom_x < 0 || left_bottom_y < 0 || width < 0 || height < 0
+        || left_bottom_x+width >= window_width || left_bottom_y+height>= window_height )
+            throw "invalid square start point or size";
         left_bottom_x_of_draw_square = left_bottom_x;
         left_bottom_y_of_draw_square = left_bottom_y;
         width_of_draw_square = width;
@@ -54,13 +55,14 @@ namespace screen_manager
 
     void ScreenManager::draw(int x, int y, RGB rgb)
     {
-        if(x < 0 || y < 0 || x >= window_width || y >= window_height)
+        if(x < 0 || x >= width_of_draw_square 
+        || y < 0 || y >= height_of_draw_square)
             return;
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][0] = rgb.r;
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][1] = rgb.g;
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][2] = rgb.b;
     }
 
-    GLubyte (*ScreenManager::operator[](int width))[ScreenManager::window_width][3]
+    const GLubyte (*ScreenManager::operator[](int width)const)[ScreenManager::window_width][3]
     { return screen; }
 }
