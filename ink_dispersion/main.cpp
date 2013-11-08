@@ -10,10 +10,10 @@ ScreenManager screen;
 
 //const int window_width = 640;
 //const int window_height = 480;
-const int window_width = 7;
-const int window_height = 5;
+const int window_width = 640;
+const int window_height = 480;
 
-GLubyte background_buffer[window_width][window_height][3];
+GLubyte background_buffer[window_height][window_width][3];
 
 void init();
 void display();
@@ -48,9 +48,9 @@ void init()
     for(int x = 0; x < window_width; x++)
         for(int y = 0; y < window_height; y++)
         {
-            background_buffer[x][y][0] = 0xff;
-            background_buffer[x][y][1] = 0xff;
-            background_buffer[x][y][2] = 0xff;
+            background_buffer[y][x][0] = 0xff;
+            background_buffer[y][x][1] = 0xff;
+            background_buffer[y][x][2] = 0xff;
         }
 }
 
@@ -62,16 +62,8 @@ void display()
     rgb.r = 0xff;
     rgb.g = rgb.b = 0;
     screen.set_draw_square(0, 0, 100, 100);
-    screen.draw(0, 0, rgb);
-    screen.draw(0, 1, rgb);
-    screen.draw(0, 2, rgb);
-    screen.draw(0, 3, rgb);
-    screen.draw(0, 4, rgb);
-    screen.draw(0, 5, rgb);
-    screen.draw(0, 6, rgb);
-    screen.draw(0, 7, rgb);
-    screen.draw(0, 8, rgb);
-    screen.draw(0, 9, rgb);
+    for(int i = 0; i < window_width; i++)
+        screen.draw(i, i, rgb);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(0, 0);
