@@ -25,10 +25,6 @@ namespace paper_layer
             Lattice(){ rho = 0; u = 0; }
             double f[9];
             double rho, u;
-
-            // update  rho and u of next lattice at the same time
-            void stream_fi_to_next_lattice(int direction);
-        private:
             static const Point_2d next_position[9];
     };
 

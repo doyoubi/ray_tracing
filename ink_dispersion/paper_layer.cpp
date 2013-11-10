@@ -11,7 +11,22 @@ extern ScreenManager screen;
 
 namespace paper_layer
 {
-    const double w = 0.3; // relaxation parameter
+
+/* -------------------------------------------------------------
+ *       Lattice Boltzmann Equation Approach
+ *
+ *   fi(x + ei*deltaT, t + deltaT) = (1-omega) * fi(x, t)  +  omega * f(eq)i (x, t)
+ *   f(eq)i(x, y) = wi( rho + (3*ei*u + 9/2 * (ei*u)^2 - 3/2(u*u) ) )
+ *                    rho = f0 + f1 + ... + f8
+ *            u = e0 * f0 + e1 * f1 + ... + e8 * f8
+ *
+ * -------------------------------------------------------------*/
+
+    double fi(int direction, Lattice current_lattice);
+    double f_eq(int direction, Lattice current_lattice);
+    const double w[9] = {4/9, 1/9, 1/9, 1/9, 1/9, 1/36, 1/36, 1/36, 1/36};
+    const double omega = 0.3; // relaxation parameter
+    const double rho_0 = 1.0;
 
     // class Lattice
 
@@ -24,13 +39,22 @@ namespace paper_layer
         Point_2d(-1,1), Point_2d(-1,-1), Point_2d(1,-1)
     };
 
-    void Lattice::stream_fi_to_next_lattice(int direction)
+    double fi(int direction, Lattice current_lattice)
     {
+        return current_lattice.f[direction] + f_eq(current_lattice);
+    }
+    double f_eq(int direction, Lattice current_lattice)
+    {
+        ei = Lattice::next_point[direction];
+        return w[direction]*
+        (
+            current_lattice.rho + rho_0 * 
+            ( 3*ei*current_lattice.u + 9/2*(ei*u)(ei*u) - 3/2*(u*u))
+        );
     }
     
     // class FlowLayer
-    FlowLayer::FlowLayer(int width, int height):Image<Lattice>(width, height)
-    {}
+    FlowLayer::FlowLayer(int width, int height):Image<Lattice>(width, height) {}
 
     void FlowLayer::stream()
     {
@@ -38,9 +62,21 @@ namespace paper_layer
                 it != lattice_position_list.end(); it++)
         {
             Point_2d p = *it;
+            // stream to 9 direction
+            for(int i = 0; i < 9; i++)
+            {
+                Point_2d next_point = p + Lattice::next_position[i];
+                Lattice curr_lattice = (*this)[p];
+                if(is_valid_position(next_position))
+                {
+                    next_lattice = (*this)[next_position];
+                    next_lattice.f[i] = omega*fi(i, current_lattice) + f_eq(i, current_lattice); 
+                    next_lattice.rho += next_lattice.f[i];
+                    next_lattice.u += next_position * next_lattice.f[i];
+                }
+            }
         }
     }
-
 
     void FlowLayer::draw()
     {

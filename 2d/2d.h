@@ -13,11 +13,20 @@ using std::endl;
 namespace _2d{
 
 
-    class ARGB
-    { public: unsigned char a, r, g, b; };
+    class RGB
+    { public: unsigned char r, g, b; };
+    class ARGB:public RGB
+    { public: unsigned char a; };
     
     class Point_2d
-    { public: int x, y; };
+    { 
+        public: 
+            Point_2d(x, y);
+            Point_2d(){}
+            int x, y;
+            friend const Point_2d operator + (Point_2d lhs, Point_2d rhs);
+    };
+    typedef Point_2d Vector_2d
    
     
     template<class T>
@@ -34,6 +43,8 @@ namespace _2d{
         T & operator[](Point_2d point);
         const T & operator[](Point_2d point)const;
 
+        bool is_valid_position(int x, int y);
+        bool is_valid_position(Point_2d p);
         int get_width()const;
         int get_height()const;
     
@@ -72,6 +83,18 @@ namespace _2d{
         has_data = true;
     }
     
+    template<class T>
+    bool Image<T>::is_valid_position(int x, int y)
+    {
+        return 0 <= x && x < width
+            && 0 <= y && y < height;
+    }
+    template<class T>
+    bool is_valid_position(Point_2d p)
+    {
+        return is_valid_position(p.x, p.y);
+    }
+
     template<class T>
     int Image<T>::get_width()const
     { return width; }

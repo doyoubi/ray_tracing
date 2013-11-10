@@ -5,6 +5,10 @@ using std::hex;
 
 namespace _2d
 {
+    Point_2d Point_2d::Point_2d(int _x, int _y) : x(_x), y(_y) {}
+
+    const Point_2d operator + (Point_2d lhs, Point_2d rhs)
+    { return Point_2d(lhs.x+rhs.x, lhs.y+rhs.y); }
 
 #define DEBUG
 #ifdef DEBUG
