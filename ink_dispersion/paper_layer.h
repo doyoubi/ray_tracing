@@ -16,6 +16,7 @@ using std::vector;
 #include"../2d/2d.h"
 using _2d::Image;
 using _2d::Point_2d;
+using _2d::Vector_2d;
 
 namespace paper_layer
 {
@@ -24,7 +25,8 @@ namespace paper_layer
         public:
             Lattice(){ rho = 0; u = 0; }
             double f[9];
-            double rho, u;
+            double rho;
+            Vector_2d u;
             static const Point_2d next_position[9];
     };
 

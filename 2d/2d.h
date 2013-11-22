@@ -21,13 +21,19 @@ namespace _2d{
     class Point_2d
     { 
         public: 
-            Point_2d(x, y);
+            Point_2d(int x, int y);
             Point_2d(){}
             int x, y;
             friend const Point_2d operator + (Point_2d lhs, Point_2d rhs);
+            friend const Point_2d operator - (Point_2d lhs, Point_2d rhs);
+            friend const int operator * (Point_2d lhs, Point_2d rhs);
+            friend const Point_2d operator * (int lhs, Point_2d rhs);
+            friend const Point_2d operator * (Point_2d lhs, int rhs);
+            friend const bool operator == (Point_2d lhs, Point_2d rhs);
+            const Point_2d & operator = (Point_2d rhs);
     };
-    typedef Point_2d Vector_2d
-   
+
+    typedef Point_2d Vector_2d;
     
     template<class T>
     class Image
@@ -90,7 +96,7 @@ namespace _2d{
             && 0 <= y && y < height;
     }
     template<class T>
-    bool is_valid_position(Point_2d p)
+    bool Image<T>::is_valid_position(Point_2d p)
     {
         return is_valid_position(p.x, p.y);
     }
