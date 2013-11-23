@@ -45,13 +45,27 @@ namespace _2d{
             friend const bool operator == (Point_2d<T> lhs, Point_2d<T> rhs)
             { return lhs.x == rhs.x && lhs.y == rhs.y; }
 
+            const Point_2d operator += (Point_2d<T> rhs)
+            { 
+                this->x += rhs.x;
+                this->y += rhs.y;
+                return *this;
+            }
+
+            const Point_2d operator -= (Point_2d<T> rhs)
+            { 
+                this->x -= rhs.x;
+                this->y -= rhs.y;
+                return *this;
+            }
+
             const Point_2d<T> & operator = (Point_2d<T> rhs)
             {
                 this->x = rhs.x; this->y = rhs.y;
                 return *this;
             }
 
-            operator Point_2d<double>()
+            operator Point_2d<double>()const
             { return Point_2d<double>(this->x, this->y); }
     };
 

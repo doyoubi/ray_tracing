@@ -2,10 +2,10 @@
 using std::cout;
 using std::cin;
 using std::endl;
-#include<gl/glut.h>
+#include<GL/glut.h>
 
 #include"screen_manager.h"
-using screen_manager::ScreenManager;
+using _screen_manager::ScreenManager;
 ScreenManager screen;
 
 const int window_width = 640;

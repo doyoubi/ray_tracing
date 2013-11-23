@@ -13,6 +13,17 @@ void check(bool to_check)
     else { cout<<"false"<<endl; all_test_pass = false; }
 }
 
+bool test_conversion()
+{
+    //  test implicitly conversion to Vector_2d<double>
+    Vector_2d<double> v1 = Vector_2d<int>(1,1);
+    Vector_2d<int> v2(-2,-2);
+    cout<<"test implicitly conversion to Vector_2d<double>: ";
+    check(v1 + v2 == Vector_2d<double>(-1,-1));
+    check(v1 - v2 == Vector_2d<double>(3,3));
+    check(v1 * v2 == -4.0);
+    return all_test_pass;
+}
 
 bool test_operator_double()
 {
@@ -40,7 +51,19 @@ bool test_operator_double()
     cout<<"test operator = : ";
     v2 = v1;
     check(v1 == v2);
+
+    cout<<"test operator += :";
+    v1 = Vector_2d<double>(1,1);
+    v1 += Vector_2d<double>(1,1);
+    check(v1 == Vector_2d<double>(2,2));
+
+    cout<<"test operator -= :";
+    v1 = Vector_2d<double>(1,1);
+    v1 -= Vector_2d<double>(1,1);
+    check(v1 == Vector_2d<double>(0,0));
+
     cout<<endl;
+    return all_test_pass;
 }
 
 bool test_operator_int()
@@ -69,7 +92,19 @@ bool test_operator_int()
     cout<<"test operator = : ";
     v2 = v1;
     check(v1 == v2);
+
+    cout<<"test operator += :";
+    v1 = Vector_2d<int>(1,1);
+    v1 += Vector_2d<int>(1,1);
+    check(v1 == Vector_2d<int>(2,2));
+
+    cout<<"test operator -= :";
+    v1 = Vector_2d<int>(1,1);
+    v1 -= Vector_2d<int>(1,1);
+    check(v1 == Vector_2d<int>(0,0));
+
     cout<<endl;
+    return all_test_pass;
 }
 
 
@@ -100,14 +135,19 @@ bool test_image()
     check(image1.get_width() == width);
     check(image1.get_height() == height);
     cout<<endl;
+    return all_test_pass;
 }
 
 int main()
 {
     test_operator_double();
     test_operator_int();
+    test_conversion();
     test_image();
     if(all_test_pass)
         cout<<"all test pass!"<<endl;
+    else 
+        cout<<"some test fall!!!"<<endl;
+    cout<<endl;
     return 0;
 }
