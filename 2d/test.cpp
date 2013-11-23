@@ -5,7 +5,6 @@ using std::endl;
 
 #include"2d.h"
 using namespace _2d;
-#define Vector_2d Point_2d
 
 bool all_test_pass = true;
 void check(bool to_check)

@@ -21,9 +21,8 @@ namespace _2d{
     template<class T>
     class Point_2d
     { 
-        private:
-            int x, y;
         public: 
+            int x, y;
             Point_2d(T _x, T _y):x(_x), y(_y) {}
             Point_2d(){}
             
@@ -51,7 +50,11 @@ namespace _2d{
                 this->x = rhs.x; this->y = rhs.y;
                 return *this;
             }
+
+            operator Point_2d<double>()
+            { return Point_2d<double>(this->x, this->y); }
     };
+
 
     #define Vector_2d Point_2d
     //template<class T>

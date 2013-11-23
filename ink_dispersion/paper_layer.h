@@ -23,11 +23,11 @@ namespace paper_layer
     class Lattice
     {
         public:
-            Lattice(){ rho = 0; u = 0; }
+            Lattice(){ rho = 0; u = Vector_2d<double>(0, 0); }
             double f[9];
             double rho;
-            Vector_2d u;
-            static const Point_2d next_position[9];
+            Vector_2d<double> u;
+            static const Point_2d<int> next_position[9];
     };
 
     class SurfaceLayer
@@ -37,10 +37,12 @@ namespace paper_layer
     {
         public:
             FlowLayer(int width, int height);
-            void draw();
             void stream();
+            void draw();
         private:
-            vector<Point_2d> lattice_position_list;
+            vector< Point_2d<int> > lattice_position_list;
+            bool has_water(Point_2d<int> p);
+            Image<bool> has_water_table;
     };
 
     class FixtureLayer
