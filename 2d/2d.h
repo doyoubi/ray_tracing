@@ -18,23 +18,49 @@ namespace _2d{
     class ARGB:public RGB
     { public: unsigned char a; };
     
+    template<class T>
     class Point_2d
     { 
-        public: 
-            Point_2d(int x, int y);
-            Point_2d(){}
+        private:
             int x, y;
-            friend const Point_2d operator + (Point_2d lhs, Point_2d rhs);
-            friend const Point_2d operator - (Point_2d lhs, Point_2d rhs);
-            friend const int operator * (Point_2d lhs, Point_2d rhs);
-            friend const Point_2d operator * (int lhs, Point_2d rhs);
-            friend const Point_2d operator * (Point_2d lhs, int rhs);
-            friend const bool operator == (Point_2d lhs, Point_2d rhs);
-            const Point_2d & operator = (Point_2d rhs);
+        public: 
+            Point_2d(T _x, T _y):x(_x), y(_y) {}
+            Point_2d(){}
+            
+            //  operator +  -  *   ==  =
+            friend const Point_2d<T> operator + (Point_2d<T> lhs, Point_2d<T> rhs)
+            { return Point_2d<T>(lhs.x+rhs.x, lhs.y+rhs.y); }
+
+            friend const Point_2d<T> operator - (Point_2d<T> lhs, Point_2d<T> rhs)
+            { return Point_2d<T>(lhs.x-rhs.x, lhs.y-rhs.y); }
+
+            friend const T operator * (Point_2d<T> lhs, Point_2d<T> rhs)
+            { return lhs.x*rhs.x + lhs.y*rhs.y; }
+
+            friend const Point_2d<T> operator * (Point_2d<T> lhs, T rhs)
+            { return Point_2d<T>(lhs.x*rhs, lhs.y*rhs); }
+
+            friend const Point_2d<T> operator * (T lhs, Point_2d<T> rhs)
+            { return rhs * lhs; }
+
+            friend const bool operator == (Point_2d<T> lhs, Point_2d<T> rhs)
+            { return lhs.x == rhs.x && lhs.y == rhs.y; }
+
+            const Point_2d<T> & operator = (Point_2d<T> rhs)
+            {
+                this->x = rhs.x; this->y = rhs.y;
+                return *this;
+            }
     };
 
-    typedef Point_2d Vector_2d;
-    
+    #define Vector_2d Point_2d
+    //template<class T>
+    //struct type_hack
+    //{ typedef Point_2d<T> Vector_2d; };
+    //template<class T>
+    //using Vector_2d = Point_2d<T>;
+
+
     template<class T>
     class Image
     {
@@ -46,11 +72,11 @@ namespace _2d{
 
         T * const operator[](int x);
         const T * const operator[](int x)const;
-        T & operator[](Point_2d point);
-        const T & operator[](Point_2d point)const;
+        T & operator[](Point_2d<int> point);
+        const T & operator[](Point_2d<int> point)const;
 
         bool is_valid_position(int x, int y);
-        bool is_valid_position(Point_2d p);
+        bool is_valid_position(Point_2d<int> p);
         int get_width()const;
         int get_height()const;
     
@@ -96,7 +122,7 @@ namespace _2d{
             && 0 <= y && y < height;
     }
     template<class T>
-    bool Image<T>::is_valid_position(Point_2d p)
+    bool Image<T>::is_valid_position(Point_2d<int> p)
     {
         return is_valid_position(p.x, p.y);
     }
@@ -118,11 +144,11 @@ namespace _2d{
 
 
     template<class T>
-    T & Image<T>::operator [] (Point_2d point)
+    T & Image<T>::operator [] (Point_2d<int> point)
     { return *(data + point.x * height + point.y); }
 
     template<class T>
-    const T & Image<T>::operator [](Point_2d point)const
+    const T & Image<T>::operator [](Point_2d<int> point)const
     { return *(data + point.x * height + point.y); }
     
     template<class T>

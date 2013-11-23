@@ -22,7 +22,7 @@ namespace paper_layer
  *
  * -------------------------------------------------------------*/
 
-    double fi(int direction, Lattice current_lattice);
+    double fi_next(int direction, Lattice current_lattice);
     double f_eq(int direction, Lattice current_lattice);
     const double w[9] = {4/9, 1/9, 1/9, 1/9, 1/9, 1/36, 1/36, 1/36, 1/36};
     const double omega = 0.3; // relaxation parameter
@@ -39,14 +39,14 @@ namespace paper_layer
         Point_2d(-1,1), Point_2d(-1,-1), Point_2d(1,-1)
     };
 
-    double fi(int direction, Lattice current_lattice)
+    double fi_next(int i, Lattice current_lattice)
     {
-        return current_lattice.f[direction] + f_eq(current_lattice);
+        return omega * current_lattice.f[i] + (1-omega) * f_eq(current_lattice);
     }
-    double f_eq(int direction, Lattice current_lattice)
+    double f_eq(int i, Lattice current_lattice)
     {
-        ei = Lattice::next_point[direction];
-        return w[direction]*
+        Vector_2d ei = Lattice::next_point[i];
+        return w[i]*
         (
             current_lattice.rho + rho_0 * 
             ( 3*ei*current_lattice.u + 9/2*(ei*u)(ei*u) - 3/2*(u*u))
@@ -70,7 +70,7 @@ namespace paper_layer
                 if(is_valid_position(next_position))
                 {
                     next_lattice = (*this)[next_position];
-                    next_lattice.f[i] = omega*fi(i, current_lattice) + f_eq(i, current_lattice); 
+                    next_lattice.f[i] = fi_next(i, current_lattice);
                     next_lattice.rho += next_lattice.f[i];
                     next_lattice.u += next_position * next_lattice.f[i];
                 }
