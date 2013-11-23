@@ -1,6 +1,5 @@
 #include"screen_manager.h"
 
-
 namespace _screen_manager
 {
     ScreenManager::ScreenManager()

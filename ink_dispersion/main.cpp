@@ -4,12 +4,20 @@ using std::cin;
 using std::endl;
 #include<GL/glut.h>
 
+#include"../2d/2d.h"
+using _2d::Vector_2d;
+
 #include"screen_manager.h"
 using _screen_manager::ScreenManager;
 ScreenManager screen;
+#include"paper_layer.h"
+using _paper_layer::FlowLayer;
+using _paper_layer::Lattice;
 
 const int window_width = 640;
 const int window_height = 480;
+
+FlowLayer flow_layer(window_width, window_height);
 
 void init();
 void display();
@@ -51,6 +59,17 @@ void display()
     screen.set_draw_square(100, 100, 100, 100);
     for(int i = 0; i < window_width; i++)
         screen.draw(i, i, rgb);
+
+    screen.set_draw_square(200, 100, 100, 100);
+    Lattice lattice;
+    lattice.f[2] = 0.1;
+    lattice.f[5] = 0.2;
+    lattice.f[1] = 0.1;
+    lattice.rho = 0.4;
+    lattice.u = Vector_2d<double>(-0.3,-0.3);
+    flow_layer[50][50] = lattice;
+    flow_layer.stream();
+    flow_layer.draw();
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(0, 0);

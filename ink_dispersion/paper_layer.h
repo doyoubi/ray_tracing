@@ -18,12 +18,21 @@ using _2d::Image;
 using _2d::Point_2d;
 using _2d::Vector_2d;
 
-namespace paper_layer
+namespace _paper_layer
 {
     class Lattice
     {
         public:
-            Lattice(){ rho = 0; u = Vector_2d<double>(0, 0); }
+            Lattice()
+            {
+                rho = 0;
+                u = Vector_2d<double>(0, 0);
+                for(int i = 0; i < 9; i++)
+                    f[i] = 0.0;
+            }
+            /* 6 2 5
+             * 3 0 1
+             * 7 4 8 */
             double f[9];
             double rho;
             Vector_2d<double> u;

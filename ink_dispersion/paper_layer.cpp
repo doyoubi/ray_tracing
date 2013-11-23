@@ -9,7 +9,7 @@ using std::endl;
 using _screen_manager::ScreenManager;
 extern ScreenManager screen;
 
-namespace paper_layer
+namespace _paper_layer
 {
 
 /* -------------------------------------------------------------
