@@ -28,7 +28,43 @@ bool test_conversion()
     cout<<endl;
 }
 
-bool test_operator_double()
+bool test_assignment()
+{
+    {
+        cout<<"test assignment"<<endl;
+        // int
+        Vector_2d<int> v1(1,2);
+        Vector_2d<int> v2 = v1;
+        check(v2 == v1);
+
+        v1 += v2;
+        check(v1 == Vector_2d<int>(2,4));
+
+        v1 -= v2;
+        check(v1 == Vector_2d<int>(1,2));
+
+        v1 *= 2;
+        check(v1 == Vector_2d<int>(2,4));
+    }
+    // double
+    {
+        Vector_2d<double> v1(1,2);
+        Vector_2d<double> v2 = v1;
+        check(v2 == v1);
+
+        v1 += v2;
+        check(v1 == Vector_2d<double>(2,4));
+
+        v1 -= v2;
+        check(v1 == Vector_2d<double>(1,2));
+
+        v1 *= 2;
+        check(v1 == Vector_2d<double>(2,4));
+        cout<<endl;
+    }
+}
+
+bool test_basic_operator_double()
 {
     Vector_2d<double> v1(1.0,1.0);
     Vector_2d<double> v2(2.0,-1.0);
@@ -57,7 +93,7 @@ bool test_operator_double()
     cout<<endl;
 }
 
-bool test_operator_int()
+bool test_basic_operator_int()
 {
     Vector_2d<int> v1(1,1);
     Vector_2d<int> v2(2,-1);
@@ -118,8 +154,9 @@ bool test_image()
 
 int main()
 {
-    test_operator_double();
-    test_operator_int();
+    test_assignment();
+    test_basic_operator_double();
+    test_basic_operator_int();
     test_image();
     test_conversion();
     if(all_test_pass)

@@ -23,7 +23,16 @@ namespace paper_layer
     class Lattice
     {
         public:
-            Lattice(){ rho = 0; u = Vector_2d<double>(0, 0); }
+            Lattice()
+            { 
+                rho = 0;
+                u = Vector_2d<double>(0, 0);
+                for(int i = 0; i < 9; i++)
+                    f[i] = 0.0;
+            }
+            /* 6 2 5
+             * 3 0 1
+             * 7 4 8 */
             double f[9];
             double rho;
             Vector_2d<double> u;
@@ -39,6 +48,7 @@ namespace paper_layer
             FlowLayer(int width, int height);
             void stream();
             void draw();
+            void add_water(const Lattice l, Point_2d<int> position);
         private:
             vector< Point_2d<int> > lattice_position_list;
             bool has_water(Point_2d<int> p);

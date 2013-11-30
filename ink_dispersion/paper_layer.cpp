@@ -80,7 +80,10 @@ namespace paper_layer
                 if(is_valid_position(next_point))
                 {
                     if(!has_water(next_point)) 
+                    {
                         lattice_position_list.push_back(next_point);
+                        has_water_table[next_point] = true;
+                    }
                     Lattice & next_lattice = (*this)[next_point];
                     next_lattice.f[i] = fi_next(i, curr_lattice);
                     next_lattice.rho += next_lattice.f[i];
@@ -103,6 +106,13 @@ namespace paper_layer
             rgb.r = rgb.g = rgb.b = 0xff * (*this)[p].rho;
             screen.draw(p.x, p.y, rgb);
         }
+    }
+
+    void FlowLayer::add_water(const Lattice l, Point_2d<int> position)
+    {
+        (*this)[position] = l;
+        lattice_position_list.push_back(position);
+        has_water_table[position] = true;
     }
 
 }

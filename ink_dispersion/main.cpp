@@ -7,6 +7,12 @@ using std::endl;
 #include"screen_manager.h"
 using screen_manager::ScreenManager;
 ScreenManager screen;
+#include"paper_layer.h"
+paper_layer::FlowLayer flowlayer(100,100);
+void init_flowlayer();
+using paper_layer::Lattice;
+#include"../2d/2d.h"
+using _2d::Vector_2d;
 
 const int window_width = 640;
 const int window_height = 480;
@@ -23,6 +29,8 @@ int main(int argc, char** argv)
     glutInitWindowSize(window_width, window_height);
     glutInitWindowPosition(100, 100);
     glutCreateWindow(argv[0]);
+
+    init_flowlayer();
 
     init();
     glutDisplayFunc(display);
@@ -52,6 +60,9 @@ void display()
     for(int i = 0; i < window_width; i++)
         screen.draw(i, i, rgb);
 
+    flowlayer.stream();
+    flowlayer.draw();
+
     glDrawBuffer(GL_BACK);
     glRasterPos2i(0, 0);
     glDrawPixels(window_width, window_height, GL_RGB,
@@ -71,3 +82,16 @@ void reshape(int width, int height)
 
 void motion(int x, int y)
 { display(); }
+
+void init_flowlayer()
+{
+    Lattice lattice;
+    lattice.u = Vector_2d<double>(0.2,0.2);
+    lattice.f[2] = lattice.f[1] = 0.1;
+    lattice.f[5] = 0.2;
+    lattice.rho = 0.4;
+    for(int i = 0; i < 3; i++)
+        for(int j = 0; j < 3; j++)
+            flowlayer[50+i][50+j] = lattice;
+}
+

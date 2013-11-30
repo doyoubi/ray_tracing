@@ -30,14 +30,35 @@ namespace _2d{
             friend const Point_2d<T> operator + (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return Point_2d<T>(lhs.x+rhs.x, lhs.y+rhs.y); }
 
+            const Point_2d<T> & operator += (const Point_2d<T> rhs)
+            { 
+                this->x += rhs.x;
+                this->y += rhs.y;
+                return *this;
+            }
+
             friend const Point_2d<T> operator - (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return Point_2d<T>(lhs.x-rhs.x, lhs.y-rhs.y); }
+
+            const Point_2d<T> & operator -= (const Point_2d<T> rhs)
+            { 
+                this->x -= rhs.x;
+                this->y -= rhs.y;
+                return *this;
+            }
 
             friend const T operator * (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return lhs.x*rhs.x + lhs.y*rhs.y; }
 
             friend const Point_2d<T> operator * (const Point_2d<T> lhs, T rhs)
             { return Point_2d<T>(lhs.x*rhs, lhs.y*rhs); }
+
+            const Point_2d<T> & operator *= (T rhs)
+            { 
+                this->x *= rhs;
+                this->y *= rhs;
+                return *this;
+            }
 
             friend const Point_2d<T> operator * (T lhs, const Point_2d<T> rhs)
             { return rhs * lhs; }
