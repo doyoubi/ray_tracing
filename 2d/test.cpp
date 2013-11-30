@@ -13,6 +13,20 @@ void check(bool to_check)
     else { cout<<"false"<<endl; all_test_pass = false; }
 }
 
+bool test_conversion()
+{
+    cout<<"test conversion:"<<endl;
+    Vector_2d<double> v_double(1.0,1.0);
+    Vector_2d<int> v_int(2,1);
+    check(v_double + v_int == Vector_2d<double>(3.0,2.1));
+    check(v_double - v_int == Vector_2d<double>(-1.0,0.0));
+    check(v_double * v_int == 3.0);
+    check(v_int * 2.0 == Vector_2d<double>(4.0,2.0)); 
+    check(v_double * 2 == Vector_2d<double>(2,2));
+    check(v_int * 2.0 == Vector_2d<int>(4.0,2.0)); 
+    check(v_double * 2 == Vector_2d<int>(2,2));
+    cout<<endl;
+}
 
 bool test_operator_double()
 {
@@ -107,7 +121,11 @@ int main()
     test_operator_double();
     test_operator_int();
     test_image();
+    test_conversion();
     if(all_test_pass)
         cout<<"all test pass!"<<endl;
+    else
+        cout<<"some test didn't pass"<<endl;
+    cout<<endl;
     return 0;
 }

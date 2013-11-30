@@ -27,31 +27,31 @@ namespace _2d{
             Point_2d(){}
             
             //  operator +  -  *   ==  =
-            friend const Point_2d<T> operator + (Point_2d<T> lhs, Point_2d<T> rhs)
+            friend const Point_2d<T> operator + (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return Point_2d<T>(lhs.x+rhs.x, lhs.y+rhs.y); }
 
-            friend const Point_2d<T> operator - (Point_2d<T> lhs, Point_2d<T> rhs)
+            friend const Point_2d<T> operator - (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return Point_2d<T>(lhs.x-rhs.x, lhs.y-rhs.y); }
 
-            friend const T operator * (Point_2d<T> lhs, Point_2d<T> rhs)
+            friend const T operator * (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return lhs.x*rhs.x + lhs.y*rhs.y; }
 
-            friend const Point_2d<T> operator * (Point_2d<T> lhs, T rhs)
+            friend const Point_2d<T> operator * (const Point_2d<T> lhs, T rhs)
             { return Point_2d<T>(lhs.x*rhs, lhs.y*rhs); }
 
-            friend const Point_2d<T> operator * (T lhs, Point_2d<T> rhs)
+            friend const Point_2d<T> operator * (T lhs, const Point_2d<T> rhs)
             { return rhs * lhs; }
 
-            friend const bool operator == (Point_2d<T> lhs, Point_2d<T> rhs)
+            friend const bool operator == (const Point_2d<T> lhs, const Point_2d<T> rhs)
             { return lhs.x == rhs.x && lhs.y == rhs.y; }
 
-            const Point_2d<T> & operator = (Point_2d<T> rhs)
+            const Point_2d<T> & operator = (const Point_2d<T> rhs)
             {
                 this->x = rhs.x; this->y = rhs.y;
                 return *this;
             }
 
-            operator Point_2d<double>()
+            operator Point_2d<double>()const
             { return Point_2d<double>(this->x, this->y); }
     };
 

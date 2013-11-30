@@ -7,4 +7,4 @@ test :
 	make clean
 
 clean :
-	rm -rf test.exe
+	del test.exe
