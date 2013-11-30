@@ -5,12 +5,12 @@ using std::endl;
 #include<gl/glut.h>
 
 #include"screen_manager.h"
-using screen_manager::ScreenManager;
+using _screen_manager::ScreenManager;
 ScreenManager screen;
 #include"paper_layer.h"
-paper_layer::FlowLayer flowlayer(100,100);
+_paper_layer::FlowLayer flowlayer(100,100);
 void init_flowlayer();
-using paper_layer::Lattice;
+using _paper_layer::Lattice;
 #include"../2d/2d.h"
 using _2d::Vector_2d;
 
@@ -94,4 +94,3 @@ void init_flowlayer()
         for(int j = 0; j < 3; j++)
             flowlayer[50+i][50+j] = lattice;
 }
-

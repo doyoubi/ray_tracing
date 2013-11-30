@@ -18,7 +18,7 @@ using _2d::Image;
 using _2d::Point_2d;
 using _2d::Vector_2d;
 
-namespace paper_layer
+namespace _paper_layer
 {
     class Lattice
     {

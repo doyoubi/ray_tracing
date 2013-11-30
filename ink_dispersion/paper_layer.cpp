@@ -6,10 +6,10 @@ using std::endl;
 #include"paper_layer.h"
 
 #include"screen_manager.h"
-using screen_manager::ScreenManager;
+using _screen_manager::ScreenManager;
 extern ScreenManager screen;
 
-namespace paper_layer
+namespace _paper_layer
 {
 
 /* -------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace paper_layer
 
     void FlowLayer::draw()
     {
-        for(vector<Point_2d<int>>::iterator it = lattice_position_list.begin();
+        for(vector< Point_2d<int> >::iterator it = lattice_position_list.begin();
                 it != lattice_position_list.end(); it++)
         {
             Point_2d<int> p = *it;
