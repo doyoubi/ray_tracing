@@ -2,7 +2,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
-#include<gl/glut.h>
+#include<GL/glut.h>
 
 #include"screen_manager.h"
 using _screen_manager::ScreenManager;
@@ -13,6 +13,7 @@ void init_flowlayer();
 using _paper_layer::Lattice;
 #include"../2d/2d.h"
 using _2d::Vector_2d;
+using _2d::Point_2d;
 
 const int window_width = 640;
 const int window_height = 480;
@@ -30,8 +31,6 @@ int main(int argc, char** argv)
     glutInitWindowPosition(100, 100);
     glutCreateWindow(argv[0]);
 
-    init_flowlayer();
-
     init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
@@ -45,6 +44,7 @@ int main(int argc, char** argv)
 void init()
 {    
     //glClearColor (0.0, 0.0, 0.0, 0.0);
+    init_flowlayer();
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
@@ -60,6 +60,7 @@ void display()
     for(int i = 0; i < window_width; i++)
         screen.draw(i, i, rgb);
 
+    screen.set_draw_square(200, 200, 100, 100);
     flowlayer.stream();
     flowlayer.draw();
 
@@ -86,11 +87,11 @@ void motion(int x, int y)
 void init_flowlayer()
 {
     Lattice lattice;
-    lattice.u = Vector_2d<double>(0.2,0.2);
-    lattice.f[2] = lattice.f[1] = 0.1;
-    lattice.f[5] = 0.2;
-    lattice.rho = 0.4;
-    for(int i = 0; i < 3; i++)
-        for(int j = 0; j < 3; j++)
-            flowlayer[50+i][50+j] = lattice;
+    lattice.u = Vector_2d<double>(0,1);
+    lattice.f[2] = 0.9;
+    lattice.rho = 0.9;
+    for(int i = 0; i < 10; i++)
+        for(int j = 0; j < 1; j++)
+            flowlayer.add_water(lattice, Point_2d<int>(50+j,50+i));
+    //flowlayer.add_water(lattice, Point_2d<int>(50,50));
 }

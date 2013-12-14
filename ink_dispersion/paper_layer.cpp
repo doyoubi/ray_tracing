@@ -39,7 +39,7 @@ namespace _paper_layer
         return w[i]*
         (
             current_lattice.rho + rho_0 * 
-            ( 3*ei*u + 9/2*(ei*u)*(ei*u) - 3/2*(u*u))
+            ( 3*ei*u + 9.0/2*(ei*u)*(ei*u) - 3.0/2*(u*u))
         );
     }
     
@@ -72,11 +72,13 @@ namespace _paper_layer
                 it != end; it++)
         {
             Point_2d<int> p = *it;
+            Lattice & curr_lattice = (*this)[p];
+            // 0.1 may not be appropriate
+            if(curr_lattice.rho < 0.1) continue;
             // stream to 9 direction
             for(int i = 0; i < 9; i++)
             {
                 Point_2d<int> next_point = p + Lattice::next_position[i];
-                Lattice curr_lattice = (*this)[p];
                 if(is_valid_position(next_point))
                 {
                     if(!has_water(next_point)) 
@@ -85,7 +87,12 @@ namespace _paper_layer
                         has_water_table[next_point] = true;
                     }
                     Lattice & next_lattice = (*this)[next_point];
-                    next_lattice.f[i] = fi_next(i, curr_lattice);
+                    double f_i_next = fi_next(i, curr_lattice);
+                    if(0.1 < f_i_next && f_i_next < curr_lattice.f[i])
+                    {
+                        next_lattice.f[i] = f_i_next;
+                        curr_lattice.f[i] -= next_lattice.f[i];
+                    }
                     next_lattice.rho += next_lattice.f[i];
                     next_lattice.u += next_point * next_lattice.f[i];
                 }
@@ -103,7 +110,7 @@ namespace _paper_layer
         {
             Point_2d<int> p = *it;
             RGB rgb;
-            rgb.r = rgb.g = rgb.b = 0xff * (*this)[p].rho;
+            rgb.r = rgb.g = rgb.b = 0xff - 0xff * (*this)[p].rho;
             screen.draw(p.x, p.y, rgb);
         }
     }
