@@ -1,5 +1,5 @@
-test.exe: test.cpp 2d.cpp
-	g++ -g -o test.exe test.cpp 2d.cpp
+test.exe: array_2d_test.cpp 
+	g++ -std=c++0x -g -o test.exe array_2d_test.cpp
 
 test :
 	make
@@ -7,4 +7,4 @@ test :
 	make clean
 
 clean :
-	del test.exe
+	rm test.exe

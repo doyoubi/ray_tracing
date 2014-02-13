@@ -1,7 +1,10 @@
 #ifndef _2D_H
 #define _2D_H
 
+#include"point_2d.h"
+
 #define DEBUG
+
 
 #ifdef DEBUG
 #include<iostream>
@@ -13,76 +16,11 @@ using std::endl;
 namespace _2d{
 
 
-    class RGB
-    { public: unsigned char r, g, b; };
-    class ARGB:public RGB
-    { public: unsigned char a; };
-    
-    template<class T>
-    class Point_2d
-    { 
-        public: 
-            int x, y;
-            Point_2d(T _x, T _y):x(_x), y(_y) {}
-            Point_2d(){}
-            
-            //  operator +  -  *   ==  =
-            friend const Point_2d<T> operator + (const Point_2d<T> lhs, const Point_2d<T> rhs)
-            { return Point_2d<T>(lhs.x+rhs.x, lhs.y+rhs.y); }
+    struct RGB
+    { unsigned char r, g, b; };
+    struct ARGB:public RGB
+    { unsigned char a; };
 
-            const Point_2d<T> & operator += (const Point_2d<T> rhs)
-            { 
-                this->x += rhs.x;
-                this->y += rhs.y;
-                return *this;
-            }
-
-            friend const Point_2d<T> operator - (const Point_2d<T> lhs, const Point_2d<T> rhs)
-            { return Point_2d<T>(lhs.x-rhs.x, lhs.y-rhs.y); }
-
-            const Point_2d<T> & operator -= (const Point_2d<T> rhs)
-            { 
-                this->x -= rhs.x;
-                this->y -= rhs.y;
-                return *this;
-            }
-
-            friend const T operator * (const Point_2d<T> lhs, const Point_2d<T> rhs)
-            { return lhs.x*rhs.x + lhs.y*rhs.y; }
-
-            friend const Point_2d<T> operator * (const Point_2d<T> lhs, T rhs)
-            { return Point_2d<T>(lhs.x*rhs, lhs.y*rhs); }
-
-            const Point_2d<T> & operator *= (T rhs)
-            { 
-                this->x *= rhs;
-                this->y *= rhs;
-                return *this;
-            }
-
-            friend const Point_2d<T> operator * (T lhs, const Point_2d<T> rhs)
-            { return rhs * lhs; }
-
-            friend const bool operator == (const Point_2d<T> lhs, const Point_2d<T> rhs)
-            { return lhs.x == rhs.x && lhs.y == rhs.y; }
-
-            const Point_2d<T> & operator = (const Point_2d<T> rhs)
-            {
-                this->x = rhs.x; this->y = rhs.y;
-                return *this;
-            }
-
-            operator Point_2d<double>()const
-            { return Point_2d<double>(this->x, this->y); }
-    };
-
-
-    #define Vector_2d Point_2d
-    //template<class T>
-    //struct type_hack
-    //{ typedef Point_2d<T> Vector_2d; };
-    //template<class T>
-    //using Vector_2d = Point_2d<T>;
 
 
     template<class T>
