@@ -19,7 +19,7 @@ public:
         iterator(T * const _ptr);
         iterator(const iterator & other);
         iterator & operator = (const iterator other);
-        iterator & operator ++ ();
+        const iterator & operator ++ ();
         const iterator operator ++ (int);
         bool operator == (iterator other);
         bool operator != (iterator other);
@@ -38,6 +38,8 @@ public:
 
     bool is_valid_position(int x, int y);
     bool is_valid_position(Point_2d<int> p);
+    bool is_border(int x, int y);
+    bool is_border(Point_2d<int> p);
     int get_width()const;
     int get_height()const;
 
@@ -47,7 +49,8 @@ public:
 
     array_2d(const array_2d<T> & other_image);
     array_2d & operator = (const array_2d<T> & other_image);
-    virtual ~array_2d();
+
+    ~array_2d();
 private:
     int width, height;
     T * data;
@@ -71,7 +74,7 @@ typename array_2d<T>::iterator & array_2d<T>::iterator::operator = (const array_
 { this->ptr = other.ptr; }
 
 template<class T>
-typename array_2d<T>::iterator & array_2d<T>::iterator::operator ++ ()
+const typename array_2d<T>::iterator & array_2d<T>::iterator::operator ++ ()
 {
     ptr++;
     return *this;
@@ -117,6 +120,19 @@ bool array_2d<T>::is_valid_position(int x, int y)
 template<class T>
 bool array_2d<T>::is_valid_position(Point_2d<int> p)
 { return is_valid_position(p.x, p.y); }
+
+template<class T>
+bool array_2d<T>::is_border(int x, int y)
+{
+    return x == 0
+        || y == 0
+        || x == width-1
+        || y == height-1;
+}
+
+template<class T>
+bool array_2d<T>::is_border(Point_2d<int> p)
+{ return is_border(p.x, p.y); }
 
 template<class T>
 int array_2d<T>::get_width()const

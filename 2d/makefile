@@ -1,5 +1,5 @@
-test.exe: array_2d_test.cpp 
-	g++ -std=c++0x -g -o test.exe array_2d_test.cpp
+test.exe: test_array_2d.cpp 
+	g++ -std=c++0x -g -o test.exe test_array_2d.cpp
 
 test :
 	make
