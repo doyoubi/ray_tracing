@@ -1,6 +1,6 @@
 #include<iostream>
 #include"array_2d.h"
-#include"2d.h"
+#include"../2d.h"
 using _2d::Point_2d;
 using _2d::array_2d;
 using std::cout;

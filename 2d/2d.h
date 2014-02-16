@@ -1,7 +1,7 @@
 #ifndef _2D_H
 #define _2D_H
 
-#include"point_2d.h"
+#include"point_2d/point_2d.h"
 
 #define DEBUG
 

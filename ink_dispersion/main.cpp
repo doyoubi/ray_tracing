@@ -82,7 +82,7 @@ void reshape(int width, int height)
 }
 
 void motion(int x, int y)
-{ display(); }
+{  }
 
 void init_flowlayer()
 {

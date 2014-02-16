@@ -2,7 +2,7 @@
 #define ARRAY2D
 
 #include<iterator>
-#include"point_2d.h"
+#include"../point_2d/point_2d.h"
 
 namespace _2d{
 
