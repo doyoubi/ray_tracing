@@ -1,4 +1,7 @@
 #include<iostream>
+#include<sstream>
+#include<cstdio>
+
 #include"point_2d.h"
 using std::cout;
 using std::cin;
@@ -16,15 +19,13 @@ void check(bool to_check)
 bool test_conversion()
 {
     cout<<"test conversion:"<<endl;
-    Vector_2d<double> v_double(1.0,1.0);
+    Vector_2d<double> v_double(1.1,1.1);
     Vector_2d<int> v_int(2,1);
-    check(v_double + v_int == Vector_2d<double>(3.0,2.0));
-    check(v_double - v_int == Vector_2d<double>(-1.0,0.0));
-    check(v_double * v_int == 3.0);
-    check(v_int * 2.0 == Vector_2d<double>(4.0,2.0)); 
-    check(v_double * 2 == Vector_2d<double>(2,2));
-    check(v_int * 2.0 == Vector_2d<int>(4.0,2.0)); 
-    check(v_double * 2 == Vector_2d<int>(2,2));
+    check(v_double + v_int == Vector_2d<double>(3.1,2.1));
+    check(v_double - v_int == Vector_2d<double>(-0.9,0.1));
+    check(abs(v_double * v_int - 3.3) < 0.000001);
+    check(v_int * 2.1 == Vector_2d<double>(4.2,2.1)); 
+    check(v_double * 2 == Vector_2d<double>(2.2,2.2));
     cout<<endl;
     return all_test_pass;
 }
@@ -49,18 +50,18 @@ bool test_assignment()
     }
     // double
     {
-        Vector_2d<double> v1(1,2);
+        Vector_2d<double> v1(1.1,2.2);
         Vector_2d<double> v2 = v1;
         check(v2 == v1);
 
         v1 += v2;
-        check(v1 == Vector_2d<double>(2,4));
+        check(v1 == Vector_2d<double>(2.2,4.4));
 
         v1 -= v2;
-        check(v1 == Vector_2d<double>(1,2));
+        check(v1 == Vector_2d<double>(1.1,2.2));
 
         v1 *= 2;
-        check(v1 == Vector_2d<double>(2,4));
+        check(v1 == Vector_2d<double>(2.2,4.4));
         cout<<endl;
     }
     return all_test_pass;
@@ -68,26 +69,26 @@ bool test_assignment()
 
 bool test_basic_operator_double()
 {
-    Vector_2d<double> v1(1.0,1.0);
+    Vector_2d<double> v1(1.1,1.1);
     Vector_2d<double> v2(2.0,-1.0);
 
     cout<<"test operator == : ";
-    check(v1 == Vector_2d<double>(1,1));
+    check(v1 == Vector_2d<double>(1.1,1.1));
 
     cout<<"test operator + : ";
-    check(v1 + v2 == Vector_2d<double>(3, 0));
+    check(v1 + v2 == Vector_2d<double>(3.1, 0.1));
 
     cout<<"test operator - : ";
-    check(v1 - v2 == Vector_2d<double>(-1, 2));
+    check(v1 - v2 == Vector_2d<double>(-0.9, 2.1));
 
     cout<<"test operator vector * vector: ";
-    check(v1 * v2 == 1);
+    check(v1 * v2 == 1.1);
 
     cout<<"test operator number * vector: ";
-    check(v1 * 2 == Vector_2d<double>(2,2));
+    check(v1 * 2 == Vector_2d<double>(2.2,2.2));
     
     cout<<"test operator vector * number: ";
-    check(2 * v1 == Vector_2d<double>(2,2));
+    check(2 * v1 == Vector_2d<double>(2.2,2.2));
 
     cout<<"test operator = : ";
     v2 = v1;
