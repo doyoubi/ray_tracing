@@ -26,6 +26,8 @@ bool test_conversion()
     check(abs(v_double * v_int - 3.3) < 0.000001);
     check(v_int * 2.1 == Vector_2d<double>(4.2,2.1)); 
     check(v_double * 2 == Vector_2d<double>(2.2,2.2));
+    check(v_double / 2 == Vector_2d<double>(0.55, 0.55));
+    check(v_double / 2.0 == Vector_2d<double>(0.55, 0.55));
     cout<<endl;
     return all_test_pass;
 }
@@ -47,6 +49,9 @@ bool test_assignment()
 
         v1 *= 2;
         check(v1 == Vector_2d<int>(2,4));
+
+        v1 /= 2;
+        check(v1 == Vector_2d<int>(1,2));
     }
     // double
     {
@@ -62,8 +67,11 @@ bool test_assignment()
 
         v1 *= 2;
         check(v1 == Vector_2d<double>(2.2,4.4));
-        cout<<endl;
+
+        v1 /= 2;
+        check(v1 == Vector_2d<double>(1.1,2.2));
     }
+    cout<<endl;
     return all_test_pass;
 }
 
@@ -89,6 +97,9 @@ bool test_basic_operator_double()
     
     cout<<"test operator vector * number: ";
     check(2 * v1 == Vector_2d<double>(2.2,2.2));
+
+    cout<<"test operator vector / number: ";
+    check(v1 / 2 == Vector_2d<double>(0.55,0.55));
 
     cout<<"test operator = : ";
     v2 = v1;
@@ -130,6 +141,10 @@ bool test_basic_operator_int()
     
     cout<<"test operator vector * number: ";
     check(2 * v1 == Vector_2d<int>(2,2));
+
+    cout<<"--------------"<<endl;
+    cout<<"test operator vector / number: ";
+    check(Vector_2d<int>(2,2) / 2 == Vector_2d<int>(1,1));
 
     cout<<"test operator = : ";
     v2 = v1;

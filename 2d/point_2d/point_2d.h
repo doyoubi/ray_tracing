@@ -38,6 +38,13 @@ public:
         return *this;
     }
 
+    Point_2d & operator /= (T rhs)
+    {
+        x /= rhs;
+        y /= rhs;
+        return *this;
+    }
+
     Point_2d & operator = (const Point_2d & rhs)
     {
         x = rhs.x; y = rhs.y;
@@ -81,6 +88,10 @@ auto operator * (LHS lhs, const Point_2d<RHS> &rhs)
     -> decltype(create_point(lhs*rhs.x, lhs*rhs.y))
 { return create_point(lhs*rhs.x, lhs*rhs.y); }
 
+template<class LHS, class RHS>
+auto operator / (const Point_2d<LHS> &lhs, RHS rhs)
+    -> decltype(create_point(lhs.x/rhs, lhs.y/rhs))
+{ return create_point(lhs.x/rhs, lhs.y/rhs); }
 
 #define Vector_2d Point_2d
 }
