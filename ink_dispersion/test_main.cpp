@@ -1,7 +1,9 @@
 #include<iostream>
 #include"paper_layer.h"
+#include"../2d/point_2d/point_2d.h"
 using std::cout;
 using std::endl;
+using _2d::Point_2d;
 
 using _paper_layer::FlowLayer;
 using _paper_layer::Lattice;
@@ -25,10 +27,11 @@ int main()
     FlowLayer flow_layer(5,5);
 
     Lattice lattice;
-    lattice.f[2] = 0.9;
-    flow_layer.add_water(lattice, Point_2d<int>(2,1) );
+    for(int i = 0; i < 9; i++)
+        lattice.f[i] = 0.1;
+    flow_layer.add_water(lattice, Point_2d<int>(2,2) );
 
-    for(int i = 0; i < 1; i++)
+    for(int i = 0; i < 3; i++)
     {
         flow_layer.stream();
         print(flow_layer);

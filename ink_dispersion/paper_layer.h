@@ -11,15 +11,16 @@
  * -------------------------------------------------------------*/
 
 #include<vector>
-using std::vector;
 
 #include"../2d/array_2d/array_2d.h"
+
+namespace _paper_layer
+{
+using std::vector;
 using _2d::array_2d;
 using _2d::Point_2d;
 using _2d::Vector_2d;
 
-namespace _paper_layer
-{
     class Lattice
     {
     public:
