@@ -1,8 +1,8 @@
+#include<GL/freeglut.h>
 #include<iostream>
 using std::cout;
 using std::cin;
 using std::endl;
-#include<GL/glut.h>
 
 #include"screen_manager.h"
 using _screen_manager::ScreenManager;
@@ -29,12 +29,12 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB);
     glutInitWindowSize(window_width, window_height);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow(argv[0]);
+    glutCreateWindow("doyoubi");
 
     init();
     glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutMotionFunc(motion);
+    //glutReshapeFunc(reshape);
+    //glutMotionFunc(motion);
 
     glutMainLoop();
 
@@ -82,16 +82,9 @@ void reshape(int width, int height)
 }
 
 void motion(int x, int y)
-{  }
+{
+}
 
 void init_flowlayer()
 {
-    Lattice lattice;
-    lattice.u = Vector_2d<double>(0,1);
-    lattice.f[2] = 0.9;
-    lattice.rho = 0.9;
-    for(int i = 0; i < 10; i++)
-        for(int j = 0; j < 1; j++)
-            flowlayer.add_water(lattice, Point_2d<int>(50+j,50+i));
-    //flowlayer.add_water(lattice, Point_2d<int>(50,50));
 }
