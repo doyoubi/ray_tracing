@@ -20,10 +20,11 @@ namespace _screen_manager
             static const int window_height = 480;
 
             ScreenManager();
-            GLubyte (* generate_screem_image(void) )[window_width][3];
+            typedef const GLubyte (*image)[window_width][3];
+            image generate_screem_image()const;
             void set_draw_square(int left_bottom_x, int left_bottom_y, int width, int height);
             void draw(int x, int y, RGB rgb);
-            const GLubyte (*operator[](int width)const)[window_width][3];
+            const GLubyte (*operator[](int height)const)[3];
         private:
             GLubyte screen[window_height][window_width][3];
             int left_bottom_x_of_draw_square, left_bottom_y_of_draw_square;

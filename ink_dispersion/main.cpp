@@ -62,7 +62,7 @@ void display()
     //RGB rgb;
     //rgb.r = 0xff;
     //rgb.g = rgb.b = 0;
-    //screen.set_draw_square(50, 50, 100, 100);
+    //screen.set_draw_square(0, 0, 100, 100);
     //for(int i = 0; i < window_width; i++)
     //    screen.draw(i, i, rgb);
 
@@ -71,7 +71,7 @@ void display()
     flowlayer.stream();
 
     glDrawBuffer(GL_BACK);
-    glRasterPos2i(0, 0);
+    glRasterPos2i(-1, -1);
     glDrawPixels(window_width, window_height, GL_RGB,
                  GL_UNSIGNED_BYTE, screen.generate_screem_image());
     glutSwapBuffers();
