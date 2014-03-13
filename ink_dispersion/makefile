@@ -3,3 +3,6 @@ test.exe : paper_layer.cpp test_main.cpp formula.h paper_layer.h main.cpp
 
 clean :
 	rm test.exe
+
+run:
+	LIBGL_ALLWAYS_INDIRECT=1 ./test.exe

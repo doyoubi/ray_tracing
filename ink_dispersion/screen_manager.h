@@ -5,7 +5,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
-#include<GL/glut.h>
+#include<GL/freeglut.h>
 
 #include"../2d/2d.h"
 using _2d::RGB;

@@ -84,7 +84,7 @@ namespace _paper_layer
         for(int y = 0; y < state1.get_height(); y++)
         for(int x = 0; x < state1.get_width(); x++)
         {
-            Lattice lattice = (*curr_state)[x][y];
+            Lattice &lattice = (*curr_state)[x][y];
             RGB rgb;
             rgb.r = rgb.g = rgb.b = 0xff *(1 - lattice.rho());
             screen.draw(x, y, rgb);

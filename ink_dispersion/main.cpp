@@ -23,6 +23,8 @@ void display();
 void reshape(int width, int height);
 void motion(int x, int y);
 
+void draw_circle();
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
@@ -34,7 +36,7 @@ int main(int argc, char** argv)
     init();
     glutDisplayFunc(display);
     //glutReshapeFunc(reshape);
-    //glutMotionFunc(motion);
+    glutMotionFunc(motion);
 
     glutMainLoop();
 
@@ -43,26 +45,30 @@ int main(int argc, char** argv)
 
 void init()
 {    
-    //glClearColor (0.0, 0.0, 0.0, 0.0);
+    glClearColor (1.0, 0.0, 1.0, 1.0);
     init_flowlayer();
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    for(int y = 0; y < 10; y++)
+        for(int x = 0; x < 10; x++)
+            flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
 }
 
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    RGB rgb;
-    rgb.r = 0xff;
-    rgb.g = rgb.b = 0;
-    screen.set_draw_square(100, 100, 100, 100);
-    for(int i = 0; i < window_width; i++)
-        screen.draw(i, i, rgb);
+    //RGB rgb;
+    //rgb.r = 0xff;
+    //rgb.g = rgb.b = 0;
+    //screen.set_draw_square(50, 50, 100, 100);
+    //for(int i = 0; i < window_width; i++)
+    //    screen.draw(i, i, rgb);
 
-    screen.set_draw_square(200, 200, 100, 100);
-    flowlayer.stream();
+    screen.set_draw_square(0, 0, 200, 200);
     flowlayer.draw();
+    flowlayer.stream();
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(0, 0);
@@ -83,6 +89,7 @@ void reshape(int width, int height)
 
 void motion(int x, int y)
 {
+    display();
 }
 
 void init_flowlayer()
