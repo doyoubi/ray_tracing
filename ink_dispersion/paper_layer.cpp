@@ -1,5 +1,6 @@
 #include<iostream>
 #include<numeric>
+#include<algorithm>
 using std::cout;
 using std::cin;
 using std::endl;
@@ -7,9 +8,9 @@ using std::endl;
 #include"paper_layer.h"
 #include"formula.h"
 
-//#include"screen_manager.h"
-//using _screen_manager::ScreenManager;
-//extern ScreenManager screen;
+#include"screen_manager.h"
+using _screen_manager::ScreenManager;
+extern ScreenManager screen;
 
 namespace _paper_layer
 {
@@ -24,86 +25,70 @@ namespace _paper_layer
         Point_2d<int>(-1,1), Point_2d<int>(-1,-1), Point_2d<int>(1,-1)
     };
 
-    const Vector_2d<double> Lattice::u()const
-    {
-        Vector_2d<double> u(0, 0);
-        for(int i = 0; i < 9; i++)
-            u += f[i] * next_position[i];
-        return u / rho();
-    }
     double Lattice::rho()const
     {
         return std::accumulate(f, f+9, 0.0);
     }
 
+    const Vector_2d<double> Lattice::u()const
+    {
+        Vector_2d<double> u(0, 0);
+        for(int i = 0; i < 9; i++)
+            u += f[i] * next_position[i];
+        return u;
+    }
     
     // class FlowLayer
     FlowLayer::FlowLayer(int width, int height)
-        :array_2d<Lattice>(width, height), has_water_table(width, height)
+        :state1(width, height), state2(width, height)
     {
-        for(int x = 0; x < width; x++)
-            for(int y = 0; y < height; y++)
-                has_water_table[x][y] = false;
+        curr_state = &state1;
+        last_state = &state2;
     }
 
     void FlowLayer::stream()
     {
-        auto end = lattice_position_list.end();
-        for(auto it = lattice_position_list.begin(); it != end; it++)
-        {
-            Point_2d<int> p = *it;
-            Lattice & curr_lattice = (*this)[p];
-            // 0.001 may not be appropriate
-            if(curr_lattice.rho() < 0.0001) continue;
-            // stream to 9 direction
-            double result[9] = {0};
-            for(int i = 0; i < 9; i++)
+        std::swap(state1, state2);
+        for(int y = 1; y < state1.get_height()-1; y++)
+            for(int x = 1; x < state1.get_width()-1; x++)
             {
-                Point_2d<int> next_point = p + Lattice::next_position[i];
-                if(!is_valid_position(next_point)) continue;
-                if(!has_water(next_point)) 
-                {
-                    lattice_position_list.push_back(next_point);
-                    has_water_table[next_point] = true;
-                }
-                double f_i_next = fi_next(i, curr_lattice);
-
-                if(f_i_next < 0) cout<< f_i_next <<endl;
-
-                if(0.0001 < f_i_next && f_i_next < curr_lattice.rho())
-                    result[i] = f_i_next;
+                for(int i = 0; i < 9; i++)
+                    (*curr_state)[x][y].f[i] =
+                        fi_next(i, (*last_state)[x][y]);
             }
-            for(int i = 0; i < 9; i++)
+        std::swap(state1, state2);
+        for(int y = 1; y < state1.get_height()-1; y++)
+            for(int x = 1; x < state1.get_width()-1; x++)
             {
-                Point_2d<int> next_point = p + Lattice::next_position[i];
-                if(!is_valid_position(next_point)) continue;
-                Lattice & next_lattice = (*this)[next_point];
-                next_lattice.f[i] = result[i];
-                curr_lattice.f[i] -= result[i];
+                (*curr_state)[x][y].f[0] = (*last_state)[x][y].f[0];
+
+                (*curr_state)[x][y].f[1] = (*last_state)[x+1][y].f[1];
+                (*curr_state)[x][y].f[2] = (*last_state)[x][y+1].f[2];
+                (*curr_state)[x][y].f[3] = (*last_state)[x-1][y].f[3];
+                (*curr_state)[x][y].f[4] = (*last_state)[x][y-1].f[4];
+
+                (*curr_state)[x][y].f[5] = (*last_state)[x+1][y+1].f[5];
+                (*curr_state)[x][y].f[6] = (*last_state)[x-1][y+1].f[6];
+                (*curr_state)[x][y].f[7] = (*last_state)[x-1][y-1].f[7];
+                (*curr_state)[x][y].f[8] = (*last_state)[x+1][y-1].f[8];
             }
-        }
     }
 
-    bool FlowLayer::has_water(Point_2d<int> p)
-    { return has_water_table[p.x][p.y]; }
-
-    //void FlowLayer::draw()
-    //{
-    //    for(vector< Point_2d<int> >::iterator it = lattice_position_list.begin();
-    //            it != lattice_position_list.end(); it++)
-    //    {
-    //        Point_2d<int> p = *it;
-    //        RGB rgb;
-    //        rgb.r = rgb.g = rgb.b = 0xff - 0xff * (*this)[p].rho;
-    //        screen.draw(p.x, p.y, rgb);
-    //    }
-    //}
-
-    void FlowLayer::add_water(const Lattice & l, Point_2d<int> position)
+    void FlowLayer::add_water(double seep, Point_2d<int> position)
     {
-        (*this)[position] = l;
-        lattice_position_list.push_back(position);
-        has_water_table[position] = true;
+        (*(this->curr_state))[position].f[0] += seep;
+    }
+    
+    void FlowLayer::draw()
+    {
+        for(int y = 0; y < state1.get_height(); y++)
+        for(int x = 0; x < state1.get_width(); x++)
+        {
+            Lattice &lattice = (*curr_state)[x][y];
+            RGB rgb;
+            rgb.r = rgb.g = rgb.b = 0xff *(1 - lattice.rho());
+            screen.draw(x, y, rgb);
+        }
     }
 
 }
