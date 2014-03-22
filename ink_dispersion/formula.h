@@ -37,7 +37,7 @@ inline double f_eq(int i, const Lattice &current_lattice)
 {
     const Vector_2d<int> ei = Lattice::next_position[i];
     const Vector_2d<double> u = current_lattice.u();
-    double psi = smoothstep(0.0, 0.5, current_lattice.rho());
+    double psi = smoothstep(0.0, 0.2, current_lattice.rho());
     return w[i] *
     (
         current_lattice.rho() + rho_0 * psi *
