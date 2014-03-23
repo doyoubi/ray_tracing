@@ -44,6 +44,14 @@ class SurfaceLayer
 {
 };
 
+class Texture
+{
+public:
+    Texture();
+    // array_2d<double> paper_grain;
+    array_2d<double> alum;
+};
+
 class FlowLayer
 {
 public:
@@ -53,6 +61,7 @@ public:
     array_2d<Lattice> * curr_state;
     void draw();
 private:
+    Texture texture;
     array_2d<Lattice> * last_state;
     array_2d<Lattice> state1;
     array_2d<Lattice> state2;

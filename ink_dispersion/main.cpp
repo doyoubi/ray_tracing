@@ -61,13 +61,14 @@ void display()
     screen.set_draw_square(0, 0, 200, 200);
     flowlayer.draw();
     flowlayer.stream();
-    validate_positive(flowlayer);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
     glDrawPixels(window_width, window_height, GL_RGB,
                  GL_UNSIGNED_BYTE, screen.generate_screem_image());
     glutSwapBuffers();
+
+    validate_sum(flowlayer);
 }
 
 void reshape(int width, int height)

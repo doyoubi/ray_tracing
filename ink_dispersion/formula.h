@@ -44,7 +44,7 @@ inline double f_eq(int i, const Lattice &current_lattice)
         ( 3*(ei*u) + 9.0/2*(ei*u)*(ei*u) - 3.0/2*(u*u))
     );
 }
-   
+
 }
 
 #endif

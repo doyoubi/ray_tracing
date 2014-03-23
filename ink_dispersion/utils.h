@@ -4,6 +4,11 @@
 namespace utils
 {
 
+inline double lerp(double x, double y, double s)
+{
+    return x * (1-s) + y * s;
+}
+
 inline double clamp(double x, double min, double max)
 {
     if(x > max) x = max;
