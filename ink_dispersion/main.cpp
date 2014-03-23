@@ -52,6 +52,10 @@ void init()
     for(int y = 0; y < 10; y++)
         for(int x = 0; x < 10; x++)
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+
+    for(int y = 0; y < 20; y++)
+        for(int x = 0; x < 20; x++)
+            flowlayer.add_water(1.0, Point_2d<int>(65+x,65+y));
 }
 
 void display()
@@ -67,8 +71,6 @@ void display()
     glDrawPixels(window_width, window_height, GL_RGB,
                  GL_UNSIGNED_BYTE, screen.generate_screem_image());
     glutSwapBuffers();
-
-    validate_sum(flowlayer);
 }
 
 void reshape(int width, int height)

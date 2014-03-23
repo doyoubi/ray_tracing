@@ -63,10 +63,29 @@ void FlowLayer::stream()
     for(int y = 1; y < state1.get_height()-1; y++)
         for(int x = 1; x < state1.get_width()-1; x++)
         {
+            double theshold = 0.1 + 0.1 * texture.alum[x][y];
+            double k = 1;
+            double sqrt_2 = 1.41421356237;
+            for(int i = 1; i < 5; i++)
+            if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].rho() > theshold)
+            {
+                k = 0;
+                break;
+            }
+            for(int i = 5; i < 9; i++)
+            if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].rho() > sqrt_2 * theshold)
+            {
+                k = 0;
+                break;
+            }
+
             for(int i = 0; i < 9; i++)
             {
-                double k = (texture.alum[Point_2d<int>(x,y)-Lattice::next_position[i]]
-                          + texture.alum[Point_2d<int>(x,y)]) * 0.3 / 2; 
+                if(k != 1)
+                {
+                    k = (texture.alum[Point_2d<int>(x,y)-Lattice::next_position[i]]
+                          + texture.alum[Point_2d<int>(x,y)]) * 0.1 / 2; 
+                }
                 (*curr_state)[x][y].f[i] =
                     (1-k) * (*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i]
                       + k * (*last_state)[x][y].f[opposite_direction[i]];
