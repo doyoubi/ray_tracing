@@ -50,6 +50,7 @@ public:
     Texture();
     // array_2d<double> paper_grain;
     array_2d<double> alum;
+    array_2d<double> block;
 };
 
 class FlowLayer

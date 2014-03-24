@@ -53,9 +53,11 @@ void init()
         for(int x = 0; x < 10; x++)
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
 
-    for(int y = 0; y < 20; y++)
-        for(int x = 0; x < 20; x++)
-            flowlayer.add_water(1.0, Point_2d<int>(65+x,65+y));
+    //flowlayer.add_water(1.0, Point_2d<int>(45,45));
+    
+    //for(int y = 0; y < 20; y++)
+    //    for(int x = 0; x < 20; x++)
+    //        flowlayer.add_water(1.0, Point_2d<int>(65+x,65+y));
 }
 
 void display()
@@ -64,7 +66,14 @@ void display()
 
     screen.set_draw_square(0, 0, 200, 200);
     flowlayer.draw();
+    validate_sum(flowlayer);
     flowlayer.stream();
+    //for(int y = -2; y <= 2; y++)
+    //{
+    //    for(int x = -2; x <= 2; x++)
+    //        cout<< (*flowlayer.curr_state)[45+x][45+y].rho() <<' ';
+    //    cout<<endl;
+    //}
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);

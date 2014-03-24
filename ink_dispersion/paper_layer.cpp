@@ -51,7 +51,7 @@ FlowLayer::FlowLayer(int width, int height)
 
 void FlowLayer::stream()
 {
-    std::swap(state1, state2);
+    std::swap(curr_state, last_state);
     for(int y = 1; y < state1.get_height()-1; y++)
         for(int x = 1; x < state1.get_width()-1; x++)
         {
@@ -59,38 +59,37 @@ void FlowLayer::stream()
                 (*curr_state)[x][y].f[i] =
                     fi_next(i, (*last_state)[x][y]);
         }
-    std::swap(state1, state2);
+    std::swap(curr_state, last_state);
     for(int y = 1; y < state1.get_height()-1; y++)
-        for(int x = 1; x < state1.get_width()-1; x++)
+    for(int x = 1; x < state1.get_width()-1; x++)
+    {
+        //double theshold = 0.1 + 0.1 * texture.alum[x][y];
+        //double sqrt_2 = 1.41421356237;
+        //texture.block[x][y] = 2;
+        //for(int i = 0; i < 9; i++)
+        //{
+        //    if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i] > ()*theshold)
+        //    {
+        //        texture.block[x][y] = 0;
+        //        break;
+        //    }
+        //}
+        //if(texture.block[x][y] == 0) texture.block[x][y] = texture.alum[x][y] * 0.1;
+        texture.block[x][y] = texture.alum[x][y] * 0.1;
+    }
+    for(int y = 1; y < state1.get_height()-1; y++)
+    for(int x = 1; x < state1.get_width()-1; x++)
+    {
+        Lattice & lattice = (*curr_state)[x][y];
+        for(int i = 0; i < 9; i++)
         {
-            double theshold = 0.1 + 0.1 * texture.alum[x][y];
-            double k = 1;
-            double sqrt_2 = 1.41421356237;
-            for(int i = 1; i < 5; i++)
-            if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].rho() > theshold)
-            {
-                k = 0;
-                break;
-            }
-            for(int i = 5; i < 9; i++)
-            if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].rho() > sqrt_2 * theshold)
-            {
-                k = 0;
-                break;
-            }
-
-            for(int i = 0; i < 9; i++)
-            {
-                if(k != 1)
-                {
-                    k = (texture.alum[Point_2d<int>(x,y)-Lattice::next_position[i]]
-                          + texture.alum[Point_2d<int>(x,y)]) * 0.1 / 2; 
-                }
-                (*curr_state)[x][y].f[i] =
-                    (1-k) * (*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i]
-                      + k * (*last_state)[x][y].f[opposite_direction[i]];
-            }
+            double block = (texture.block[x][y] + texture.block[Point_2d<int>(x,y)-Lattice::next_position[i]]) / 2;
+            //if(block > 1) block = 1;
+            (*curr_state)[x][y].f[i] =
+                (1-block) * (*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i]
+                  + block * (*last_state)[x][y].f[opposite_direction[i]];
         }
+    }
 }
 
 void FlowLayer::add_water(double seep, Point_2d<int> position)
@@ -110,7 +109,7 @@ void FlowLayer::draw()
     }
 }
 
-Texture::Texture() : alum(100, 100)
+Texture::Texture() : alum(100, 100), block(100, 100)
 {
     std::random_device rd;
     std::mt19937 eng(rd());
