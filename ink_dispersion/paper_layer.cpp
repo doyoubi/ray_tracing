@@ -63,19 +63,19 @@ void FlowLayer::stream()
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
-        //double theshold = 0.1 + 0.1 * texture.alum[x][y];
-        //double sqrt_2 = 1.41421356237;
-        //texture.block[x][y] = 2;
-        //for(int i = 0; i < 9; i++)
-        //{
-        //    if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i] > ()*theshold)
-        //    {
-        //        texture.block[x][y] = 0;
-        //        break;
-        //    }
-        //}
-        //if(texture.block[x][y] == 0) texture.block[x][y] = texture.alum[x][y] * 0.1;
-        texture.block[x][y] = texture.alum[x][y] * 0.1;
+        double theshold = 0.05 + 0.1 * texture.alum[x][y];
+        double sqrt_2 = 1.41421356237;
+        texture.block[x][y] = 2;
+        for(int i = 1; i < 9; i++)
+        {
+            if((*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i] > (i>4? sqrt_2:1)*theshold)
+            {
+                texture.block[x][y] = 0;
+                break;
+            }
+        }
+        if(texture.block[x][y] == 0 || (*curr_state)[x][y].rho() > 0.00000001)
+            texture.block[x][y] = texture.alum[x][y] * 0.1;
     }
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
@@ -84,7 +84,7 @@ void FlowLayer::stream()
         for(int i = 0; i < 9; i++)
         {
             double block = (texture.block[x][y] + texture.block[Point_2d<int>(x,y)-Lattice::next_position[i]]) / 2;
-            //if(block > 1) block = 1;
+            if(block > 1) block = 1;
             (*curr_state)[x][y].f[i] =
                 (1-block) * (*last_state)[Point_2d<int>(x,y) - Lattice::next_position[i]].f[i]
                   + block * (*last_state)[x][y].f[opposite_direction[i]];
@@ -113,7 +113,7 @@ Texture::Texture() : alum(100, 100), block(100, 100)
 {
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::uniform_real_distribution<> dist(0,1);
+    std::uniform_real_distribution<> dist(0,0.3);
     std::generate(alum.begin(), alum.end(), [&]{return dist(eng);});
 }
 
