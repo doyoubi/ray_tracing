@@ -14,6 +14,7 @@ using _2d::Vector_2d;
 using _2d::Point_2d;
 
 _paper_layer::FlowLayer flowlayer(100,100);
+_paper_layer::SurfaceLayer surfacelayer(100,100);
 ScreenManager screen;
 
 const int window_width = 640;
@@ -51,7 +52,10 @@ void init()
 
     for(int y = 0; y < 10; y++)
         for(int x = 0; x < 10; x++)
+        {
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+            surfacelayer.add_water(4.0, Point_2d<int>(45+x,45+y));
+        }
 
     //flowlayer.add_water(1.0, Point_2d<int>(45,45));
     
@@ -67,7 +71,9 @@ void display()
     screen.set_draw_square(0, 0, 200, 200);
     flowlayer.draw();
     validate_sum(flowlayer);
+    surfacelayer.seep(flowlayer);
     flowlayer.stream();
+    
     //for(int y = -2; y <= 2; y++)
     //{
     //    for(int x = -2; x <= 2; x++)

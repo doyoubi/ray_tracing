@@ -40,10 +40,6 @@ public:
     static const Point_2d<int> next_position[9];
 };
 
-class SurfaceLayer
-{
-};
-
 class Texture
 {
 public:
@@ -66,6 +62,15 @@ private:
     array_2d<Lattice> * last_state;
     array_2d<Lattice> state1;
     array_2d<Lattice> state2;
+};
+
+class SurfaceLayer
+{
+    array_2d<double> water;
+public:
+    SurfaceLayer(int x, int y);
+    void seep(FlowLayer &flowlayer);
+    void add_water(double density, Point_2d<int> position);
 };
 
 class FixtureLayer

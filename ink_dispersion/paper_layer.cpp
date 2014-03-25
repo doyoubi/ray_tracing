@@ -8,6 +8,7 @@ using std::endl;
 
 #include"paper_layer.h"
 #include"formula.h"
+#include"utils.h"
 
 #include"screen_manager.h"
 using _screen_manager::ScreenManager;
@@ -63,7 +64,7 @@ void FlowLayer::stream()
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
-        double theshold = 0.05 + 0.1 * texture.alum[x][y];
+        double theshold = 0.01 + 0.02 * texture.alum[x][y];
         double sqrt_2 = 1.41421356237;
         texture.block[x][y] = 2;
         for(int i = 1; i < 9; i++)
@@ -94,7 +95,8 @@ void FlowLayer::stream()
 
 void FlowLayer::add_water(double seep, Point_2d<int> position)
 {
-    (*(this->curr_state))[position].f[0] += seep;
+    for(int i = 0; i < 9; i++)
+        (*(this->curr_state))[position].f[i] += seep/9;
 }
 
 void FlowLayer::draw()
@@ -113,8 +115,31 @@ Texture::Texture() : alum(100, 100), block(100, 100)
 {
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::uniform_real_distribution<> dist(0,0.3);
+    std::uniform_real_distribution<> dist(0,0.7);
     std::generate(alum.begin(), alum.end(), [&]{return dist(eng);});
 }
+
+SurfaceLayer::SurfaceLayer(int x, int y) : water(x,y)
+{
+    for(auto &density : water)
+        density = 0;
+}
+
+void SurfaceLayer::add_water(double density, Point_2d<int> position)
+{
+    water[position] = density;
+}
+
+void SurfaceLayer::seep(FlowLayer &flowlayer)
+{
+    for(int y = 0; y < 100; y++)
+    for(int x = 0; x < 100; x++)
+    {
+        double phi = utils::clamp(water[x][y], 0, 1-(*flowlayer.curr_state)[x][y].rho());
+        water[x][y] -= phi;
+        flowlayer.add_water(phi, Point_2d<int>(x,y));
+    }
+}
+
 
 }
