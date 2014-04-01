@@ -57,11 +57,14 @@ public:
     void add_water(double seep, Point_2d<int> position);
     array_2d<Lattice> * curr_state;
     void draw();
+    array_2d<double> pigment;
+    array_2d<double> glue;
 private:
     Texture texture;
     array_2d<Lattice> * last_state;
     array_2d<Lattice> state1;
     array_2d<Lattice> state2;
+    array_2d<bool> wet;
 };
 
 class SurfaceLayer

@@ -44,10 +44,14 @@ const Vector_2d<double> Lattice::u()const
 
 // class FlowLayer
 FlowLayer::FlowLayer(int width, int height)
-    :state1(width, height), state2(width, height)
+    :state1(width, height), state2(width, height),
+     pigment(width, height), glue(width, height),
+     wet(width, height)
 {
     curr_state = &state1;
     last_state = &state2;
+    std::fill(glue.begin(), glue.end(), 0.0);
+    std::fill(pigment.begin(), pigment.end(), 0.0);
 }
 
 void FlowLayer::stream()
@@ -59,8 +63,11 @@ void FlowLayer::stream()
             for(int i = 0; i < 9; i++)
                 (*curr_state)[x][y].f[i] =
                     fi_next(i, (*last_state)[x][y]);
+            if((*last_state)[x][y].rho() > 0.0000001)
+                wet[x][y] = true;
         }
     std::swap(curr_state, last_state);
+    // calculate block
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
@@ -78,6 +85,7 @@ void FlowLayer::stream()
         if(texture.block[x][y] == 0 || (*curr_state)[x][y].rho() > 0.00000001)
             texture.block[x][y] = texture.alum[x][y] * 0.1;
     }
+    // stream
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
@@ -91,12 +99,49 @@ void FlowLayer::stream()
                   + block * (*last_state)[x][y].f[opposite_direction[i]];
         }
     }
+    // calculate pigment and glue
+    for(int y = 1; y < state1.get_height()-1; y++)
+    for(int x = 1; x < state1.get_width()-1; x++)
+    {
+        if(wet[x][y])
+        {
+            pigment[x][y] = 
+                utils::text2d(pigment, Point_2d<double>(x,y) - (*curr_state)[x][y].u());
+            //if(pigment[x][y] != 0 && pigment[x][y] != 1)
+            //{
+            //    Point_2d<double> a(x,y);
+            //    Point_2d<double> u = (*curr_state)[x][y].u();
+            //    Point_2d<double> d = a-u;
+            //    cout<< a.x <<' '<< a.y <<endl;
+            //    cout<< u.x <<' '<< u.y <<endl;
+            //    cout<< d.x <<' '<< d.y <<endl;
+            //    cout<<pigment[x][y]<<endl;
+            //    cout<<"-------------------------"<<endl;
+            //}
+            glue[x][y]= 
+                utils::text2d(glue, Point_2d<double>(x,y) - (*curr_state)[x][y].u());
+        }
+        else if((*curr_state)[x][y].rho() > 0.001)
+        {
+            Point_2d<int> curr(x,y);
+            for(int i = 1; i < 9; i++)
+            {
+                Point_2d<int> back(curr-Lattice::next_position[i]);
+                glue[x][y] += glue[back] * (*curr_state)[x][y].f[i];
+                pigment[x][y] += pigment[back] * (*curr_state)[x][y].f[i];
+            }
+            glue[x][y] /= (*curr_state)[x][y].rho();
+            pigment[x][y] /= (*curr_state)[x][y].rho();
+        }
+    }
 }
 
 void FlowLayer::add_water(double seep, Point_2d<int> position)
 {
     for(int i = 0; i < 9; i++)
-        (*(this->curr_state))[position].f[i] += seep/9;
+        (*curr_state)[position].f[i] += seep/9;
+    wet[position] = true;
+    pigment[position] = 1;
 }
 
 void FlowLayer::draw()
@@ -108,6 +153,10 @@ void FlowLayer::draw()
         RGB rgb;
         rgb.r = rgb.g = rgb.b = 0xff *(1 - lattice.rho());
         screen.draw(x, y, rgb);
+        rgb.r = rgb.g = rgb.b = 0xff *(1 - pigment[x][y]*lattice.rho());
+        screen.draw(x+100, y, rgb);
+        //rgb.r = rgb.g = rgb.b = 0xff *(1 - wet[x][y]);
+        //screen.draw(x+100, y, rgb);
     }
 }
 
@@ -115,7 +164,7 @@ Texture::Texture() : alum(100, 100), block(100, 100)
 {
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::uniform_real_distribution<> dist(0,0.7);
+    std::uniform_real_distribution<> dist(0,0.2);
     std::generate(alum.begin(), alum.end(), [&]{return dist(eng);});
 }
 

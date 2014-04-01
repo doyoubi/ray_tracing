@@ -26,6 +26,7 @@ void motion(int x, int y);
 
 void validate_positive(_paper_layer::FlowLayer &flowlayer);
 void validate_sum(_paper_layer::FlowLayer &flowlayer);
+void validate_avg(_paper_layer::FlowLayer &flowlayer);
 
 int main(int argc, char** argv)
 {
@@ -54,32 +55,21 @@ void init()
         for(int x = 0; x < 10; x++)
         {
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
-            surfacelayer.add_water(4.0, Point_2d<int>(45+x,45+y));
+            //surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
         }
-
-    //flowlayer.add_water(1.0, Point_2d<int>(45,45));
-    
-    //for(int y = 0; y < 20; y++)
-    //    for(int x = 0; x < 20; x++)
-    //        flowlayer.add_water(1.0, Point_2d<int>(65+x,65+y));
 }
 
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    screen.set_draw_square(0, 0, 200, 200);
+    screen.set_draw_square(0, 0, 400, 200);
     flowlayer.draw();
-    validate_sum(flowlayer);
-    surfacelayer.seep(flowlayer);
+
+    //validate_sum(flowlayer);
+    //surfacelayer.seep(flowlayer);
+    validate_avg(flowlayer);
     flowlayer.stream();
-    
-    //for(int y = -2; y <= 2; y++)
-    //{
-    //    for(int x = -2; x <= 2; x++)
-    //        cout<< (*flowlayer.curr_state)[45+x][45+y].rho() <<' ';
-    //    cout<<endl;
-    //}
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
@@ -120,3 +110,16 @@ void validate_sum(_paper_layer::FlowLayer &flowlayer)
                                        );
     cout<< water_sum <<endl;
 }
+
+void validate_avg(_paper_layer::FlowLayer &flowlayer)
+{
+    double pig_sum = 0;
+    for(int x = 0; x < flowlayer.curr_state->get_width(); x++)
+    for(int y = 0; y < flowlayer.curr_state->get_width(); y++)
+    {
+        double rho = (*flowlayer.curr_state)[x][y].rho();
+        pig_sum += flowlayer.pigment[x][y] * rho;
+    }
+    cout<< pig_sum <<endl;
+}
+
