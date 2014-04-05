@@ -40,8 +40,13 @@ public:
     static const Point_2d<int> next_position[9];
 };
 
-class SurfaceLayer
+class Texture
 {
+public:
+    Texture();
+    // array_2d<double> paper_grain;
+    const array_2d<double> alum;
+    array_2d<double> block;
 };
 
 class FlowLayer
@@ -52,10 +57,23 @@ public:
     void add_water(double seep, Point_2d<int> position);
     array_2d<Lattice> * curr_state;
     void draw();
+    array_2d<double> pigment;
+    array_2d<double> glue;
 private:
+    Texture texture;
     array_2d<Lattice> * last_state;
     array_2d<Lattice> state1;
     array_2d<Lattice> state2;
+    array_2d<bool> wet;
+};
+
+class SurfaceLayer
+{
+    array_2d<double> water;
+public:
+    SurfaceLayer(int x, int y);
+    void seep(FlowLayer &flowlayer);
+    void add_water(double density, Point_2d<int> position);
 };
 
 class FixtureLayer

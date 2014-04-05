@@ -1,29 +1,32 @@
+#include<algorithm>
 #include<GL/freeglut.h>
 #include<iostream>
+#include"screen_manager.h"
+#include"paper_layer.h"
+#include"../2d/2d.h"
 using std::cout;
 using std::cin;
 using std::endl;
 
-#include"screen_manager.h"
 using _screen_manager::ScreenManager;
-ScreenManager screen;
-#include"paper_layer.h"
-_paper_layer::FlowLayer flowlayer(100,100);
-void init_flowlayer();
 using _paper_layer::Lattice;
-#include"../2d/2d.h"
 using _2d::Vector_2d;
 using _2d::Point_2d;
+
+_paper_layer::FlowLayer flowlayer(100,100);
+_paper_layer::SurfaceLayer surfacelayer(100,100);
+ScreenManager screen;
 
 const int window_width = 640;
 const int window_height = 480;
 
 void init();
 void display();
-void reshape(int width, int height);
 void motion(int x, int y);
 
-void draw_circle();
+void validate_positive(_paper_layer::FlowLayer &flowlayer);
+void validate_sum(_paper_layer::FlowLayer &flowlayer);
+void validate_avg(_paper_layer::FlowLayer &flowlayer);
 
 int main(int argc, char** argv)
 {
@@ -35,7 +38,6 @@ int main(int argc, char** argv)
 
     init();
     glutDisplayFunc(display);
-    //glutReshapeFunc(reshape);
     glutMotionFunc(motion);
 
     glutMainLoop();
@@ -46,28 +48,27 @@ int main(int argc, char** argv)
 void init()
 {    
     glClearColor (1.0, 0.0, 1.0, 1.0);
-    init_flowlayer();
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     for(int y = 0; y < 10; y++)
         for(int x = 0; x < 10; x++)
+        {
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+            //surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+        }
 }
 
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //RGB rgb;
-    //rgb.r = 0xff;
-    //rgb.g = rgb.b = 0;
-    //screen.set_draw_square(0, 0, 100, 100);
-    //for(int i = 0; i < window_width; i++)
-    //    screen.draw(i, i, rgb);
-
-    screen.set_draw_square(0, 0, 200, 200);
+    screen.set_draw_square(0, 0, 400, 200);
     flowlayer.draw();
+
+    //validate_sum(flowlayer);
+    //surfacelayer.seep(flowlayer);
+    validate_avg(flowlayer);
     flowlayer.stream();
 
     glDrawBuffer(GL_BACK);
@@ -92,6 +93,33 @@ void motion(int x, int y)
     display();
 }
 
-void init_flowlayer()
+void validate_positive(_paper_layer::FlowLayer &flowlayer)
 {
+    for(auto &lattice : *flowlayer.curr_state)
+        if(lattice.rho() < 0)
+            std::cout<<"negative appeared: "<< lattice.rho() <<endl;
 }
+
+void validate_sum(_paper_layer::FlowLayer &flowlayer)
+{
+    double water_sum = std::accumulate((*flowlayer.curr_state).begin(),
+                                       (*flowlayer.curr_state).end(),
+                                       0.0,
+                                       [](double x, Lattice &l)
+                                       { return x + l.rho(); }
+                                       );
+    cout<< water_sum <<endl;
+}
+
+void validate_avg(_paper_layer::FlowLayer &flowlayer)
+{
+    double pig_sum = 0;
+    for(int x = 0; x < flowlayer.curr_state->get_width(); x++)
+    for(int y = 0; y < flowlayer.curr_state->get_width(); y++)
+    {
+        double rho = (*flowlayer.curr_state)[x][y].rho();
+        pig_sum += flowlayer.pigment[x][y] * rho;
+    }
+    cout<< pig_sum <<endl;
+}
+
