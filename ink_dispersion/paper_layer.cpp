@@ -210,6 +210,7 @@ void FixtureLayer::seep(FlowLayer & flowlayer)
 
         pigment[x][y] += FixFactor * flowlayer.pigment[x][y];
         glue[x][y] += FixFactor * flowlayer.glue[x][y];
+
         flowlayer.pigment[x][y] -= FixFactor * flowlayer.pigment[x][y];
         flowlayer.glue[x][y] -= FixFactor * flowlayer.glue[x][y];
     }

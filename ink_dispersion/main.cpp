@@ -4,6 +4,7 @@
 #include"screen_manager.h"
 #include"paper_layer.h"
 #include"../2d/2d.h"
+#include"primitive.hpp"
 using std::cout;
 using std::cin;
 using std::endl;
@@ -58,12 +59,21 @@ void init()
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    for(int y = 0; y < 30; y++)
-        for(int x = 0; x < 30; x++)
-        {
-            flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
-            surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
-        }
+    //for(int y = 0; y < 30; y++)
+    //    for(int x = 0; x < 30; x++)
+    //    {
+    //        flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+    //        surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+    //    }
+    const int r = 15;
+    draw_circle(r,[&](int x, int y){
+                for(int i = -x; i <= x; i++)
+                    if(!flowlayer.pigment[50+i][50+y])
+                    {
+                        flowlayer.add_water(1.0, Point_2d<int>(50+i, 50+y));
+                        surfacelayer.add_water(1.0, Point_2d<int>(50+i,50+y));
+                    }
+            });
 }
 
 void display()
@@ -73,11 +83,12 @@ void display()
     screen.set_draw_square(0, 0, 400, 200);
     draw(flowlayer, fixlayer);
 
-    //validate_sum(flowlayer);
     surfacelayer.seep(flowlayer);
-    //validate_avg(flowlayer);
     flowlayer.stream();
     //fixlayer.seep(flowlayer);
+    
+    //validate_sum(flowlayer);
+    //validate_avg(flowlayer);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
