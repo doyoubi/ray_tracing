@@ -13,8 +13,13 @@ using _paper_layer::Lattice;
 using _2d::Vector_2d;
 using _2d::Point_2d;
 
-_paper_layer::FlowLayer flowlayer(100,100);
-_paper_layer::SurfaceLayer surfacelayer(100,100);
+using _paper_layer::FlowLayer;
+using _paper_layer::FixtureLayer;
+using _paper_layer::SurfaceLayer;
+
+FlowLayer flowlayer(100,100);
+FixtureLayer fixlayer(100,100);
+SurfaceLayer surfacelayer(100,100);
 ScreenManager screen;
 
 const int window_width = 640;
@@ -27,6 +32,8 @@ void motion(int x, int y);
 void validate_positive(_paper_layer::FlowLayer &flowlayer);
 void validate_sum(_paper_layer::FlowLayer &flowlayer);
 void validate_avg(_paper_layer::FlowLayer &flowlayer);
+
+void draw(const FlowLayer & flowlayer, const FixtureLayer fixlayer);
 
 int main(int argc, char** argv)
 {
@@ -51,8 +58,8 @@ void init()
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    for(int y = 0; y < 20; y++)
-        for(int x = 0; x < 20; x++)
+    for(int y = 0; y < 30; y++)
+        for(int x = 0; x < 30; x++)
         {
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
             surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
@@ -64,12 +71,13 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT);
 
     screen.set_draw_square(0, 0, 400, 200);
-    flowlayer.draw();
+    draw(flowlayer, fixlayer);
 
     //validate_sum(flowlayer);
     surfacelayer.seep(flowlayer);
     //validate_avg(flowlayer);
     flowlayer.stream();
+    //fixlayer.seep(flowlayer);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
@@ -124,3 +132,17 @@ void validate_avg(_paper_layer::FlowLayer &flowlayer)
     cout<< pig_sum <<endl;
 }
 
+void draw(const FlowLayer & flowlayer, const FixtureLayer fixlayer)
+{
+    for(int y = 0; y < flowlayer.pigment.get_height(); y++)
+    for(int x = 0; x < flowlayer.pigment.get_width(); x++)
+    {
+        double rho = (*flowlayer.curr_state)[x][y].rho();
+        RGB rgb;
+        rgb.r = rgb.g = rgb.b = 0xff *(1 - rho);
+        screen.draw(x, y, rgb);
+        double pigment = flowlayer.pigment[x][y] + fixlayer.pigment[x][y];
+        rgb.r = rgb.g = rgb.b = 0xff * (1 - pigment);
+        screen.draw(x+100, y, rgb);
+    }
+}

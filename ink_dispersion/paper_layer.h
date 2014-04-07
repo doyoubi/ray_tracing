@@ -56,9 +56,10 @@ public:
     void stream();
     void add_water(double seep, Point_2d<int> position);
     array_2d<Lattice> * curr_state;
-    void draw();
     array_2d<double> pigment;
+    array_2d<double> pigment_temp;
     array_2d<double> glue;
+    array_2d<double> last_water;
 private:
     Texture texture;
     array_2d<Lattice> * last_state;
@@ -79,6 +80,13 @@ public:
 };
 
 class FixtureLayer
-{};
+{
+public:
+    FixtureLayer(int width, int height);
+    array_2d<double> pigment;
+    array_2d<double> glue;
+    void seep(FlowLayer & flowlayer);
+};
+
 }
 #endif
