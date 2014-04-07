@@ -51,11 +51,11 @@ void init()
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    for(int y = 0; y < 10; y++)
-        for(int x = 0; x < 10; x++)
+    for(int y = 0; y < 20; y++)
+        for(int x = 0; x < 20; x++)
         {
             flowlayer.add_water(1.0, Point_2d<int>(45+x,45+y));
-            //surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
+            surfacelayer.add_water(1.0, Point_2d<int>(45+x,45+y));
         }
 }
 
@@ -67,8 +67,8 @@ void display()
     flowlayer.draw();
 
     //validate_sum(flowlayer);
-    //surfacelayer.seep(flowlayer);
-    validate_avg(flowlayer);
+    surfacelayer.seep(flowlayer);
+    //validate_avg(flowlayer);
     flowlayer.stream();
 
     glDrawBuffer(GL_BACK);
@@ -76,6 +76,7 @@ void display()
     glDrawPixels(window_width, window_height, GL_RGB,
                  GL_UNSIGNED_BYTE, screen.generate_screem_image());
     glutSwapBuffers();
+    glutPostRedisplay();
 }
 
 void reshape(int width, int height)

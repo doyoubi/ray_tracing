@@ -1,6 +1,7 @@
 #ifndef POINT2D
 #define POINT2D
 
+#include<cmath>
 
 namespace _2d
 {
@@ -16,6 +17,10 @@ public:
     T x, y;
     Point_2d(T _x, T _y):x(_x), y(_y) {}
     Point_2d(){}
+    double norm()const
+    {
+        return std::sqrt(x*x + y*y);
+    }
 
     Point_2d & operator += (const Point_2d & rhs)
     { 

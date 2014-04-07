@@ -69,8 +69,10 @@ private:
 
 class SurfaceLayer
 {
-    array_2d<double> water;
 public:
+    array_2d<double> water;
+    array_2d<double> glue;
+    array_2d<double> pigment;
     SurfaceLayer(int x, int y);
     void seep(FlowLayer &flowlayer);
     void add_water(double density, Point_2d<int> position);

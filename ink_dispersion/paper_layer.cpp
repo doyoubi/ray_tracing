@@ -71,7 +71,7 @@ void FlowLayer::stream()
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
-        double theshold = 0.01 + 0.02 * texture.alum[x][y];
+        double theshold = 0.02 + 0.1 * glue[x][y];
         double sqrt_2 = 1.41421356237;
         texture.block[x][y] = 2;
         for(int i = 1; i < 9; i++)
@@ -83,7 +83,7 @@ void FlowLayer::stream()
             }
         }
         if(texture.block[x][y] == 0 || (*curr_state)[x][y].rho() > 0.00000001)
-            texture.block[x][y] = texture.alum[x][y] * 0.1;
+            texture.block[x][y] = texture.alum[x][y] * 0.1 + 0.1 * glue[x][y];
     }
     // stream
     for(int y = 1; y < state1.get_height()-1; y++)
@@ -103,36 +103,29 @@ void FlowLayer::stream()
     for(int y = 1; y < state1.get_height()-1; y++)
     for(int x = 1; x < state1.get_width()-1; x++)
     {
+        double p = 0, g = 0;
         if(wet[x][y])
         {
-            pigment[x][y] = 
-                utils::text2d(pigment, Point_2d<double>(x,y) - (*curr_state)[x][y].u());
-            //if(pigment[x][y] != 0 && pigment[x][y] != 1)
-            //{
-            //    Point_2d<double> a(x,y);
-            //    Point_2d<double> u = (*curr_state)[x][y].u();
-            //    Point_2d<double> d = a-u;
-            //    cout<< a.x <<' '<< a.y <<endl;
-            //    cout<< u.x <<' '<< u.y <<endl;
-            //    cout<< d.x <<' '<< d.y <<endl;
-            //    cout<<pigment[x][y]<<endl;
-            //    cout<<"-------------------------"<<endl;
-            //}
-            glue[x][y]= 
-                utils::text2d(glue, Point_2d<double>(x,y) - (*curr_state)[x][y].u());
+            Point_2d<double> last = Point_2d<double>(x,y) - (*curr_state)[x][y].u();
+            p = utils::text2d(pigment, last);
+            g = utils::text2d(glue, last);
         }
         else if((*curr_state)[x][y].rho() > 0.001)
         {
             Point_2d<int> curr(x,y);
             for(int i = 1; i < 9; i++)
             {
-                Point_2d<int> back(curr-Lattice::next_position[i]);
-                glue[x][y] += glue[back] * (*curr_state)[x][y].f[i];
-                pigment[x][y] += pigment[back] * (*curr_state)[x][y].f[i];
+                Point_2d<int> back(curr - Lattice::next_position[i]);
+                p += pigment[back] * (*curr_state)[x][y].f[i];
+                g += glue[back] * (*curr_state)[x][y].f[i];
             }
-            glue[x][y] /= (*curr_state)[x][y].rho();
-            pigment[x][y] /= (*curr_state)[x][y].rho();
+            p /= (*curr_state)[x][y].rho();
+            g /= (*curr_state)[x][y].rho();
         }
+        double gamma = utils::lerp(1, 0.0,
+                utils::smoothstep(0,0.04,(*curr_state)[x][y].u().norm()) );
+        pigment[x][y] = utils::lerp(p, pigment[x][y], gamma);
+        glue[x][y] = utils::lerp(g, glue[x][y], gamma);
     }
 }
 
@@ -142,6 +135,7 @@ void FlowLayer::add_water(double seep, Point_2d<int> position)
         (*curr_state)[position].f[i] += seep/9;
     wet[position] = true;
     pigment[position] = 1;
+    glue[position] = 0.3;
 }
 
 void FlowLayer::draw()
@@ -155,8 +149,6 @@ void FlowLayer::draw()
         screen.draw(x, y, rgb);
         rgb.r = rgb.g = rgb.b = 0xff *(1 - pigment[x][y]*lattice.rho());
         screen.draw(x+100, y, rgb);
-        //rgb.r = rgb.g = rgb.b = 0xff *(1 - wet[x][y]);
-        //screen.draw(x+100, y, rgb);
     }
 }
 
@@ -164,19 +156,23 @@ Texture::Texture() : alum(100, 100), block(100, 100)
 {
     std::random_device rd;
     std::mt19937 eng(rd());
-    std::uniform_real_distribution<> dist(0,0.2);
+    std::uniform_real_distribution<> dist(0.1,0.2);
     std::generate(alum.begin(), alum.end(), [&]{return dist(eng);});
 }
 
-SurfaceLayer::SurfaceLayer(int x, int y) : water(x,y)
+SurfaceLayer::SurfaceLayer(int x, int y) 
+    : water(x,y), glue(x,y), pigment(x,y)
 {
-    for(auto &density : water)
-        density = 0;
+    std::fill(water.begin(), water.end(), 0.0);
+    std::fill(pigment.begin(), pigment.end(), 0.0);
+    std::fill(glue.begin(), glue.end(), 0.0);
 }
 
 void SurfaceLayer::add_water(double density, Point_2d<int> position)
 {
     water[position] = density;
+    glue[position] = 0.3 * density;
+    pigment[position] = 1 * density;
 }
 
 void SurfaceLayer::seep(FlowLayer &flowlayer)
@@ -186,7 +182,12 @@ void SurfaceLayer::seep(FlowLayer &flowlayer)
     {
         double phi = utils::clamp(water[x][y], 0, 1-(*flowlayer.curr_state)[x][y].rho());
         water[x][y] -= phi;
-        flowlayer.add_water(phi, Point_2d<int>(x,y));
+        double rho = (*flowlayer.curr_state)[x][y].rho();
+        if(rho + phi < 0.00001) continue;
+        flowlayer.glue[x][y] = ( rho * flowlayer.glue[x][y] + phi * glue[x][y] ) / (rho + phi);
+        flowlayer.pigment[x][y] = ( rho * flowlayer.pigment[x][y] + phi * pigment[x][y] ) 
+                                / (rho + phi);
+        (*flowlayer.curr_state)[x][y].f[0] += phi;
     }
 }
 
