@@ -21,72 +21,29 @@ using _2d::array_2d;
 using _2d::Point_2d;
 using _2d::Vector_2d;
 
-class Lattice
-{
-public:
-    Lattice()
-    { 
-        for(int i = 0; i < 9; i++)
-            f[i] = 0.0;
-    }
-    /* 6 2 5
-     * 3 0 1
-     * 7 4 8 */
-    double f[9];
-
-    const Vector_2d<double> u()const;
-    double rho()const;
-
-    static const Point_2d<int> next_position[9];
-};
-
-class Texture
-{
-public:
-    Texture();
-    // array_2d<double> paper_grain;
-    const array_2d<double> alum;
-    array_2d<double> block;
-};
 
 class FlowLayer
 {
 public:
     FlowLayer(int width, int height);
     void stream();
-    void add_water(double seep, Point_2d<int> position);
-    array_2d<Lattice> * curr_state;
-    array_2d<double> pigment;
-    array_2d<double> pigment_temp;
-    array_2d<double> glue;
-    array_2d<double> last_water;
-private:
-    Texture texture;
-    array_2d<Lattice> * last_state;
-    array_2d<Lattice> state1;
-    array_2d<Lattice> state2;
-    array_2d<bool> wet;
+
+    struct F{ double f[9]; };
+    array_2d<double> w;
+    array_2d<F> curr;
+    array_2d<F> temp;
+    array_2d<Vector_2d<double>> u;
 };
 
 class SurfaceLayer
 {
 public:
-    array_2d<double> water;
-    array_2d<double> glue;
-    array_2d<double> pigment;
-    SurfaceLayer(int x, int y);
+    SurfaceLayer(int width, int height);
     void seep(FlowLayer &flowlayer);
-    void add_water(double density, Point_2d<int> position);
+
+    array_2d<double> w;
 };
 
-class FixtureLayer
-{
-public:
-    FixtureLayer(int width, int height);
-    array_2d<double> pigment;
-    array_2d<double> glue;
-    void seep(FlowLayer & flowlayer);
-};
 
 }
 #endif
