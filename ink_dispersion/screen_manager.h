@@ -16,8 +16,8 @@ namespace _screen_manager
     class ScreenManager
     {
         public:
-            static const int window_width = 640;
-            static const int window_height = 480;
+            static const int window_width = 100;
+            static const int window_height = 100;
 
             ScreenManager();
             typedef const GLubyte (*image)[window_width][3];

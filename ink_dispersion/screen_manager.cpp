@@ -20,7 +20,7 @@ namespace _screen_manager
     void ScreenManager::set_draw_square(int left_bottom_x, int left_bottom_y, int width, int height)
     {
         if(left_bottom_x < 0 || left_bottom_y < 0 || width < 0 || height < 0
-        || left_bottom_x+width >= window_width || left_bottom_y+height>= window_height )
+        || left_bottom_x+width >= window_width || left_bottom_y+height >= window_height )
         {
             std::cerr<< "invalid square start point or size" <<endl;
             exit(1);
