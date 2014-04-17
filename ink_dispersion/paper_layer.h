@@ -33,6 +33,9 @@ public:
     array_2d<F> curr;
     array_2d<F> temp;
     array_2d<Vector_2d<double>> u;
+
+    void update_u();
+    void update_w();
 };
 
 class SurfaceLayer

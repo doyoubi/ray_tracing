@@ -73,11 +73,21 @@ void FlowLayer::stream()
         for(int x = 1; x < w.get_width()-1; x++)
             for(int i = 0; i < 9; i++)
                 curr[x][y].f[i] = temp[Point_2d<int>(x,y) - e[i]].f[i];
+    update_w();
+    update_u();
+}
+
+void FlowLayer::update_w()
+{
     for(int y = 0; y < w.get_height(); y++)
         for(int x = 0; x < w.get_width(); x++)
             w[x][y] = std::accumulate(curr[x][y].f, curr[x][y].f+9, 0.0);
-    for(int y = 0; y < w.get_height(); y++)
-        for(int x = 0; x < w.get_width(); x++)
+}
+
+void FlowLayer::update_u()
+{
+    for(int y = 0; y < u.get_height(); y++)
+        for(int x = 0; x < u.get_width(); x++)
         {
             u[x][y].x = u[x][y].y = 0.0;
             for(int i = 0; i < 9; i++)
@@ -94,12 +104,16 @@ SurfaceLayer::SurfaceLayer(int width, int height)
 void SurfaceLayer::seep(FlowLayer & flowlayer)
 {
     for(int y = 0; y < w.get_height(); y++)
+    {
         for(int x = 0; x < w.get_width(); x++)
         {
             double phi = utils::clamp(w[x][y], 0, 1-flowlayer.w[x][y]);
-            w[x][y] -= phi;
+            w[x][y] = std::max(w[x][y]-phi, 0.0);
             flowlayer.w[x][y] += phi;
+            flowlayer.curr[x][y].f[0] += phi;
         }
+    }
+    flowlayer.update_u();
 }
 
 

@@ -19,8 +19,10 @@ using _paper_layer::SurfaceLayer;
 const int window_width = 640;
 const int window_height = 480;
 
-FlowLayer flowlayer(100,100);
-SurfaceLayer surfacelayer(100,100);
+const int layer_width = 100, layer_height = 100;
+FlowLayer flowlayer(layer_width, layer_height);
+SurfaceLayer surfacelayer(layer_width, layer_height);
+
 ScreenManager screen;
 
 void init();
@@ -55,10 +57,13 @@ void init()
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    for(int y = 0; y < 30; y++)
-        for(int x = 0; x < 30; x++)
+    for(int y = 0; y < 10; y++)
+        for(int x = 0; x < 10; x++)
         {
             flowlayer.w[45+x][45+y] = 1;
+            flowlayer.curr[45+x][45+y].f[0] = 1;
+            flowlayer.update_u();
+            surfacelayer.w[45+x][45+y] = 1;
         }
 }
 
@@ -66,10 +71,13 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    screen.set_draw_square(0, 0, 100, 100);
+    screen.set_draw_square(200, 200, 100, 100);
     draw(flowlayer);
 
     flowlayer.stream();
+    surfacelayer.seep(flowlayer);
+
+    validate_sum(flowlayer);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
