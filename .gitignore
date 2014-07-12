@@ -7,3 +7,7 @@
 *.o
 *.exe
 *.swp
+*.obj
+*GL/
+*lib/
+*.dll

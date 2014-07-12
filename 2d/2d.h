@@ -5,9 +5,10 @@
 
 #define DEBUG
 
-
 #ifdef DEBUG
-#include<iostream>
+#undef RGB
+
+#include <iostream>
 using std::ofstream;
 using std::cout;
 using std::endl;
@@ -16,10 +17,28 @@ using std::endl;
 namespace _2d{
 
 
+    typedef unsigned char byte;
+
     struct RGB
-    { unsigned char r, g, b; };
-    struct ARGB:public RGB
-    { unsigned char a; };
+    {
+        byte r, g, b;
+        RGB(byte red, byte green, byte blue)
+            : r(red), g(green), b(blue) 
+        {
+        }
+        RGB()
+        {
+        }
+    };
+
+    struct RGBA
+    { 
+        byte r, g, b, a;
+        RGBA() {}
+        RGBA(byte red, byte green, byte blue, byte alpha)
+            : r(red), g(green), b(blue), a(alpha)
+        {}
+    };
 
 
 

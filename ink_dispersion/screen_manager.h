@@ -1,13 +1,13 @@
 #ifndef _SCREEN_MANAGER_H
 #define _SCREEN_MANAGER_H
 
-#include<iostream>
+#include "GL/freeglut.h"
+#include <iostream>
 using std::cout;
 using std::cin;
 using std::endl;
-#include<GL/freeglut.h>
 
-#include"../2d/2d.h"
+#include "../2d/2d.h"
 using _2d::RGB;
 
 namespace _screen_manager
@@ -16,8 +16,8 @@ namespace _screen_manager
     class ScreenManager
     {
         public:
-            static const int window_width = 100;
-            static const int window_height = 100;
+            static const int window_width = 400;
+            static const int window_height = 400;
 
             ScreenManager();
             typedef const GLubyte (*image)[window_width][3];

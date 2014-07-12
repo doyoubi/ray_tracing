@@ -1,8 +1,5 @@
-test.exe : paper_layer.cpp test_main.cpp paper_layer.h main.cpp screen_manager.cpp primitive.hpp
-	g++ -std=c++0x -o test.exe paper_layer.cpp main.cpp screen_manager.cpp -lGL -lglut -lGLU 
+run.exe : main.cpp screen_manager.cpp
+	cl /EHsc -Ferun.exe main.cpp screen_manager.cpp /link /LIBPATH:"./lib"
 
 clean :
-	rm test.exe
-
-run:
-	LIBGL_ALLWAYS_INDIRECT=1 ./test.exe
+	del run.exe

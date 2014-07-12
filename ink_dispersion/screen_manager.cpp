@@ -1,4 +1,6 @@
-#include"screen_manager.h"
+#include "screen_manager.h"
+
+#pragma comment(lib, "glew32.lib")
 
 namespace _screen_manager
 {
@@ -7,7 +9,7 @@ namespace _screen_manager
         for(int x = 0; x < window_width; x++)
             for(int y = 0; y < window_height; y++)
                 for(int i = 0; i < 3; i++)
-                    screen[y][x][i] = 0xff;
+                    screen[y][x][i] = 0;
         left_bottom_x_of_draw_square = 0;
         left_bottom_y_of_draw_square = 0;
         width_of_draw_square = 0;
@@ -20,7 +22,7 @@ namespace _screen_manager
     void ScreenManager::set_draw_square(int left_bottom_x, int left_bottom_y, int width, int height)
     {
         if(left_bottom_x < 0 || left_bottom_y < 0 || width < 0 || height < 0
-        || left_bottom_x+width >= window_width || left_bottom_y+height >= window_height )
+        || left_bottom_x+width > window_width || left_bottom_y+height > window_height )
         {
             std::cerr<< "invalid square start point or size" <<endl;
             exit(1);
@@ -35,7 +37,10 @@ namespace _screen_manager
     {
         if(x < 0 || x >= width_of_draw_square 
         || y < 0 || y >= height_of_draw_square)
+        {
+            std::cerr<< "draw out of bound!" <<endl;
             return;
+        }
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][0] = rgb.r;
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][1] = rgb.g;
         screen[left_bottom_y_of_draw_square + y][left_bottom_x_of_draw_square + x][2] = rgb.b;
