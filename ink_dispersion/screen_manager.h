@@ -1,7 +1,7 @@
 #ifndef _SCREEN_MANAGER_H
 #define _SCREEN_MANAGER_H
 
-#include "GL/freeglut.h"
+#include "../GL/freeglut.h"
 #include <iostream>
 using std::cout;
 using std::cin;

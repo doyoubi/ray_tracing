@@ -11,3 +11,4 @@
 *GL/
 *lib/
 *.dll
+*Eigen/

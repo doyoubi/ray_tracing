@@ -1,5 +1,5 @@
-#include "GL/glew.h"
-#include "GL/freeglut.h"
+#include "../GL/glew.h"
+#include "../GL/freeglut.h"
 #include "screen_manager.h"
 #include "../2d/2d.h"
 #include <iostream>
@@ -56,13 +56,9 @@ void display()
 
     screen.set_draw_square(0, 0, 400, 400);
 
-    RGB rgb; rgb.r = rgb.g = rgb.b = 0;
-    rgb.r = 255;
-    for(int i = 0; i < window_width; i++)
-    {
-        screen.draw(i, 200, rgb);
-    }
-    screen.draw(200,200,rgb);
+    RGB rgb(255,0,0);
+    for(int i = 0; i < 400; i++)
+        screen.draw(i, 100, rgb);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
