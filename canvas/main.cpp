@@ -1,19 +1,16 @@
+#include "settings.h"
 #include "../GL/glew.h"
 #include "../GL/freeglut.h"
 #include "screen_manager.h"
 #include "../2d/2d.h"
 #include <iostream>
 #include <algorithm>
+
 using std::cout;
 using std::cin;
 using std::endl;
-
 using _screen_manager::ScreenManager;
-using _2d::Vector_2d;
-using _2d::Point_2d;
 
-const int window_width = 400;
-const int window_height = 400;
 
 ScreenManager screen;
 
@@ -48,17 +45,17 @@ void init()
     glClearColor (0.0, 0.0, 0.0, 1.0);
     glShadeModel(GL_FLAT);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    extern void check();
+    check();
 }
 
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-
     screen.set_draw_square(0, 0, 400, 400);
 
-    RGB rgb(255,0,0);
-    for(int i = 0; i < 400; i++)
-        screen.draw(i, 100, rgb);
+    extern void draw(ScreenManager * screen);
+    draw(&screen);
 
     glDrawBuffer(GL_BACK);
     glRasterPos2i(-1, -1);
