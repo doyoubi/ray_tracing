@@ -34,6 +34,13 @@ RGB getNormal(const IntersectResult & result)
     return RGB(f(vec.x()), f(vec.y()), f(vec.z()) );
 }
 
+RGB latticeSample(const IntersectResult & result, const Ray & ray)
+{
+    const Intersectable * const geometry = result.geometry;
+    LatticeMaterial material(0.2);
+    return material.sample(ray, result.position, result.normal);
+}
+
 void render(ScreenManager * screen, getResultMemFunc f)
 {
     for(int y = 0; y < window_width; y++)
@@ -47,7 +54,8 @@ void render(ScreenManager * screen, getResultMemFunc f)
             IntersectResult result = plane.intersect(ray);
             if(result == noHit) continue;
             if(result == insideObject) continue;
-            RGB rgb = f(result);
+            // RGB rgb = f(result);
+            RGB rgb = latticeSample(result, ray);
             screen->draw(x,y, rgb);
         }
     }
