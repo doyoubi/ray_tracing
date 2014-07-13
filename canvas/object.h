@@ -39,6 +39,7 @@ namespace dyb{
         }
     };
 
+
     struct Sphere : public Intersectable
     {
         Vector3d c;    // center
@@ -68,6 +69,38 @@ namespace dyb{
                                    t,
                                    intersectPoint,
                                    direction.normalized());
+        }
+    };
+
+
+    struct Geometry
+    {
+        virtual IntersectResult intersect(const Ray & ray) const = 0;
+        virtual RGB sample(const Ray & ray, const IntersectResult & result) const = 0;
+    };
+
+
+    class SinglePlane : public Geometry
+    {
+    private:
+        Plane plane;
+
+    public:
+        MaterialStrategy * const material;
+
+        SinglePlane(Vector3d normal, Vector3d point, MaterialStrategy * const _material)
+            : plane(normal, point), material(_material)
+        {
+        }
+
+        IntersectResult intersect(const Ray & ray) const
+        {
+            return plane.intersect(ray);
+        }
+
+        RGB sample(const Ray & ray, const IntersectResult & result) const
+        {
+            return material->sample(ray, result.position, result.normal);
         }
     };
 

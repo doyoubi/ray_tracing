@@ -14,8 +14,9 @@ using _screen_manager::ScreenManager;
 
 Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,0,0),
               angToRad(90),angToRad(90), 1);
-Sphere sphere(Vector3d(0,0,3), 1);
-Plane plane(Vector3d(0,1,0), Vector3d(0,-1,3).normalized());
+LatticeMaterial latticeMaterial(0.2);
+SinglePlane plane(Vector3d(0,1,0), Vector3d(0,-1,3).normalized(), &latticeMaterial);
+
 const double maxDepth = 5.0;
 
 
@@ -34,14 +35,7 @@ RGB getNormal(const IntersectResult & result)
     return RGB(f(vec.x()), f(vec.y()), f(vec.z()) );
 }
 
-RGB latticeSample(const IntersectResult & result, const Ray & ray)
-{
-    const Intersectable * const geometry = result.geometry;
-    LatticeMaterial material(0.2);
-    return material.sample(ray, result.position, result.normal);
-}
-
-void render(ScreenManager * screen, getResultMemFunc f)
+void render(ScreenManager * screen)
 {
     for(int y = 0; y < window_width; y++)
     {
@@ -54,8 +48,7 @@ void render(ScreenManager * screen, getResultMemFunc f)
             IntersectResult result = plane.intersect(ray);
             if(result == noHit) continue;
             if(result == insideObject) continue;
-            // RGB rgb = f(result);
-            RGB rgb = latticeSample(result, ray);
+            RGB rgb = plane.sample(ray, result);
             screen->draw(x,y, rgb);
         }
     }
@@ -67,7 +60,7 @@ void draw(_screen_manager::ScreenManager * screen)
     static bool renderComplete = false;
     if(!renderComplete)
     {
-        render(screen, getDepth);
+        render(screen);
         renderComplete = true;        
     }
 }

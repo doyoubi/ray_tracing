@@ -1,6 +1,7 @@
 #ifndef DYB_MATERIAL
 #define DYB_MATERIAL
 
+#undef RGB
 #include "intersect.h"
 #include "debug.h"
 
