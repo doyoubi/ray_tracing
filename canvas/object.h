@@ -7,6 +7,7 @@
 #include "../2d/2d.h"
 #include "settings.h"
 #include "debug.h"
+#include "utils.h"
 
 
 namespace dyb{
@@ -15,69 +16,7 @@ namespace dyb{
     using std::abs; 
     using std::tan;
 
-    inline double angToRad(double angle)
-    {
-        return angle * M_PI / 180;
-    }
-
-    inline double radToAng(double radius)
-    {
-        return 180 * radius / M_PI;
-    }
-
     const double errorThreshold = 0.0000001;
-
-    struct Coordinate // right hand coordinate
-    {
-        Vector3d forward;
-        Vector3d up;
-        Vector3d right;
-        Vector3d c;       // center
-        Coordinate(Vector3d _forward, Vector3d _up, Vector3d center)
-            : forward(_forward), up(_up), right(-forward.cross(up).normalized()),
-              c(center)
-        {
-            if(abs(forward.dot(up)) > errorThreshold)
-            {
-                std::cerr<<"Coordinate vector forward and up are not perpendicular!"<<endl;
-            }
-            if(abs(forward.norm()-1) > errorThreshold)
-            {
-                std::cerr<<"Coordinate vector forward is not normalized!"<<endl;
-            }
-            if(abs(up.norm()-1) > errorThreshold)
-            {
-                std::cerr<<"Coordinate vector up is not normalized!"<<endl;
-            }
-        }
-    };
-
-    struct Camera : public Coordinate
-    {
-        double xfov, yfov;      // radius
-        double screenDistance;
-
-        Camera(Vector3d _forward, Vector3d _up, Vector3d center,
-               double _xfov, double _yfov, double _screenDistance)
-            : Coordinate(_forward, _up, center),
-              xfov(_xfov), yfov(_yfov), screenDistance(_screenDistance)
-        {
-            debugCheck(0<= xfov && xfov<= M_PI, __FILE__, __LINE__, "invalid xfov");
-            debugCheck(0<= yfov && yfov<= M_PI, __FILE__, __LINE__, "invalid yfov");
-            debugCheck(0<= screenDistance, __FILE__, __LINE__, "invalid screenDistance");
-        }
-
-        Vector3d generateRayDirection(double Nx, double Ny)
-        {
-            // normalized x y required, -1 <= x <= 1 , -1 <= y <= 1, 
-            debugCheck(abs(Nx) <=1 && abs(Ny) <= 1,
-                __FILE__, __LINE__,
-                "parameter x or y of Camera::generateRay are not normalized!");
-            double sx = Nx * screenDistance * tan(xfov/2);
-            double sy = Ny * screenDistance * tan(yfov/2);
-            return (forward * screenDistance + sx * right + sy * up).normalized();
-        }
-    };
 
     struct Ray
     {
@@ -103,15 +42,15 @@ namespace dyb{
 
     struct IntersectResult
     {
-        Intersectable * geometry;
-        double          distance;
-        Vector3d        position;
-        Vector3d        normal;
+        const Intersectable * const geometry;
+        double                      distance;
+        Vector3d                    position;
+        Vector3d                    normal;
 
-        IntersectResult(Intersectable * _geometry,
-                        double          _distance,
-                        Vector3d        _position,
-                        Vector3d        _normal)
+        IntersectResult(const Intersectable * const _geometry,
+                        double                      _distance,
+                        Vector3d                    _position,
+                        Vector3d                    _normal)
             : geometry(_geometry),
               distance(_distance),
               position(_position),
@@ -140,7 +79,33 @@ namespace dyb{
 
     struct Intersectable
     {
-        virtual IntersectResult intersect(const Ray & ray) = 0;
+        virtual IntersectResult intersect(const Ray & ray) const = 0;
+    };
+
+    struct MaterialStrategy
+    {
+        virtual RGB sample(const Ray & ray, const Vector3d & position, const Vector3d & normal);
+    };
+
+    struct Plane : public Intersectable
+    {
+        Vector3d n;
+        Vector3d p;  // an arbitrary point on the surface
+
+        Plane(Vector3d normal, Vector3d point)
+            : n(normal), p(point)
+        {
+            debugCheck(abs(n.norm()-1) < errorThreshold,
+                __FILE__, __LINE__, "normal vector not normalized");
+        }
+
+        IntersectResult intersect(const Ray & ray) const
+        {
+            if(n.dot(ray.d) >= 0) return noHit;
+            double t = (p - ray.o).dot(n) / n.dot(ray.d);
+            Vector3d intersectPoint = ray.getPoint(t);
+            return IntersectResult(this, t, intersectPoint, n);
+        }
     };
 
     struct Sphere : public Intersectable
@@ -154,7 +119,7 @@ namespace dyb{
             debugCheck(r > 0, __FILE__, __LINE__, "nagative radius");
         }
 
-        IntersectResult intersect(const Ray & ray)
+        IntersectResult intersect(const Ray & ray) const
         {
             // t = -d*v - sqrt( (d*v)^2 - (v*v - r*r) )
             Vector3d v = ray.o - c;
@@ -171,7 +136,7 @@ namespace dyb{
             return IntersectResult(this,
                                    t,
                                    intersectPoint,
-                                   direction / direction.norm());
+                                   direction.normalized());
         }
     };
 
