@@ -15,27 +15,29 @@ namespace dyb
 
     struct MaterialStrategy
     {
-        virtual RGB sample(const Ray & ray, 
-                           const Vector3d & position,
-                           const Vector3d & normal) const = 0;
+        virtual Vector3d sample(const Ray & ray, 
+                                const Vector3d & position,
+                                const Vector3d & normal) const = 0;
     };
 
     struct LatticeMaterial : public MaterialStrategy
     {
         double size;
+        double reflectiveness;
 
-        LatticeMaterial(double _size)
-            : size(_size)
+        LatticeMaterial(double _size, double _reflectiveness)
+            : size(_size), reflectiveness(_reflectiveness)
         {
             debugCheck(size > 0, __FILE__, __LINE__, "negative size");
+            debugCheck(reflectiveness >= 0, __FILE__, __LINE__, "negative reflectiveness");
         }
 
-        RGB sample(const Ray & ray, const Vector3d & position, const Vector3d & normal) const
+        Vector3d sample(const Ray & ray, const Vector3d & position, const Vector3d & normal) const
         {
             int sx = int(position.x() / size);
             int sz = int(position.z() / size);
-            unsigned char color = (sx+sz) % 2 ? 255 : 0;
-            return RGB(color, color, color);
+            double color = (sx+sz) % 2 ? 255.0 : 0.0;
+            return Vector3d(color, color, color);
         }
     };
 
@@ -50,12 +52,12 @@ namespace dyb
               smoothness(_smoothness), reflectiveness(_reflectiveness)
         {
             debugCheck(smoothness > 0, __FILE__, __LINE__, "negative smoothness");
-            debugCheck(reflectiveness > 0, __FILE__, __LINE__, "negative reflectiveness");
+            debugCheck(reflectiveness >= 0, __FILE__, __LINE__, "negative reflectiveness");
             debugCheck(checkVectorNormalized(c_diff), __FILE__, __LINE__, "diffuse_color not normalized");
             debugCheck(checkVectorNormalized(c_spec), __FILE__, __LINE__, "specular_color not normalized");
         }
 
-        RGB sample(const Ray & ray, const Vector3d & position, const Vector3d & normal) const
+        Vector3d sample(const Ray & ray, const Vector3d & position, const Vector3d & normal) const
         {
             Vector3d l = Vector3d(1,1,-1).normalized(); // global light
             Vector3d lightColor = Vector3d(255,255,255);
@@ -64,8 +66,7 @@ namespace dyb
             double nDoth = normal.dot(h);
             Vector3d diffuseTerm = c_diff * max(nDotl, 0.0);
             Vector3d specularTerm = c_spec * pow(max(nDoth, 0.0), smoothness);
-            Vector3d color = modulate(lightColor, diffuseTerm + specularTerm);
-            return RGB(min(color.x(), 255.0), min(color.y(), 255.0), min(color.z(), 255.0) );
+            return modulate(lightColor, diffuseTerm + specularTerm);
         }
     };
 

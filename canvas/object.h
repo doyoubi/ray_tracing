@@ -76,7 +76,7 @@ namespace dyb{
     struct Geometry
     {
         virtual IntersectResult intersect(const Ray & ray) const = 0;
-        virtual RGB sample(const Ray & ray, const IntersectResult & result) const = 0;
+        virtual Vector3d sample(const Ray & ray, const IntersectResult & result) const = 0;
     };
 
 
@@ -99,7 +99,7 @@ namespace dyb{
             return plane.intersect(ray);
         }
 
-        RGB sample(const Ray & ray, const IntersectResult & result) const
+        Vector3d sample(const Ray & ray, const IntersectResult & result) const
         {
             return material->sample(ray, result.position, result.normal);
         }
@@ -124,7 +124,7 @@ namespace dyb{
             return sphere.intersect(ray);
         }
 
-        RGB sample(const Ray & ray, const IntersectResult & result) const
+        Vector3d sample(const Ray & ray, const IntersectResult & result) const
         {
             return material->sample(ray, result.position, result.normal);
         }

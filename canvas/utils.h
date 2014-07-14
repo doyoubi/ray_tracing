@@ -1,6 +1,7 @@
 #ifndef UTILS
 #define UTILS
 
+#undef RGB
 #include "../Eigen/Dense"
 
 namespace dyb
@@ -23,6 +24,11 @@ namespace dyb
         return Vector3d(lhs.x() * rhs.x(),
                         lhs.y() * rhs.y(),
                         lhs.z() * rhs.z());
+    }
+
+    inline RGB vecToRGB(const Vector3d & color)
+    {
+        return RGB(color.x(), color.y(), color.y());
     }
 
 }

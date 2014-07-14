@@ -21,9 +21,9 @@ using _screen_manager::ScreenManager;
 
 Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,0,0),
               angToRad(90),angToRad(90), 1);
-LatticeMaterial latticeMaterial(0.2);
-PhongMaterial phongMaterial(Vector3d(0.5,0.5,0.5), Vector3d(0.3,0.3,0.3), 16, 1);
-SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,-0.5,1), &latticeMaterial);
+LatticeMaterial latticeMaterial(0.2, 0);
+PhongMaterial phongMaterial(Vector3d(0.5,0.5,0.5), Vector3d(0.5,0.5,0.5), 16, 0);
+SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,-1,0), &latticeMaterial);
 Ball ball(Vector3d(0,0,3), 1.0, &phongMaterial);
 
 const vector<Geometry*> objectArray{ &plane, &ball };
@@ -46,28 +46,28 @@ RGB getNormal(const IntersectResult & result)
     return RGB(f(vec.x()), f(vec.y()), f(vec.z()) );
 }
 
-typedef tuple<IntersectResult, Geometry*> ResultPack;
+typedef tuple<IntersectResult, Geometry*> IntersectionPack;
 
-vector<ResultPack> findResult(const Ray & ray)
+vector<IntersectionPack> findIntersection(const Ray & ray)
 {
-    vector<ResultPack> resultArray;
+    vector<IntersectionPack> resultArray;
     for(auto obj : objectArray)
     {
         IntersectResult result = obj->intersect(ray);
         if(result == noHit) continue;
         if(result == insideObject) continue;
         if((result.position - camera.c).dot(camera.forward) < 1) continue;
-        resultArray.push_back(ResultPack(result, obj));
+        resultArray.push_back(IntersectionPack(result, obj));
     }
     return resultArray;
 }
 
-ResultPack findNearestResult(const vector<ResultPack> & resultArray)
+IntersectionPack findNearestResult(const vector<IntersectionPack> & resultArray)
 {
     debugCheck(!resultArray.empty(), __FILE__, __LINE__, "empty result");
     // require resultArray not empty
     double minDistance = std::numeric_limits<double>::infinity();
-    const ResultPack * pPack = nullptr;
+    const IntersectionPack * pPack = nullptr;
     for(auto & pack : resultArray)
     {
         IntersectResult result = std::get<0>(pack);
@@ -80,6 +80,22 @@ ResultPack findNearestResult(const vector<ResultPack> & resultArray)
     return *pPack;
 }
 
+Vector3d rayTraceRecursive(const Ray & ray, int maxReflect)
+{
+    vector<IntersectionPack> packArray = findIntersection(ray);
+    if(packArray.empty()) return Vector3d(0,0,0);
+    IntersectionPack nearest = findNearestResult(packArray);
+    IntersectResult result = std::get<0>(nearest);
+    Geometry *      obj    = std::get<1>(nearest);
+    double ref = 0.3;
+
+    if(ref == 0) return obj->sample(ray, result);
+    if(maxReflect == 0) return obj->sample(ray, result);
+    Vector3d r = ray.d - 2 * ray.d.dot(result.normal) * result.normal;
+    return (1-ref) * obj->sample(ray, result)
+         +    ref  * rayTraceRecursive(Ray(result.position, result.normal), maxReflect-1);
+}
+
 void render(ScreenManager * screen)
 {
     for(int y = 0; y < window_width; y++)
@@ -90,13 +106,14 @@ void render(ScreenManager * screen)
             double Ny = double(2*y) / window_height - 1;
             Vector3d d = camera.generateRayDirection(Nx, Ny);
             Ray ray(Vector3d(0,0,0), d);
-            vector<ResultPack> resultArray = findResult(ray);
-            if(resultArray.empty()) continue;
-            ResultPack pack = findNearestResult(resultArray);
-            IntersectResult result = std::get<0>(pack);
-            Geometry *      obj    = std::get<1>(pack);
-            RGB rgb = obj->sample(ray, result);
-            screen->draw(x,y, rgb);
+            // vector<IntersectionPack> packArray = findIntersection(ray);
+            // if(packArray.empty()) continue;
+            // IntersectionPack pack = findNearestResult(packArray);
+            // IntersectResult result = std::get<0>(pack);
+            // Geometry *      obj    = std::get<1>(pack);
+            // Vector3d color = obj->sample(ray, result);
+            Vector3d color = rayTraceRecursive(ray, 3);
+            screen->draw(x,y, vecToRGB(color));
         }
     }
     cout<<"renderComplete"<<endl;
@@ -125,6 +142,6 @@ void check()
     //if(result == insideObject) return;
     //cout<< result.normal <<endl;
     //RGB rgb = getNormal(result);
-    //cout<<(int)rgb.ResultPack<<' '<<(int)rgb.g<<' '<<(int)rgb.b<<endl;
+    //cout<<(int)rgb.IntersectionPack<<' '<<(int)rgb.g<<' '<<(int)rgb.b<<endl;
 }
 
