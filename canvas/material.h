@@ -65,7 +65,7 @@ namespace dyb
             Vector3d diffuseTerm = c_diff * max(nDotl, 0.0);
             Vector3d specularTerm = c_spec * pow(max(nDoth, 0.0), smoothness);
             Vector3d color = modulate(lightColor, diffuseTerm + specularTerm);
-            return RGB(min(color.x(), 255.0), min(color.y(), 255.0), min(color.z(), 255.0));
+            return RGB(min(color.x(), 255.0), min(color.y(), 255.0), min(color.z(), 255.0) );
         }
     };
 
