@@ -32,8 +32,10 @@ namespace dyb{
 
         IntersectResult intersect(const Ray & ray) const
         {
-            if(n.dot(ray.d) >= 0) return noHit;
-            double t = (p - ray.o).dot(n) / n.dot(ray.d);
+            double nDotd = n.dot(ray.d);
+            if(nDotd >= 0) return noHit;
+            double t = (p - ray.o).dot(n) / nDotd;
+            if(t < 0) return noHit;
             Vector3d intersectPoint = ray.getPoint(t);
             return IntersectResult(this, t, intersectPoint, n);
         }

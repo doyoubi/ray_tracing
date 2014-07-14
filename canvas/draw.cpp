@@ -22,8 +22,8 @@ using _screen_manager::ScreenManager;
 Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,0,0),
               angToRad(90),angToRad(90), 1);
 LatticeMaterial latticeMaterial(0.2, 0);
-PhongMaterial phongMaterial(Vector3d(0.5,0.5,0.5), Vector3d(0.5,0.5,0.5), 16, 0);
-SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,-1,0), &latticeMaterial);
+PhongMaterial phongMaterial(Vector3d(0.7,0.3,0.3), Vector3d(0.5,0.5,0.5), 16, 0);
+SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,0,0), &latticeMaterial);
 Ball ball(Vector3d(0,0,3), 1.0, &phongMaterial);
 
 const vector<Geometry*> objectArray{ &plane, &ball };
@@ -88,6 +88,12 @@ Vector3d rayTraceRecursive(const Ray & ray, int maxReflect)
     IntersectResult result = std::get<0>(nearest);
     Geometry *      obj    = std::get<1>(nearest);
     double ref = 0.3;
+    if(ray.d.y() < 0) 
+        executeOnce([&](){
+                cout<< obj <<endl;
+                cout<< &plane <<endl
+                    << &ball <<endl;
+            });
 
     if(ref == 0) return obj->sample(ray, result);
     if(maxReflect == 0) return obj->sample(ray, result);
@@ -106,12 +112,6 @@ void render(ScreenManager * screen)
             double Ny = double(2*y) / window_height - 1;
             Vector3d d = camera.generateRayDirection(Nx, Ny);
             Ray ray(Vector3d(0,0,0), d);
-            // vector<IntersectionPack> packArray = findIntersection(ray);
-            // if(packArray.empty()) continue;
-            // IntersectionPack pack = findNearestResult(packArray);
-            // IntersectResult result = std::get<0>(pack);
-            // Geometry *      obj    = std::get<1>(pack);
-            // Vector3d color = obj->sample(ray, result);
             Vector3d color = rayTraceRecursive(ray, 3);
             screen->draw(x,y, vecToRGB(color));
         }

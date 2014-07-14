@@ -2,6 +2,7 @@
 #define UTILS
 
 #undef RGB
+#include <functional>
 #include "../Eigen/Dense"
 
 namespace dyb
@@ -29,6 +30,14 @@ namespace dyb
     inline RGB vecToRGB(const Vector3d & color)
     {
         return RGB(color.x(), color.y(), color.y());
+    }
+
+    void executeOnce(std::function<void (void)> func)
+    {
+        static bool completed = false;
+        if(completed) return;
+        func();
+        completed = true;
     }
 
 }
