@@ -22,8 +22,8 @@ using _screen_manager::ScreenManager;
 Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,0,0),
               angToRad(90),angToRad(90), 1);
 LatticeMaterial latticeMaterial(0.2);
-PhongMaterial phongMaterial(Vector3d(0.5,0.5,0.5), Vector3d(0.5,0.5,0.5), 16, 1);
-SinglePlane plane(Vector3d(0,1,0), Vector3d(0,-1,0).normalized(), &latticeMaterial);
+PhongMaterial phongMaterial(Vector3d(0.5,0.5,0.5), Vector3d(0.3,0.3,0.3), 16, 1);
+SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,-0.5,1), &latticeMaterial);
 Ball ball(Vector3d(0,0,3), 1.0, &phongMaterial);
 
 const vector<Geometry*> objectArray{ &plane, &ball };
@@ -56,6 +56,7 @@ vector<ResultPack> findResult(const Ray & ray)
         IntersectResult result = obj->intersect(ray);
         if(result == noHit) continue;
         if(result == insideObject) continue;
+        if((result.position - camera.c).dot(camera.forward) < 1) continue;
         resultArray.push_back(ResultPack(result, obj));
     }
     return resultArray;
