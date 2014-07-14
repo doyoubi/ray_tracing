@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "../Eigen/Dense"
 
 // only for debug, should not be used as checking function in runtime
 void debugCheck(bool checkedExpression,
@@ -14,6 +15,18 @@ void debugCheck(bool checkedExpression,
     std::cerr<< filename <<" : "<<line<<endl
              << errorMsg <<endl;
     exit(1); 
+}
+
+bool checkNormalized(double num)
+{
+    return 0 <= num && num <= 1;
+}
+
+bool checkVectorNormalized(const Eigen::Vector3d & v)
+{
+    return checkNormalized(v.x())
+        && checkNormalized(v.y())
+        && checkNormalized(v.z());
 }
 
 #endif

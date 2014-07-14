@@ -4,7 +4,7 @@ run.exe : main.obj draw.obj screen_manager.obj
 main.obj : main.cpp screen_manager.h settings.h
 	cl /EHsc /Fo /c main.cpp
 
-draw.obj : draw.cpp screen_manager.h object.h settings.h
+draw.obj : draw.cpp screen_manager.h object.h settings.h coordinate.h material.h intersect.h
 	cl /EHsc /Fo /c draw.cpp
 
 screen_manager.obj : screen_manager.h

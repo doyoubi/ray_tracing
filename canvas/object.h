@@ -86,16 +86,42 @@ namespace dyb{
         Plane plane;
 
     public:
-        MaterialStrategy * const material;
+        const MaterialStrategy * material;
 
-        SinglePlane(Vector3d normal, Vector3d point, MaterialStrategy * const _material)
+        SinglePlane(Vector3d normal, Vector3d point, const MaterialStrategy * _material)
             : plane(normal, point), material(_material)
         {
+            debugCheck(material != nullptr, __FILE__, __LINE__, "material is null");
         }
 
         IntersectResult intersect(const Ray & ray) const
         {
             return plane.intersect(ray);
+        }
+
+        RGB sample(const Ray & ray, const IntersectResult & result) const
+        {
+            return material->sample(ray, result.position, result.normal);
+        }
+    };
+
+    class Ball : public Geometry
+    {
+    private:
+        Sphere sphere;
+
+    public:
+        const MaterialStrategy *  material;
+
+        Ball(Vector3d center, double radius, const MaterialStrategy * _material)
+            : sphere(center, radius), material(_material)
+        {
+            debugCheck(material != nullptr, __FILE__, __LINE__, "material is null");
+        }
+
+        IntersectResult intersect(const Ray & ray) const
+        {
+            return sphere.intersect(ray);
         }
 
         RGB sample(const Ray & ray, const IntersectResult & result) const
