@@ -66,7 +66,11 @@ namespace dyb
             double nDoth = normal.dot(h);
             Vector3d diffuseTerm = c_diff * max(nDotl, 0.0);
             Vector3d specularTerm = c_spec * pow(max(nDoth, 0.0), smoothness);
-            return modulate(lightColor, diffuseTerm + specularTerm);
+            Vector3d color = modulate(lightColor, diffuseTerm + specularTerm);
+            color.x() = min(color.x(), 255.0);
+            color.y() = min(color.y(), 255.0);
+            color.z() = min(color.z(), 255.0);
+            return color;
         }
     };
 

@@ -17,6 +17,7 @@ namespace dyb{
     using Eigen::Vector3d;
     using std::abs; 
     using std::tan;
+    using std::isfinite;
 
     struct Plane : public Intersectable
     {
@@ -37,7 +38,10 @@ namespace dyb{
             double t = (p - ray.o).dot(n) / nDotd;
             if(t < 0) return noHit;
             Vector3d intersectPoint = ray.getPoint(t);
-            return IntersectResult(this, t, intersectPoint, n);
+            IntersectResult result = IntersectResult(this, t, intersectPoint, n);
+            debugCheck(result == noHit || result == insideObject || isfinite(result.distance),
+                __FILE__, __LINE__, "plane invalid result");
+            return result;
         }
     };
 
@@ -67,10 +71,15 @@ namespace dyb{
             double t = -dDotv - std::sqrt(delta);
             Vector3d intersectPoint = ray.getPoint(t);
             Vector3d direction = intersectPoint - c;
-            return IntersectResult(this,
-                                   t,
-                                   intersectPoint,
-                                   direction.normalized());
+            IntersectResult result = IntersectResult(this,
+                                                     t,
+                                                     intersectPoint,
+                                                     direction.normalized());
+            debugCheck(abs((result.position - c).norm() - r) < errorThreshold,
+                __FILE__, __LINE__, "invalid position");
+            debugCheck(result == noHit || result == insideObject || isfinite(result.distance),
+                __FILE__, __LINE__, "sphere invalid result");
+            return result;
         }
     };
 

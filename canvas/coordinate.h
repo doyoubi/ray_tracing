@@ -48,6 +48,9 @@ namespace dyb
             : Coordinate(_forward, _up, center),
               xfov(_xfov), yfov(_yfov), screenDistance(_screenDistance)
         {
+            debugCheck(checkVectorNormalized(forward), __FILE__, __LINE__, "forward not normalized");
+            debugCheck(checkVectorNormalized(up), __FILE__, __LINE__, "up not normalized");
+            debugCheck(checkVectorNormalized(right), __FILE__, __LINE__, "right not normalized");
             debugCheck(0<= xfov && xfov<= M_PI, __FILE__, __LINE__, "invalid xfov");
             debugCheck(0<= yfov && yfov<= M_PI, __FILE__, __LINE__, "invalid yfov");
             debugCheck(0<= screenDistance, __FILE__, __LINE__, "invalid screenDistance");

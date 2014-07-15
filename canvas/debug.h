@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "../Eigen/Dense"
 
 // only for debug, should not be used as checking function in runtime
@@ -24,9 +25,7 @@ bool checkNormalized(double num)
 
 bool checkVectorNormalized(const Eigen::Vector3d & v)
 {
-    return checkNormalized(v.x())
-        && checkNormalized(v.y())
-        && checkNormalized(v.z());
+    return abs(v.norm() - 1) < errorThreshold;
 }
 
 #endif

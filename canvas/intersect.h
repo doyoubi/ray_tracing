@@ -52,11 +52,15 @@ namespace dyb
         bool operator == (const IntersectResult & otherResult) const
         {
             // support comparison with noHit, insideObject
-            if(this == &otherResult) return true;
             return geometry == otherResult.geometry
                 && distance == otherResult.distance
                 && position == otherResult.position
                 && normal   == otherResult.normal;
+        }
+
+        bool operator != (const IntersectResult & otherResult) const
+        {
+            return !(*this == otherResult);
         }
     };
 
@@ -64,7 +68,7 @@ namespace dyb
         nullptr, std::numeric_limits<double>::infinity(), Vector3d::Zero(), Vector3d::Zero()
     );
     const IntersectResult insideObject = IntersectResult(
-        nullptr, std::numeric_limits<double>::quiet_NaN(), Vector3d::Zero(), Vector3d::Zero()
+        nullptr, std::numeric_limits<double>::min(), Vector3d::Zero(), Vector3d::Zero()
     );
 
 
