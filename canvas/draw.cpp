@@ -21,12 +21,12 @@ using std::tie;
 using std::isfinite;
 using _screen_manager::ScreenManager;
 
-Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,0,2),
+Camera camera(Vector3d(0,0,1) ,Vector3d(0,1,0), Vector3d(0,2,0),
               angToRad(90),angToRad(90), 1);
 LatticeMaterial latticeMaterial(0.2, 0);
 PhongMaterial phongMaterial(Vector3d(1,0.8,0.8).normalized(), Vector3d(0.5,0.5,0.5).normalized(), 16, 0);
 SinglePlane plane(Vector3d(0,1,0).normalized(), Vector3d(0,-1,0), &latticeMaterial);
-Ball ball(Vector3d(0,0,3), 1.0, &phongMaterial);
+Ball ball(Vector3d(1,0,3), 1.0, &phongMaterial);
 
 const vector<Geometry*> objectArray{ &plane, &ball };
 
@@ -108,7 +108,7 @@ void render(ScreenManager * screen)
             double Nx = double(2*x) / window_width - 1;
             double Ny = double(2*y) / window_height - 1;
             Vector3d d = camera.generateRayDirection(Nx, Ny);
-            Ray ray(Vector3d(0,0,0), d);
+            Ray ray(camera.c, d);
             Vector3d color = rayTraceRecursive(ray, 3);
             screen->draw(x,y, vecToRGB(color));
         }
